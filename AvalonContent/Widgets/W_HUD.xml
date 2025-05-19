@@ -1,0 +1,11 @@
+<AvalonData>
+	<WidgetComposition>
+		<Widget_LocationPanel/>
+		<Widget_DialoguePanel/>
+		<Widget_ChoiceMenu/>
+		<AvalonWidget WidgetAsset="TestXMLFile.xml"/>
+		<Widget_GameTime/>
+		<Widget_Inventory/>
+		<Widget_PlayerPanel/>
+	</WidgetComposition>
+</AvalonData>

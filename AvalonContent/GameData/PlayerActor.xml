@@ -1,0 +1,43 @@
+<AvalonData>
+	<Player>
+		<Traveller />
+		<Looter />
+		<Meditator />
+		<Equipment>
+			<Torso/>
+			<Hands/>
+			<Waist/>
+			<Legs/>
+			<Feet/>
+		</Equipment>
+		<Stats>
+			<Health CurrentValue="50">
+				<MinValue BaseValue="0"/>
+				<MaxValue BaseValue="100"/>
+				<Regen	  BaseValue="0"/>
+			</Health>
+			<Stamina CurrentValue="20">
+				<MinValue BaseValue="0"/>
+				<MaxValue BaseValue="100"/>
+				<Regen	  BaseValue="0"/>
+			</Stamina>
+			<Hunger CurrentValue="100">
+				<MinValue BaseValue="0"/>
+				<MaxValue BaseValue="100"/>
+				<Regen	  BaseValue="-1"/>
+			</Hunger>
+			<Thirst CurrentValue="100">
+				<MinValue BaseValue="0"/>
+				<MaxValue BaseValue="100"/>
+				<Regen	  BaseValue="-1"/>
+			</Thirst>
+			<Toxicity CurrentValue="100">
+				<MinValue BaseValue="0"/>
+				<MaxValue BaseValue="100"/>
+				<Regen	  BaseValue="1"/>
+			</Toxicity>
+		</Stats>
+	</Player>
+</AvalonData>
+
+

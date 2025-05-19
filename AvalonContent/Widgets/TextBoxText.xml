@@ -1,0 +1,11 @@
+<AvalonData>
+	<AvalonVisElement>
+		<BufferLayer>
+			<Color BG="Blue" FG="Blue"/>
+			<RowTxt>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</RowTxt>
+			<RowTxt>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</RowTxt>
+			<RowTxt>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>
+

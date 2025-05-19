@@ -1,0 +1,9 @@
+<AvalonData>
+    <Kitchen Tags="" DisplayName="Kitchen" Description="Kitcheny Description.">
+        <LevelActors>
+            <Doorway Tags="" DisplayName="Doorway" Description="No door, but... a way!">
+                <Portal PathID="Archway" Save="Location" Prompt="Head to the Hall"/>
+            </Doorway>
+        </LevelActors>
+    </Kitchen>
+</AvalonData>

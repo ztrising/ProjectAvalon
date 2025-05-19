@@ -1,0 +1,13 @@
+<AvalonVisElement>
+	<BufferLayer>
+		<Offset anchorH="Center" anchorV="Center" x='-40' y='10' />
+		<Color BG="Black" FG="Blue"/>
+		<RowTxt> __| |__________________| |__ </RowTxt>
+		<RowTxt>(__   __________________   __)</RowTxt>
+		<RowTxt>   | |                  | |   </RowTxt>
+		<RowTxt>   | |                  | |   </RowTxt>
+		<RowTxt>   | |                  | |   </RowTxt>
+		<RowTxt>(__   __________________   __)</RowTxt>
+		<RowTxt>   | |                  | |   </RowTxt>
+	</BufferLayer>
+</AvalonVisElement>

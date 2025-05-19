@@ -1,0 +1,14 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position ViewportRelative="false" anchorV="Top" anchorH="Left"  pivotX='0' pivotY='1' x='1' y='0'/>
+		<BufferLayer>
+			<Color BG="Black" FG="White" FillChar=" "/>
+			<Fill FillX='40' FillY='6'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Position ViewportRelative="true" x='0' y='0'/>
+			<Color BG="Black" FG="White" FillChar="#"/>
+			<Fill FillX='1' FillY='6'/>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

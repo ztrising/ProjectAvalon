@@ -1,0 +1,11 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position anchorH="Left" anchorV="Center" pivotX='0' pivotY='.5' x='0' y='0'/>
+		<BufferLayer>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>[][][][][][][][][][]</RowTxt>
+			<RowTxt>[][][][][][][][][][]</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

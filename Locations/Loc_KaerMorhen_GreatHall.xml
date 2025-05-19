@@ -1,0 +1,52 @@
+<AvalonData>
+	<AvalonLocation>
+		<LocInfo RegionName="Kaedwen" AreaName="Kaer Morhen" LocName="Great Hall" Desc="The hall is abandoned this time of  night. There seems to be a strange man sitting on the floor."/>
+		<Action Prompt="Head to the lab">
+			<Travel LocFile="Loc_KaerMorhen_Laboratory.xml" TravelTime="1" />
+		</Action>
+		<Action Prompt="Go to the kitchen">
+			<Travel LocFile="Loc_KaerMorhen_Kitchen.xml" TravelTime="1" />
+		</Action>
+		<Action Prompt="Walk outside">
+			<Travel LocFile="Loc_KaerMorhen_TrainingArea.xml" TravelTime="1" />
+		</Action>
+		<Action Prompt="Approach the mystery person">
+			<Dialogue Tree="DTree_TestShop.xml"/>
+		</Action>
+		<PointsOfInterest>
+			<Laboratory>
+				<Desc Text="An eery green glow can be seen in the northern corridor.  Vesemir must be brewing something in the lab." />
+				<Action Prompt="Head to the laboratory">
+					<Travel LocFile="Loc_KaerMorhen_Laboratory.xml" TravelTime="1" />
+				</Action>
+			</Laboratory>
+			<Kitchen>
+				<Desc Text="The fire pit glows bright, but the real warmth flows in from ovens in the adjacent kitchen." />
+				<Action Prompt="Go to the kitchen">
+					<Travel LocFile="Loc_KaerMorhen_Kitchen.xml" TravelTime="1" />
+				</Action>
+			</Kitchen>
+			<TrainingArea>
+				<Desc Text="The distant clang of swords can be heard from the training yard." />
+				<Action Prompt="Head outside">
+					<Travel LocFile="Loc_KaerMorhen_TrainingArea.xml" TravelTime="1" />
+				</Action>
+			</TrainingArea>
+			<MysteryPerson>
+				<Desc Text="Huddled in a shadowy corner, there is a rumpled figure." />
+				<Action Prompt="Approach the mystery person">
+					<Dialogue Tree="DTree_TestShop.xml"/>
+				</Action>
+			</MysteryPerson>
+		</PointsOfInterest>
+	</AvalonLocation>
+	<AvalonVisElement>
+		<BufferLayer>
+			<Color BG="Black" FG="Black" FillChar="G"/>
+			<Fill/>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>
+
+
+

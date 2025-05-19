@@ -1,0 +1,9 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position anchorV="Top" anchorH="Left" pivotX='0' pivotY='0' x='6' y='3'/>
+		<BufferLayer> <!-- HMMM -->
+			<Color BG="Black" FG="White" FillChar="T"/>
+			<Fill FillX='50' FillY='4'/>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

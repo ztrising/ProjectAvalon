@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d814b482-6b10-4cb0-ac23-1a2297dc942c}</ProjectGuid>
+    <RootNamespace>ProjectAvalon</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AvalonGame\AssetLoaders\AssetLoader.cpp" />
+    <ClCompile Include="AvalonGame\AssetLoaders\DialogueLoader.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>x64\Debug\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>x64\Debug\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>x64\Debug\</ModuleDependenciesFile>
+      <ModuleOutputFile>x64\Debug\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>x64\Debug\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>x64\Debug\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>x64\Debug\ProjectAvalon.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>x64\Debug\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>x64\Debug\ProjectAvalon.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <XMLDocumentationFileName>x64\Debug\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_UNICODE;UNICODE;;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\AvalonGame.cpp" />
+    <ClCompile Include="AvalonGame\AvalonUnit\AvalonUnit.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Actions\AvalonAction.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Actor\AvalonActor.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Actor\LevelActor.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Actor\PlayerActor.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\AvalonGameState.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\ContainerComponent.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\LootableComponent.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\Meditator.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\PhysicsComponent.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\StatsComponent.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Components\TravellerComponent.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Dialogue\DialogueManager.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\GameTime\GameCalendar.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\GameTime\GameTimeTypes.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonContainer.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonInventory.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonItem.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonItemProperty.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\InventoryLoader.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Map\TravelLoader.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Map\TravelTypes.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Utility\AvalonTags.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Utility\JournalTypes.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Utility\Saveable.cpp" />
+    <ClCompile Include="AvalonGame\Gameplay\Utility\StatTypes.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Animation\WidgetAnimation.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\AvalonHUD.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\AvalonWidget.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\WidgetFactory.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\WidgetLoader.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Equipment.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_EquipSlot.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_EquipSlotButton.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_GameTime.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Background.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Button.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_ChoiceMenu.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_DialoguePanel.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Inventory.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_ItemContainer.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_ItemPouch.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Journal.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_List.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_LocationOption.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_LocationPanel.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Meditate.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerEquipment.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerPanel.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerStatus.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_ToggleButton.cpp" />
+    <ClCompile Include="AvalonGame\Widgets\Widget_Travel.cpp" />
+    <ClCompile Include="AvalonInput\InputListener.cpp" />
+    <ClCompile Include="AvalonInput\AvalonInputManager.cpp" />
+    <ClCompile Include="AvalonInput\WindowsPlatform\InputDevice_WindowsConsole.cpp" />
+    <ClCompile Include="AvalonUtilities\AvalonTypes.cpp" />
+    <ClCompile Include="AvalonViewport\Animation\BufferAnimation.cpp" />
+    <ClCompile Include="AvalonViewport\ViewportElement.cpp" />
+    <ClCompile Include="AvalonViewport\AvalonViewportManager.cpp" />
+    <ClCompile Include="AvalonViewport\FrameBuffer\FrameBuffer.cpp" />
+    <ClCompile Include="AvalonViewport\WindowsPlatform\AvalonViewport_WindowsPlatform.cpp" />
+    <ClCompile Include="ExternalTools\TinyXML\tinyxml2.cpp" />
+    <ClCompile Include="ProjectAvalon.cpp" />
+    <ClCompile Include="WindowsPlatformSupport\WindowsPlatformErrorHandling.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AvalonGame\AssetLoaders\AssetLoader.h" />
+    <ClInclude Include="AvalonGame\AssetLoaders\DialogueLoader.h" />
+    <ClInclude Include="AvalonGame\AvalonGame.h" />
+    <ClInclude Include="AvalonGame\AvalonUnit\AvalonUnit.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actions\ActionManager.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actions\AvalonAction.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actor\ActorTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actor\AvalonActor.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actor\LevelActor.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Actor\PlayerActor.h" />
+    <ClInclude Include="AvalonGame\Gameplay\AvalonGameState.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\ContainerComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\LootableComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\Meditator.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\PhysicsComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\SpeakerComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\StatsComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Components\TravellerComponent.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Dialogue\DialogueManager.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Dialogue\DialogueTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\GameTime\GameCalendar.h" />
+    <ClInclude Include="AvalonGame\Gameplay\GameTime\GameTimeTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonContainer.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonInventory.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonItem.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonItemProperty.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\InventoryLoader.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Map\TravelLoader.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Map\TravelTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\AvalonTags.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\JournalTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\EventDispatcher.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\PlayerStatTypes.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\Saveable.h" />
+    <ClInclude Include="AvalonGame\Gameplay\Utility\StatTypes.h" />
+    <ClInclude Include="AvalonGame\Utility\PlayerStatTypes.h" />
+    <ClInclude Include="AvalonGame\Widgets\Animation\WidgetAnimation.h" />
+    <ClInclude Include="AvalonGame\Widgets\AvalonHUD.h" />
+    <ClInclude Include="AvalonGame\Widgets\AvalonWidget.h" />
+    <ClInclude Include="AvalonGame\Widgets\WidgetFactory.h" />
+    <ClInclude Include="AvalonGame\Widgets\WidgetLoader.h" />
+    <ClInclude Include="AvalonGame\Widgets\WidgetTypes.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Equipment.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_EquipSlot.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_EquipSlotButton.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_GameTime.h" />
+    <ClInclude Include="AvalonGame\Widgets\AvalonMenu.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Background.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Button.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_ChoiceMenu.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_DialoguePanel.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Inventory.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_ItemContainer.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_ItemPouch.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Journal.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_List.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_LocationOption.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_LocationPanel.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Meditate.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_OptionsMenu.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerEquipment.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerPanel.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerStatus.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_ToggleButton.h" />
+    <ClInclude Include="AvalonGame\Widgets\Widget_Travel.h" />
+    <ClInclude Include="AvalonInput\AvalonInputDevice.h" />
+    <ClInclude Include="AvalonInput\InputListener.h" />
+    <ClInclude Include="AvalonInput\AvalonInputManager.h" />
+    <ClInclude Include="AvalonInput\AvalonInputTypes.h" />
+    <ClInclude Include="AvalonInput\WindowsPlatform\InputDevice_WindowsConsole.h" />
+    <ClInclude Include="AvalonUtilities\AvalonTypes.h" />
+    <ClInclude Include="AvalonUtilities\DynamicArray.h" />
+    <ClInclude Include="AvalonViewport\Animation\BufferAnimation.h" />
+    <ClInclude Include="AvalonViewport\AvalonViewport.h" />
+    <ClInclude Include="AvalonViewport\ViewportElement.h" />
+    <ClInclude Include="AvalonViewport\AvalonViewportManager.h" />
+    <ClInclude Include="AvalonViewport\FrameBuffer\FrameBuffer.h" />
+    <ClInclude Include="AvalonViewport\WindowsPlatform\AvalonViewport_WindowsPlatform.h" />
+    <ClInclude Include="ExternalTools\TinyXML\tinyxml2.h" />
+    <ClInclude Include="WindowsPlatformSupport\WindowsPlatformErrorHandling.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="AvalonContent\GameData\Area_KaerMorhen.xml" />
+    <Xml Include="AvalonContent\GameData\Journal.xml" />
+    <Xml Include="AvalonContent\GameData\Loc_GreatHall.xml" />
+    <Xml Include="AvalonContent\GameData\Loc_Kitchen.xml" />
+    <Xml Include="AvalonContent\GameData\Loc_Laboratory.xml" />
+    <Xml Include="AvalonContent\GameData\PlayerActor.xml" />
+    <Xml Include="AvalonContent\GameData\WorldAtlas.xml" />
+    <Xml Include="AvalonContent\Widgets\ButtonFrame_Default.xml" />
+    <Xml Include="AvalonContent\Widgets\ButtonFrame_Selected.xml" />
+    <Xml Include="AvalonContent\Widgets\LocationScreen.xml" />
+    <Xml Include="AvalonContent\Widgets\TestXMLFile.xml" />
+    <Xml Include="AvalonContent\Widgets\TextBoxText.xml" />
+    <Xml Include="AvalonContent\Widgets\TitleScreen.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ActionPanel_Button.xml" />
+    <Xml Include="AvalonContent\Widgets\Widget_GameTime.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ChoiceMenu_ChoiceButton.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ChoiceMenu_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Container_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_ChoiceButton.xml" />
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_SpeakerName.xml" />
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_SpeakerText.xml" />
+    <Xml Include="AvalonContent\Widgets\W_EquipmentButton.xml" />
+    <Xml Include="AvalonContent\Widgets\W_EquipmentHUDButton.xml" />
+    <Xml Include="AvalonContent\Widgets\W_EquipmentPanel.xml" />
+    <Xml Include="AvalonContent\Widgets\W_EquipSlot.xml" />
+    <Xml Include="AvalonContent\Widgets\W_GameTime_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_GameTime_TextArea.xml" />
+    <Xml Include="AvalonContent\Widgets\W_HUD.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_ItemDesc.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_ItemEntry.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_Level.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Closed.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Open.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Journal_Button.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Journal_Page.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_OptionPrompt.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Option.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Meditate_Button.xml" />
+    <Xml Include="AvalonContent\Widgets\W_PlayerPanel_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_PlayerStatus_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_PlayerStatus_StatTextArea.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Inventory_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_Trade_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_TimeTest.xml" />
+    <Xml Include="AvalonContent\Widgets\W_ActionPanel_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Frame.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Desc_TextArea.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Title_TextArea.xml" />
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_OptionText.xml" />
+    <Xml Include="AvalonContent\Widgets\W_TravelStatus.xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

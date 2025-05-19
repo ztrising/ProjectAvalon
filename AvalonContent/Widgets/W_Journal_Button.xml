@@ -1,0 +1,16 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position 
+				  anchorV="Top" anchorH="Left" 
+				  pivotX='0' pivotY='0' 
+				  x='0' y='0'/>
+		
+		<BufferLayer>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>__________________ </RowTxt>
+			<RowTxt>|                 |</RowTxt>
+			<RowTxt>|    Journal      |</RowTxt>
+			<RowTxt>|_________________|</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

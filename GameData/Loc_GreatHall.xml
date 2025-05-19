@@ -1,0 +1,40 @@
+<AvalonData>
+    <GreatHall Tags="" DisplayName="Great Hall" Description="A great big expanse of a room.  Hearth in the center.">
+        <LevelActors>
+            <Door Tags="" DisplayName="Door Example" Description="This is a door. It goes places.">
+                <Portal PathID="Archway" Save="Location" Prompt="Head to the Kitchen"/>
+            </Door>
+            <BluePortal Tags="" DisplayName="Swirling Portal" Description="A swirling blue portal shimmers in the room">
+                <Portal PathID="EastCorridor" Save="Location" Prompt="Head to the Laboratory"/>
+            </BluePortal>
+            <TheFloor Tags="" DisplayName="The Floor" Description="There are things scattered on the floor...">
+                <ItemContainer>
+                    <Contents>
+                        <HerbBag Tags="" DisplayName="Herb Pouch" Description="A Small Leather Pouch for Holding Things">
+                            <Equipable Slot="Fastener"/>
+                            <ItemContainer>
+                                <Contents>
+                                    <Apple Tags="" DisplayName="Apple" Description="A Juicy Apple">
+                                        <Lootable/>
+                                    </Apple>
+                                </Contents>
+                            </ItemContainer>
+                        </HerbBag>
+                        <LeatherBelt Tags="" DisplayName="Worn Leather Belt" Description="Hold Thyne Trousers Aloft">
+                            <Equipable Slot="Waist"/>
+                            <Equipment>
+                                <Fastener Capacity="3"/>
+                            </Equipment>
+                        </LeatherBelt>
+                        <ItemPouch Tags="" DisplayName="Leather Pouch" Description="A Small Leather Pouch for Holding Things">
+                            <Equipable Slot="Fastener"/>
+                            <ItemContainer>
+                                <Contents/>
+                            </ItemContainer>
+                        </ItemPouch>
+                    </Contents>
+                </ItemContainer>
+            </TheFloor>
+        </LevelActors>
+    </GreatHall>
+</AvalonData>

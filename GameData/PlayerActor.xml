@@ -1,0 +1,41 @@
+<AvalonData>
+    <Player Tags="" DisplayName="" Description="">
+        <Traveller PathID="EastCorridor" Save="Location" Progress="1"/>
+        <Looter/>
+        <Meditator/>
+        <Equipment>
+            <Torso Capacity="1"/>
+            <Hands Capacity="1"/>
+            <Waist Capacity="1"/>
+            <Legs Capacity="1"/>
+            <Feet Capacity="1"/>
+        </Equipment>
+        <Stats>
+            <Health CurrentValue="50">
+                <MinValue BaseValue="0"/>
+                <MaxValue BaseValue="100"/>
+                <Regen BaseValue="0"/>
+            </Health>
+            <Hunger CurrentValue="96">
+                <MinValue BaseValue="0"/>
+                <MaxValue BaseValue="100"/>
+                <Regen BaseValue="-1"/>
+            </Hunger>
+            <Stamina CurrentValue="20">
+                <MinValue BaseValue="0"/>
+                <MaxValue BaseValue="100"/>
+                <Regen BaseValue="0"/>
+            </Stamina>
+            <Thirst CurrentValue="96">
+                <MinValue BaseValue="0"/>
+                <MaxValue BaseValue="100"/>
+                <Regen BaseValue="-1"/>
+            </Thirst>
+            <Toxicity CurrentValue="100">
+                <MinValue BaseValue="0"/>
+                <MaxValue BaseValue="100"/>
+                <Regen BaseValue="1"/>
+            </Toxicity>
+        </Stats>
+    </Player>
+</AvalonData>

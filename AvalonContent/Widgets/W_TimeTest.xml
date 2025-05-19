@@ -1,0 +1,16 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position anchorH="Left" anchorV="Top" pivotX='0' pivotY='0' x='2' y='1'/>
+		<BufferLayer>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>_____________________________ </RowTxt>
+			<RowTxt>| __________________________ |</RowTxt>
+			<RowTxt>| |                        | |</RowTxt>
+			<RowTxt>| |       Year 1223        | |</RowTxt>
+			<RowTxt>| |   34th of Belleteyn    | |</RowTxt>
+			<RowTxt>| |     Early Morning      | |</RowTxt>
+			<RowTxt>| |________________________| |</RowTxt>
+			<RowTxt>|____________________________|</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

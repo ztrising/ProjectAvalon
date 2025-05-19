@@ -1,0 +1,23 @@
+/***************************************************************************************
+*  Project Avalon - 2022 - Amy Price
+****************************************************************************************/
+
+#pragma once
+
+#include "AvalonActor.h"
+
+
+/***************************************************************************************
+*  Player Actor - The Player!
+****************************************************************************************/
+class PlayerActor : public AvalonActor
+{
+public:
+    PlayerActor();
+    static PlayerActor* mPlayer;
+    static FUnitHandle mPlayerHandle;
+
+    static void LoadPlayer();
+    static void SavePlayer();
+};
+

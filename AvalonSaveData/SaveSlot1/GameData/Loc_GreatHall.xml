@@ -1,0 +1,17 @@
+<AvalonData>
+    <GreatHall Tags="" DisplayName="Great Hall" Description="A great big expanse of a room.  Hearth in the center.">
+        <LevelActors>
+            <Door Tags="" DisplayName="Door Example" Description="This is a door. It goes places.">
+                <Portal PathID="Archway" Save="Location" Prompt="Head to the Kitchen"/>
+            </Door>
+            <BluePortal Tags="" DisplayName="Swirling Portal" Description="A swirling blue portal shimmers in the room">
+                <Portal PathID="EastCorridor" Save="Location" Prompt="Head to the Laboratory"/>
+            </BluePortal>
+            <TheFloor Tags="" DisplayName="The Floor" Description="There are things scattered on the floor...">
+                <ItemContainer>
+                    <Contents/>
+                </ItemContainer>
+            </TheFloor>
+        </LevelActors>
+    </GreatHall>
+</AvalonData>

@@ -1,0 +1,17 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position anchorH="Center" anchorV="Center" pivotX='.5' pivotY='.5' x='0' y='0'/>
+		<BufferLayer>
+			<Color BG="Black" FG="Yellow"/>
+			<RowTxt>$                     $</RowTxt>
+			<RowTxt>$                     $</RowTxt>
+			<RowTxt>$$ ..........  ..     $</RowTxt>
+			<RowTxt>$ /______...... /|$$$$$</RowTxt>
+			<RowTxt>$$/    / /       ||$$$$</RowTxt>
+			<RowTxt>$/     --        \|$$$$</RowTxt>
+			<RowTxt>|               .|\$$$$</RowTxt>
+			<RowTxt>$\_____________.7.|$$$$</RowTxt>
+			<RowTxt>$$\_____________.7.|$$$</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

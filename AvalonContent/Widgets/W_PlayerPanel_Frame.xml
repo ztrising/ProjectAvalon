@@ -1,0 +1,15 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position ViewportRelative="true" anchorH="Center" anchorV="Bottom" pivotX='.5' pivotY='1' x='0' y='-1'/>
+		<BufferLayer>
+			<Color BG="Black" FG="Green" FillChar=" "/>
+			<Fill FillX='175' FillY='8'/>
+		</BufferLayer>
+	</AvalonVisElement>
+	<WidgetComposition>
+		<Widget_Meditate/>
+		<Widget_Journal/>
+		<Widget_PlayerEquipment/>
+		<Widget_PlayerStatus/>
+	</WidgetComposition>
+</AvalonData>

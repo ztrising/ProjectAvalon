@@ -1,0 +1,746 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ErrorHandling">
+      <UniqueIdentifier>{b5398b2c-4347-4cdf-a4be-1984e0517736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame">
+      <UniqueIdentifier>{9a04713c-e4f0-4a48-96ca-c3ddb0f073b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets">
+      <UniqueIdentifier>{e922497c-013e-43c4-a107-0f3fd8d781c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExternalTools">
+      <UniqueIdentifier>{bce8c337-037c-4172-b402-7cdaa44d905a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExternalTools\TinyXML2">
+      <UniqueIdentifier>{a6039803-feaf-4e0f-a829-0547b6f78199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent">
+      <UniqueIdentifier>{bfcc6287-651c-4812-95f4-c135b4a27474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Input">
+      <UniqueIdentifier>{4b3c4304-91f5-47b8-bd80-7a713dfdcf49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Input\InputDevice_WindowsConsole">
+      <UniqueIdentifier>{eb4c33da-25de-4640-95b4-9ff05501ec70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\AssetLoaders">
+      <UniqueIdentifier>{8c67f813-25a9-4c9f-bc92-f1308c586e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\BasicWidgets">
+      <UniqueIdentifier>{3b08a485-124b-4dc4-ab53-acfebb534a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\MenuWidgets">
+      <UniqueIdentifier>{7d402aa8-cd87-43b7-b807-75c54828717e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Rendering">
+      <UniqueIdentifier>{7148f098-17e5-4dcd-a251-801da31c0823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Rendering\FrameBuffer">
+      <UniqueIdentifier>{d1a15801-0edc-4dad-83d4-2c019791442e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Rendering\Viewport">
+      <UniqueIdentifier>{49d293ca-2f7d-4806-9d22-53b1271350fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Rendering\Animation">
+      <UniqueIdentifier>{d55a08dc-7005-4605-bf5b-01b84c4e1c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets">
+      <UniqueIdentifier>{34614824-fea4-455f-ad8a-163149849bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\LocationPanel">
+      <UniqueIdentifier>{cdf93319-5932-44ad-961c-f7bf8e2128c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Background">
+      <UniqueIdentifier>{123b7e5e-d892-4ebb-a845-f49b088845b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\ActionPanel">
+      <UniqueIdentifier>{ce28d7d7-a973-49a0-a4ea-6a2a766284cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\DialoguePanel">
+      <UniqueIdentifier>{e6c3463c-699b-4ba8-923b-2ba891c1cb30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\Environment">
+      <UniqueIdentifier>{8484056b-fcfe-4bb4-ae65-5d958f4c08c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\GameTimePanel">
+      <UniqueIdentifier>{1edbde5a-d5fa-49a8-8c0a-7efdfc883078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\ChoiceMenu">
+      <UniqueIdentifier>{2b5f9460-dba3-4060-884a-72603a0d67a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\Inventory">
+      <UniqueIdentifier>{8d17f6f3-5554-4f80-b1a9-f098a804daf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Inventory">
+      <UniqueIdentifier>{c2b01b36-5ec4-40f4-b4ad-042f466303ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\Animation">
+      <UniqueIdentifier>{22470efe-ed64-4df6-96b8-661ad801203d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Inventory\ItemPanel">
+      <UniqueIdentifier>{0ee4a05f-05ac-4403-b037-373289027eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Inventory\ItemPouch">
+      <UniqueIdentifier>{9b778a59-62df-4d2e-861d-4eaf56456933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Journal">
+      <UniqueIdentifier>{e219426e-f5ad-404d-acf7-dd7dda195102}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\_Loaders">
+      <UniqueIdentifier>{fba09b0b-c045-49c8-b93f-7d18475196a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\GameData">
+      <UniqueIdentifier>{4e8bb8e5-cc46-4ce6-9bde-28ffbb482701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\TradePanel">
+      <UniqueIdentifier>{296d8db9-d60c-4f4d-a595-3428f5d020ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OLDSTUFF">
+      <UniqueIdentifier>{863301ef-2e61-4a24-b5f3-b677a1bc6461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay">
+      <UniqueIdentifier>{15d239d0-5d06-4dbf-bce6-2d913f07dc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Actions">
+      <UniqueIdentifier>{ac5099f5-1dcb-49a4-9fb6-798d906e7bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Actors">
+      <UniqueIdentifier>{ba4b00f6-454e-4313-8362-dac63b9c60c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Components">
+      <UniqueIdentifier>{88505a16-2777-4ef2-ae21-ce9ff5a3e97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Dialogue">
+      <UniqueIdentifier>{bbe5ebe4-4efa-48bc-9731-99ca3e8da63b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\GameTime">
+      <UniqueIdentifier>{8b7c7705-be8e-4607-8360-4533205ea4c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Map">
+      <UniqueIdentifier>{e269a17f-beaf-41b4-93fd-d0369d0d242a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Gameplay\Utility">
+      <UniqueIdentifier>{14e789fd-50f5-4e29-b230-e1f82e76a51b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\Equipment">
+      <UniqueIdentifier>{e12116de-f336-46dc-80b5-d4bc5d6bb08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Equipment">
+      <UniqueIdentifier>{501bd5b6-1681-4791-ae30-2d722b09cc7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\Inventory\LevelContainer">
+      <UniqueIdentifier>{1256741a-ed64-4993-863e-d4417d329db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\Widgets\PlayerPanel">
+      <UniqueIdentifier>{03d9c8ad-8cab-4b0a-9bf5-39af1deda23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonContent\WidgetAssets\PlayerPanel">
+      <UniqueIdentifier>{3a81b2e5-f98a-4f6e-8955-180d23623b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvalonGame\AvalonUnit">
+      <UniqueIdentifier>{c1d554ba-03ea-4e11-b960-a83f28fc5b7e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AvalonViewport\AvalonViewportManager.cpp">
+      <Filter>AvalonGame\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonInput\AvalonInputManager.cpp">
+      <Filter>AvalonGame\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectAvalon.cpp" />
+    <ClCompile Include="WindowsPlatformSupport\WindowsPlatformErrorHandling.cpp">
+      <Filter>ErrorHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonViewport\WindowsPlatform\AvalonViewport_WindowsPlatform.cpp">
+      <Filter>AvalonGame\Rendering\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonInput\WindowsPlatform\InputDevice_WindowsConsole.cpp">
+      <Filter>AvalonGame\Input\InputDevice_WindowsConsole</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonInput\InputListener.cpp">
+      <Filter>AvalonGame\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonViewport\ViewportElement.cpp">
+      <Filter>AvalonGame\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalTools\TinyXML\tinyxml2.cpp">
+      <Filter>ExternalTools\TinyXML2</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonViewport\FrameBuffer\FrameBuffer.cpp">
+      <Filter>AvalonGame\Rendering\FrameBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\AssetLoaders\AssetLoader.cpp">
+      <Filter>AvalonGame\AssetLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Button.cpp">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_ChoiceMenu.cpp">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonViewport\Animation\BufferAnimation.cpp">
+      <Filter>AvalonGame\Rendering\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\AvalonHUD.cpp">
+      <Filter>AvalonGame\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Background.cpp">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_GameTime.cpp">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_ToggleButton.cpp">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_DialoguePanel.cpp">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Inventory.cpp">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\AvalonWidget.cpp">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Animation\WidgetAnimation.cpp">
+      <Filter>AvalonGame\Widgets\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_ItemPouch.cpp">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_ItemContainer.cpp">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\WidgetLoader.cpp">
+      <Filter>AvalonGame\Widgets\_Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Journal.cpp">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_List.cpp">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\AvalonGameState.cpp">
+      <Filter>AvalonGame\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Actions\AvalonAction.cpp">
+      <Filter>AvalonGame\Gameplay\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Actor\AvalonActor.cpp">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Actor\LevelActor.cpp">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\ContainerComponent.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\LootableComponent.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\PhysicsComponent.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\StatsComponent.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\TravellerComponent.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Dialogue\DialogueManager.cpp">
+      <Filter>AvalonGame\Gameplay\Dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\GameTime\GameCalendar.cpp">
+      <Filter>AvalonGame\Gameplay\GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\GameTime\GameTimeTypes.cpp">
+      <Filter>AvalonGame\Gameplay\GameTime</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonContainer.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonInventory.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonItem.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\AvalonItemProperty.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Inventory\InventoryLoader.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Map\TravelTypes.cpp">
+      <Filter>AvalonGame\Gameplay\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Map\TravelLoader.cpp">
+      <Filter>OLDSTUFF</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Utility\AvalonTags.cpp">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Utility\JournalTypes.cpp">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Utility\Saveable.cpp">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Utility\StatTypes.cpp">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\AvalonGame.cpp">
+      <Filter>AvalonGame</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Actor\PlayerActor.cpp">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Equipment.cpp">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_EquipSlot.cpp">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_EquipSlotButton.cpp">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerEquipment.cpp">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Gameplay\Components\Meditator.cpp">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Meditate.cpp">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerStatus.cpp">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_LocationPanel.cpp">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_LocationOption.cpp">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_PlayerPanel.cpp">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\AvalonUnit\AvalonUnit.cpp">
+      <Filter>AvalonGame\AvalonUnit</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\Widget_Travel.cpp">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\Widgets\WidgetFactory.cpp">
+      <Filter>AvalonGame\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonUtilities\AvalonTypes.cpp">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AvalonGame\AssetLoaders\DialogueLoader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AvalonViewport\AvalonViewportManager.h">
+      <Filter>AvalonGame\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonInput\AvalonInputManager.h">
+      <Filter>AvalonGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsPlatformSupport\WindowsPlatformErrorHandling.h">
+      <Filter>ErrorHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonViewport\WindowsPlatform\AvalonViewport_WindowsPlatform.h">
+      <Filter>AvalonGame\Rendering\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonInput\AvalonInputDevice.h">
+      <Filter>AvalonGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonInput\AvalonInputTypes.h">
+      <Filter>AvalonGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonInput\WindowsPlatform\InputDevice_WindowsConsole.h">
+      <Filter>AvalonGame\Input\InputDevice_WindowsConsole</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonUtilities\DynamicArray.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonInput\InputListener.h">
+      <Filter>AvalonGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonViewport\ViewportElement.h">
+      <Filter>AvalonGame\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalTools\TinyXML\tinyxml2.h">
+      <Filter>ExternalTools\TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonViewport\FrameBuffer\FrameBuffer.h">
+      <Filter>AvalonGame\Rendering\FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\AssetLoaders\AssetLoader.h">
+      <Filter>AvalonGame\AssetLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\AvalonMenu.h">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Button.h">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_ChoiceMenu.h">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_OptionsMenu.h">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonViewport\AvalonViewport.h">
+      <Filter>AvalonGame\Rendering\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonViewport\Animation\BufferAnimation.h">
+      <Filter>AvalonGame\Rendering\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Background.h">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_GameTime.h">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_ToggleButton.h">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_DialoguePanel.h">
+      <Filter>AvalonGame\Widgets\MenuWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\AvalonHUD.h">
+      <Filter>AvalonGame\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\WidgetTypes.h">
+      <Filter>AvalonGame\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Inventory.h">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\AvalonWidget.h">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Animation\WidgetAnimation.h">
+      <Filter>AvalonGame\Widgets\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_ItemPouch.h">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_ItemContainer.h">
+      <Filter>AvalonGame\Widgets\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\WidgetLoader.h">
+      <Filter>AvalonGame\Widgets\_Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Journal.h">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_List.h">
+      <Filter>AvalonGame\Widgets\BasicWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Utility\PlayerStatTypes.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\AvalonGameState.h">
+      <Filter>AvalonGame\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actions\ActionManager.h">
+      <Filter>AvalonGame\Gameplay\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actions\AvalonAction.h">
+      <Filter>AvalonGame\Gameplay\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actor\ActorTypes.h">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actor\AvalonActor.h">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actor\LevelActor.h">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\ContainerComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\LootableComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\PhysicsComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\SpeakerComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\StatsComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\TravellerComponent.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Dialogue\DialogueManager.h">
+      <Filter>AvalonGame\Gameplay\Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Dialogue\DialogueTypes.h">
+      <Filter>AvalonGame\Gameplay\Dialogue</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\GameTime\GameCalendar.h">
+      <Filter>AvalonGame\Gameplay\GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\GameTime\GameTimeTypes.h">
+      <Filter>AvalonGame\Gameplay\GameTime</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonContainer.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonInventory.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonItem.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\AvalonItemProperty.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Inventory\InventoryLoader.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Map\TravelTypes.h">
+      <Filter>AvalonGame\Gameplay\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Map\TravelLoader.h">
+      <Filter>OLDSTUFF</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\AvalonTags.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\JournalTypes.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\PlayerStatTypes.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\Saveable.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\StatTypes.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\AvalonGame.h">
+      <Filter>AvalonGame</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Actor\PlayerActor.h">
+      <Filter>AvalonGame\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Utility\EventDispatcher.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Equipment.h">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_EquipSlot.h">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_EquipSlotButton.h">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerEquipment.h">
+      <Filter>AvalonGame\Widgets\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Gameplay\Components\Meditator.h">
+      <Filter>AvalonGame\Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Meditate.h">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerStatus.h">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_LocationPanel.h">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_LocationOption.h">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_PlayerPanel.h">
+      <Filter>AvalonGame\Widgets\PlayerPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\AvalonUnit\AvalonUnit.h">
+      <Filter>AvalonGame\AvalonUnit</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\Widget_Travel.h">
+      <Filter>AvalonGame\Widgets\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\Widgets\WidgetFactory.h">
+      <Filter>AvalonGame\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonUtilities\AvalonTypes.h">
+      <Filter>AvalonGame\Gameplay\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AvalonGame\AssetLoaders\DialogueLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="AvalonContent\Widgets\ButtonFrame_Default.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\ButtonFrame_Selected.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\LocationScreen.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\TestXMLFile.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\TextBoxText.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\TitleScreen.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\Widget_GameTime.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_TimeTest.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Title_TextArea.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_OptionText.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Desc_TextArea.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ActionPanel_Button.xml">
+      <Filter>AvalonContent\WidgetAssets\ActionPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ActionPanel_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\ActionPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\DialoguePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_PlayerStatus_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_PlayerStatus_StatTextArea.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_GameTime_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\GameTimePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_GameTime_TextArea.xml">
+      <Filter>AvalonContent\WidgetAssets\GameTimePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Closed.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPouch</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Open.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPouch</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPouch_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPouch</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_OptionPrompt.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_SpeakerText.xml">
+      <Filter>AvalonContent\WidgetAssets\DialoguePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_SpeakerName.xml">
+      <Filter>AvalonContent\WidgetAssets\DialoguePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_DialoguePanel_ChoiceButton.xml">
+      <Filter>AvalonContent\WidgetAssets\DialoguePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ChoiceMenu_ChoiceButton.xml">
+      <Filter>AvalonContent\WidgetAssets\ChoiceMenu</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ChoiceMenu_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\ChoiceMenu</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Trade_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\TradePanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_ItemDesc.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_ItemEntry.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Inventory_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPouch</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Container_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\ItemPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_LocPanel_Option.xml">
+      <Filter>AvalonContent\WidgetAssets\LocationPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\Area_KaerMorhen.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\Journal.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\Loc_GreatHall.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\PlayerActor.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\WorldAtlas.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\Loc_Kitchen.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_EquipSlot.xml">
+      <Filter>AvalonContent\WidgetAssets\Equipment</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_EquipmentPanel.xml">
+      <Filter>AvalonContent\WidgetAssets\Equipment</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_EquipmentButton.xml">
+      <Filter>AvalonContent\WidgetAssets\Equipment</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_ItemPanel_Level.xml">
+      <Filter>AvalonContent\WidgetAssets\Inventory\LevelContainer</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_EquipmentHUDButton.xml">
+      <Filter>AvalonContent\WidgetAssets\Equipment</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Meditate_Button.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Journal_Button.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_Journal_Page.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_PlayerPanel_Frame.xml">
+      <Filter>AvalonContent\WidgetAssets\PlayerPanel</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_TravelStatus.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\Widgets\W_HUD.xml">
+      <Filter>AvalonContent\WidgetAssets</Filter>
+    </Xml>
+    <Xml Include="AvalonContent\GameData\Loc_Laboratory.xml">
+      <Filter>AvalonContent\GameData</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

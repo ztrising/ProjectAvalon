@@ -1,0 +1,66 @@
+<AvalonVisElement>
+	<BufferLayer>
+		<Offset anchorH="Right" anchorV="Top" x='2' y='1' />
+		<Color BG="Black" FG="White"/>
+		<RowTxt>________________________________________________</RowTxt>
+		<RowTxt>| ____________________________________________ |</RowTxt>
+		<RowTxt>| |                                          | |</RowTxt>
+		<RowTxt>| |      Region:    Kaedwen                  | |</RowTxt>
+		<RowTxt>| |      Area:      Kaer Morhen              | |</RowTxt>
+		<RowTxt>| |      Location:  Great Hall               | |</RowTxt>
+		<RowTxt>| |                                          | |</RowTxt>
+		<RowTxt>| |   The hall is abandoned at this time     | |</RowTxt>
+		<RowTxt>| |   of night.                              | |</RowTxt>
+		<RowTxt>| |                                          | |</RowTxt>
+		<RowTxt>| |   There is a harsh chill to the air      | |</RowTxt>
+		<RowTxt>| |   despite the perpetual crackling        | |</RowTxt>
+		<RowTxt>| |   fire in the massive fire pit.          | |</RowTxt>
+		<RowTxt>| |                                          | |</RowTxt>
+		<RowTxt>| |   The mess from the recent Belltayn      | |</RowTxt>
+		<RowTxt>| |   celebration litters the floor.         | |</RowTxt>
+		<RowTxt>| |                                          | |</RowTxt>
+		<RowTxt>| |__________________________________________| |</RowTxt>
+		<RowTxt>|______________________________________________|</RowTxt>
+	</BufferLayer>
+	<BufferLayer>
+		<Position anchorH="Center" anchorV="Center" pivotX='.5' pivotY='.5' x='0' y='0'/>
+		<Color BG="Black" FG="White"/>
+		<RowTxt>               ____________________________________                 </RowTxt>
+		<RowTxt>               I___|___|___|___|___|__|____|___|__|_I               </RowTxt>
+		<RowTxt>               I_|___|___|               |___|___|__I               </RowTxt>
+		<RowTxt>         )\    I___|__ | ..,a@@@a,a@@@a,.. |___|____I      /(       </RowTxt>
+		<RowTxt>        ( ))   I_|__  .,;*;;@@@@@a@@@@@;;;;,. ___|__I     (( )      </RowTxt>
+		<RowTxt>         :     I__|  ;;;;;;;;;a@@^@@a;;;*;;;;;  __|_I       :       </RowTxt>
+		<RowTxt>        ,uU    I_|  ;;;;*;;;a@@@   @@@a;;;;*;;;  |__I      Uu.      </RowTxt>
+		<RowTxt>        :Uu    I__|;;;;;;;a@@@@   .@@@@@;;;;;;;; __|I      uU:      </RowTxt>
+		<RowTxt>        | |    I_| ;;*;;;a@@@@@   @@'`@@@;;;;;*; _|_I      | |      </RowTxt>
+		<RowTxt>        |_|    I__ ;;;;;;@@;;@@   `@  `@;;;*;;;; ___I      |_|      </RowTxt>
+		<RowTxt>     _ (___) _ I_|_ ;;;*;;@;;;;@;;;;;*;;;;;;;;; _|__I___  (___)     </RowTxt>
+		<RowTxt>   ,-' )   (   ~~~~~ `;;;;;;*;;;;;;;;;;;*;;;;'  ~~~~~     )   (`-.  </RowTxt>
+		<RowTxt>,-____=====_____________`;;;;;;;;*;;;;;;;'_______________=====___`. </RowTxt>
+		<RowTxt>|~~|  _________________________________________________/o\___   |~~|</RowTxt>
+		<RowTxt>|_||  ||____|____|____|____|____|____|____|____|____|_/ /,\__|  ||_|</RowTxt>
+		<RowTxt>|__|  |___|____|____|____|____|____|____|____|____|__/ /,,,\||  ||_|</RowTxt>
+		<RowTxt>|_||__||____|____|____|____|____|____|____|____|____|\/,,,,,\|__|__|</RowTxt>
+		<RowTxt>|____|____|____|____|____|____|____|____|____|____|___\,,,,,,\___|_|</RowTxt>
+		<RowTxt>|_|____|__I####I..........  /%%%%%%%%%%%\ ..........I##\,,,,( )|___|</RowTxt>
+		<RowTxt>|____|____I####I.......... .%%%%%( )%%%%%. .........I###\,,,,\/__|_|</RowTxt>
+		<RowTxt>|_|____|__I####I..........  /%%%%%%%%%%%\ ..........I##\,,,,( )|___|</RowTxt>
+		<RowTxt>|____|____I####I.......... .%%%%%( )%%%%%. .........I###\,,,,\/__|_|</RowTxt>
+		<RowTxt>|_|____|__I####I.......... @@%%%%0%0%%%%@@  ........I## /,,,,/_|___|</RowTxt>
+		<RowTxt>|____|____I####I.......... `@@@@@@@@@@@@@@' ........I# /,,,,/____|_|</RowTxt>
+		<RowTxt>|_|____|__I####I............ \\\\\\\\\\\\\) ........I ( \,,/___|___|</RowTxt>
+		<RowTxt>|____|____I####I.............  `\\\\\\\\\\) ........I  \_)/_|____|_|</RowTxt>
+		<RowTxt>|_|____|__I####I............  A   `\\\\\\\' ..   .. I#  :_|____|___|</RowTxt>
+		<RowTxt>|____|____I####I.........    AAA  .. `\\\' ..  A.  .I###I___|____|_|</RowTxt>
+		<RowTxt>|_|____|__I####I......   .A  `AAA ....  *  ..  AAA. I ##I_|____|___|</RowTxt>
+		<RowTxt>|____|____I####I....    AAA  AA;AA  ...   ...  `AAA.I ##I___|____|_|</RowTxt>
+		<RowTxt>|_|____|__I####/~~~,-.A;;A'-A;;;;;A-----A-----,A;;;A  ##I_|____|___|</RowTxt>
+		<RowTxt>|____|____I###/    I.;;;;;  ;;;;;;;   AAA     I;;;A'\###I___|____|_|</RowTxt>
+		<RowTxt>|_|____|__I##/     I;;;;;; ;;;;;;;   A;;;A    I;;;;  \##I_|____|___|</RowTxt>
+		<RowTxt>|____|____I#/     !~;;;;;;~~~~~~~~~~~;;;;;;~~~~~!;'   \#I___|____|_|</RowTxt>
+		<RowTxt>|_|____|__I/______!  ::::;;           ;;;;;;    !______\I_|____|___|</RowTxt>
+		<RowTxt>~~~~~~~~~/       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       \~~~~~~~~~~  </RowTxt>
+		<RowTxt>        /_______________________________________________\           </RowTxt>
+	</BufferLayer>
+</AvalonVisElement>

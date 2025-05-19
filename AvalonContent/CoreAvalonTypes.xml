@@ -1,0 +1,578 @@
+<AvalonData>
+	<!-- Tag Data -->
+	<AvalonTags>
+		<EquipmentLoadout>
+			<Torso>
+				<UnderLayer/>
+				<OuterLayer/>
+				<OverLayer/>
+			</Torso>
+			<Hands/>
+			<Waist/>
+			<Legs/>
+			<Feet>
+				<SockLayer/>
+				<ShoeLayer/>
+			</Feet>
+		</EquipmentLoadout>
+	</AvalonTags>
+	
+	<!-- Player Data -->
+	<AvalonPlayer DisplayName="Player">
+		<Equipment Slots="Torso,Hands,Waist,Legs,Feet" Layers="Under,Outer,Over,Utility"/> 
+		<Container Label="Holding" /> <!-- 'In Hand' Slot -->
+	</AvalonPlayer>
+
+	<ThresholdActionExample>
+		<AddItem /> <!-- Context is, the ACTOR that the Stats Component is on -->
+	</ThresholdActionExample>
+	
+	<!-- Clothing -->
+	<LinenShirt DisplayName="Linen Shirt" Tags="Torso, Clothing">
+		<Desc>
+				A lightweight shirt made of linen.
+		</Desc>
+		<PhysicalProperties Mass="100"/>
+		<Equipable Slot="Torso" Layer="Under"/>
+	</LinenShirt>
+	<LeatherTunic DisplayName="Leather Tunic" Tags="Torso, Armor">
+		<Desc>
+				A worn, sleeveless leather tunic.  It laces
+				up the front and provides some protection.
+		</Desc>
+		<PhysicalProperties Mass="300"/>
+		<Equipable/>
+	</LeatherTunic>
+	<WoolCloak DisplayName="Wool Cloak" Tags="Torso, Outer">
+		<Desc>
+				A long wool cloak with a wide hood. Keeps
+				you warm in cold weather and is somewhat
+				water resistant.  Great for the snow.
+		</Desc>
+		<PhysicalProperties Mass="800"/>
+		<Equipable/>
+	</WoolCloak>
+	<LeatherGloves DisplayName="Leather Gloves" Tags="Hands">
+		<Desc>
+				Worn leather gloves.
+		</Desc>
+		<PhysicalProperties Mass="200"/>
+		<Equipable/>
+	</LeatherGloves>
+	<LeatherBelt DisplayName="Leather Belt" Tags="Waist">
+		<Desc>
+				Worn leather belt.
+		</Desc>
+		<PhysicalProperties Mass="200"/>
+		<Equipable/>
+		<Fastener MaxVolume=".5"/>
+		<Fastener MaxVolume=".25"/>
+	</LeatherBelt>
+	<Trousers DisplayName="Trousers" Tags="Legs">
+		<Desc>
+				Simple trousers.
+		</Desc>
+		<PhysicalProperties Mass="400"/>
+		<Equipable/>
+	</Trousers>
+	<WoolSocks DisplayName="Wool Socks" Tags="Feet, Under">
+		<Desc>
+				Warm wool socks.
+		</Desc>
+		<PhysicalProperties Mass="200"/>
+		<Equipable/>
+	</WoolSocks>
+	<LeatherBoots DisplayName="Leather Boots" Tags="Feet, Shoes">
+		<Desc>
+				Worn leather boots.
+		</Desc>
+		<PhysicalProperties Mass="800"/>
+		<Equipable/>
+	</LeatherBoots>
+
+	<!-- Containers -->
+	<TravellerPack DisplayName="Traveller's Pack">
+		<Desc>
+			A large backpack. Can holds lots and has
+			leather straps for fastening blankets and gear.
+		</Desc>
+		<PhysicalProperties Mass="400" Volume="6"/>
+		<Equipable/>
+		<!-- There are leather straps for holding blankets and tools -->
+		<Fastener/>
+		<Fastener/>
+		<Vessel MaxVolume="6"/>
+	</TravellerPack>
+	<LeatherPouch DisplayName="Leather Pouch">
+		<Desc>
+			A small leather pouch to carry items.
+		</Desc>
+		<PhysicalProperties Mass="200" Volume=".5"/>
+		<Fastenable/>
+		<Vessel MaxVolume=".5"/>
+	</LeatherPouch>
+	<AlchemyChest DisplayName="Alchemy Chest">
+		<Desc>
+			A small chest used to contain vials and
+			ingredients.
+		</Desc>
+		<PhysicalProperties Mass="800" Volume="1"/>
+		<Fastenable/>
+		<!-- Inside the chest is a vial frame -->
+		<Fastener MaxVolume="10" VolumeUnit="mL"/>
+		<Fastener MaxVolume="10" VolumeUnit="mL"/>
+		<Fastener MaxVolume="10" VolumeUnit="mL"/>
+		<Fastener MaxVolume="10" VolumeUnit="mL"/>
+		<!-- And a small dry pouch for ingredients -->
+		<Vessel MaxVolume=".25" RequiredTags="Ingredient"/>
+	</AlchemyChest>
+	<MasonJar DisplayName="Mason Jar">
+		<Desc>
+			A glass jar.  Pretty handy.
+		</Desc>
+		<PhysicalProperties Mass="200" Volume=".5"/>
+		<Fastenable/>
+		<Vessel MaxVolume=".5" FluidContainer="true"/>
+	</MasonJar>
+
+	<!-- Food/Drink -->
+	<Apple DisplayName="Apple">
+		<Desc>
+			An Apple.
+		</Desc>
+		<PhysicalProperties Mass="100" Volume="0.2"/>
+		<Consumable/>
+	</Apple>
+	<Jerky DisplayName="Jerky">
+		<Desc>
+			Dried meat.
+		</Desc>
+		<PhysicalProperties Mass="100" Volume="0.2"/>
+		<Consumable/>
+	</Jerky>
+	<DriedFruit DisplayName="Dried Fruit">
+		<Desc>
+			Dried fruit.
+		</Desc>
+		<PhysicalProperties Mass="100" Volume="0.2"/>
+		<Consumable/>
+	</DriedFruit>
+	<Water DisplayName="Water">
+		<Desc>
+			It's water.
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</Water>
+	<EstEst DisplayName="Est Est">
+		<Desc>
+			Fancy wine from Toussaint!
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</EstEst>
+	<EskelStew DisplayName="Eskel's Stew">
+		<Desc>
+			When it is Eskel's turn to cook this is
+			what we get.
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</EskelStew>
+
+	<!-- Potions -->
+	<Swallow DisplayName="Swallow">
+		<Desc>
+			Increases Vitality Regen.
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</Swallow>
+	<GoldenOriole DisplayName="Golden Oriole">
+		<Desc>
+			Removes poisons.
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</GoldenOriole>
+	<BlackBlood DisplayName="Black Blood">
+		<Desc>
+			Highly toxic, but causes any necrophages
+			that feed on you to die instantly.
+		</Desc>
+		<PhysicalProperties Mass="100" IsFluid="true"/>
+		<Consumable/>
+	</BlackBlood>
+
+
+	<!--  What the starting save data could look like -->
+	<AvalonPlayer>
+		<EquipSlot SlotIndex="0">
+			<LinenShirt Filename="BasicItems.xml"/>
+		</EquipSlot>
+	</AvalonPlayer>
+
+	<AvalonPlayer DisplayName="Player">
+		<Equipment Slots="Torso,Hands,Waist,Legs,Feet" Layers="Under,Outer,Over,Utility">
+		</Equipment>
+		<Container Label="Holding" />
+		<!-- 'In Hand' Slot -->
+	</AvalonPlayer>
+	
+	<BedroomFloor>
+		<Container>
+			<WoolSocks Filename="BasicItems.xml"/>
+			<LeatherBoots Filename="BasicItems.xml"/>
+			<Trousers Filename="BasicItems.xml"/>
+			<SteelSword Filename="BasicItems.xml">
+				<Durability Value="199"/>
+			</SteelSword>
+		</Container>
+	</BedroomFloor>
+	<BedroomDoor Filename="Loc_KaerMorhen_Bedroom.xml">
+		<Fastener>
+			<LeatherHarness Filename="BasicItems.xml">
+				<Fastener>
+					<SilverSword Filename="BasicItems.xml">
+						<Durability Value="199"/>
+					</SilverSword>
+				</Fastener>
+				<Fastener/>
+			</LeatherHarness>
+		</Fastener>
+	</BedroomDoor>
+	<NightStand Filename="Loc_KaerMorhen_Bedroom.xml">
+		<Container>
+			<SilverCoins Amount="4" />
+		</Container>
+	</NightStand>
+	<BigTrunk Filename="Loc_KaerMorhen_Bedroom.xml">
+		<Container>
+			<WoolCloak Filename="BasicItems.xml"/>
+			<CanvasTravelPack Filename="BasicItems.xml">
+				<Container>
+					<WoolBlanket Filename="BasicItems.xml" />
+					<LeatherFlask Filename="BasicItems.xml"/>
+				</Container>
+			</CanvasTravelPack>
+		</Container>
+	</BigTrunk>
+	<!-- AvalonObjects
+
+			Filenames, IDs, DisplayNames, and Tags
+			
+			All Avalon Data Files have the root element "Avalon Data".
+			The child elements are "AvalonObjects" and their Element Name is their "ID".
+			
+			So any object can be queried by knowing the Filename it is in and its "ID".
+			
+			The third shared property of all Avalon Objects is "Display Name", which
+			is the name of the object in-game, and can differ from the ID.
+			
+			Also, any Object can be associated with any number of "Tags".
+			
+			<AvalonData>
+				<BasicObject DisplayName="Basic Object" Tags="ExampleObjectTag"/>
+				<FancyHat DisplayName="Fancy Hat" Tags="Head, Clothing"/>
+			</AvalonData>
+			
+			The composition of an Avalon Object is then defined by Child Elements
+			under its "Avalon Object" level element.
+	-->
+	<!-- Physical Properties
+			
+			Defines an Object's physical characteristics.
+			ex: <PhysicalProperties Mass="10.5" MassUnit="mg" Volume="3.2" VolumeUnit="L" IsFluid="false" />
+			
+				Mass		- The mass of the object, if undefined defaults to 0. (float value)
+				MassUnit	- The unit used for Mass, defaults to grams ("g"). (Valid Values = "mg", "g", "kg")
+				Volume		- The volume of the object, if undefined defaults to 0. (float value)
+				VolumeUnit	- The unit used for Volume, defaults to liters ("L"). (Valid Values = "mL", "L")
+				IsFluid		- A fluid's volume is defined by its container and cannot be held by all containers.
+				
+			ex:	<BasicObject DisplayName="Basic Object">
+					<PhysicalProperties Mass="90" MassUnit="kg" Volume="12" VolumeUnit="L" IsFluid="false" />
+				</BasicObject>
+	-->
+	<!-- Equipable Properties
+	
+			Bestows the 'Equip' Action. 
+			
+			Allows this Object to be 'Equipped' by another Object that has
+			an 'Equipment' Container Slot. (Assuming this item passes the
+			filters on that Container).
+
+			'Equipables' are conceptually things that you are wearing, that give
+			you passive effects, like more defense, protection from the cold,
+			etc.. (ex: Clothing, Armor, Jewelry)
+			
+			ex:	<FancyHat DisplayName="Fancy Hat">
+					<Equipable/>
+				</FancyHat>
+				
+			You can inline define additive Stat Changes associated with the 
+			item being equipped. These are applied when equipped and removed 
+			when unequipped.
+			
+			ex:	<ChainmailGloves DisplayName="Chainmail Gloves">
+					<Equipable Defense="10" Dexterity="-5"/>
+				</ChainmailGloves>
+				
+			You can apply more customized State Changes with the StatMod nodes:
+			
+			ex:	<VitalityCape DisplayName="Cape of Vitality">
+					<Equipable>
+						<MaxHealth ModType="Scale" Value="2.5" /> 
+					</Equipable>
+				</VitalityCape>
+							
+			You can also specify 'OnEquip' and 'OnUnEquip' Actions, for more
+			custom effects.
+			
+			ex:	<MysteriousMask DisplayName="Mysterious Mask">
+					<Equipable>
+					</Equipable>
+				</MysteriousMask>
+	
+	-->
+	<!-- Container Properties:
+			
+			An Object can be setup to hold other Items with a "Container" property. Any
+			Object slotted into a container of another Object is considered to be in that
+			Object's "Inventory".
+			
+			There are three "Container" types.
+			
+				Equipment	- Objects the Parent Object can 'equip' or 'wear'. (Equipables)
+				Fastener	- Objects the Parent Object to fasten to itself.   (Fastenables)
+				Vessel		- Objects the Parent Object can hold within itself.
+				
+			For the "Equipment" type of Container, only "Equipables" can be slotted in and only
+			one item can be in one slot at a time.
+		
+			For the "Fastener" type of Container, only "Fastenables" can be slotted in and only
+			one item can be in one slot at a time.
+			
+			For the "Vessel" type of Container, any Object Type can be slotted in, so long as it
+			passes any Container limitations.
+			
+			Container Limiters:
+	
+			Mass Limiter, if not defined, no limit!
+			ex: <MassLimiter MaxMass= "10.5" MassUnit="mg" />
+			
+				MaxMass		- The max mass the container can hold. (float value)
+				MassUnit	- The unit used for MaxMass, defaults to grams ("g"). (Valid Values = "mg", "g", "kg")
+				
+			Volume Limiter, if not defined, no limit!
+			ex: <VolumeLimiter MaxVolume="3.2" VolumeUnit="mL" />
+			
+				MaxVolume	- The maximum volume the container can hold
+				VolumeUnit	- The unit used for MaxVolume, defaults to liters ("L"). (Valid Values = "mL", "L")
+				
+			Tag Filtering, if not defined, allows items with any tags!
+			
+			ex: <TagFilters>
+					<Allow HasAny="" HasAll="" MatchesExactly="" />
+					<Block HasAny="" HasAll="" MatchesExactly="" />
+				</TagFilters>
+				
+				You can have any number of filters (Allows/Blocks)
+				An item must pass ALL filters to be valid.
+				The usefulness of these filters relies on the
+				pattern of tags used in the content!
+				
+				An example of a simple 'dry food storage' filter setup
+				for something like a kitchen food barrel could be:
+				
+				ex:	<TagFilters>
+						<Allow HasAny="Food, Ingredient, Edible" />
+						<Block HasAny="Rotten" />
+					</TagFilters>
+				
+				An example of an equipment slot filter setup things
+				worn as outer wear on the torso (i.e. coats, cloaks, ponchos)
+				
+				ex:	<TagFilters>
+						<Allow HasAll="Equipment, Torso, Outerwear" />
+					</TagFilters>
+					
+		Okay with these building blocks, what would some basic objects look like?
+		
+		Leather Pouch - Easy access general container
+						Holds like 4 apples MAX
+						Can't hold liquids
+						Can be fastened to a belt
+		
+		ex:	<LeatherPouch DisplayName="Leather Pouch" Tags="">
+				<PhysicalProperties Mass="" Volume=""/>
+				<Vessel MaxMass="" MaxVolume=""/>
+				<Fastenable/>
+			</LeatherPouch>
+			
+			<Apple DisplayName="Apple">
+				<PhysicalProperties Mass="" Volume=""/>
+				<Consumable/> // Consumable by default, consumes the entire Object, unless its a fluid, in which case you can customize the volume consumed per use, which defaults to 0.25L
+			</Apple>
+			
+			<Water DisplayName="Water">
+				<PhysicalProperties Mass="" IsFluid="true"/>
+				<Consumable ConsumedPerUse="0.25L"/>
+			</Water>
+			
+			<LeatherPouch Filename="">
+				<Contents>
+					<Apple Filename=""/>
+				<Contents/>
+			</LeatherPouch>
+			
+			<GlassVial Filename="">
+				<Contents>
+					<Water Volume="" Filename=""/>
+				<Contents/>
+			</GlassVial>
+		
+		
+		Herb Pouch (Very small bag, intended for herbs, can't hold liquids)
+		Player Equipment Loadout
+	-->
+	<!--	Slot SIZE? Instead of 'Num Slots?' Like how many apples can go in the slot?
+			EX:  About 15 Apples can fit in the 'Small Item Pouch', and maybe at MOST 20 lbs...
+				 Small Item Pouch, is a 'Vessel' with Capacity_mg="" Capacity_g="" Capacity_Kg="" 
+				
+				 Small Item Pouch - MaxMass = "10 kg", MaxVolume = "3 L"
+				 Apple (100 g) (200 mL)
+				 By MASS, you could fit 100 Apples in the Small Item Pouch
+				 buut because of the VOLUME limitation, you can only fit 15
+				 
+				 MassLimit = "10kg" VolumeLimit = "3L"
+				
+				 "Small" items are measured in Milligrams
+				 "Medium" items are measured in Grams
+				 "Large" items are measured in Kilograms
+				 
+				 Slots can have "Weight Limits" (mg/g/Kg) and "Volume Capacity" (mL/L)
+				 Eye Drop Bottle (15 mL)
+				 Item Pouch (10 kg) (3L)
+				 
+	-->
+
+	<!-- Item Containers-->
+		<!-- Where Items are Held. An Array of Item Slots. Their Capacity is defined by the SLOTS-->
+	
+	<!-- Item Slots-->
+		<!-- Items are put into Containers, but slotting them into SLOTS-->
+		<!-- A Slot can specify what TYPES of items are Valid to Slot in-->
+				<!--Type			- Only allows Items of the Specified Type (ex: Type="Equipable")-->
+				<!--RequiredTags	- ItemTags that MUST exist on the Item for it to be slotted (ex: RequiredTags="Ingredient, Toxic")-->
+				<!--ValidSizes		- Items MUST be one of these sizes to be slotted (ex: ValidSizes="VerySmall, Small")-->
+	
+	<!-- Item Types-->
+
+		<!-- An Item Type bestows Actions to an Item that are available when you OWN that item-->
+	
+		<!-- An Item can have MULTIPLE Item Types, but an Item SLOT can either have NO Type, or ONE Type-->
+	
+		<!-- Item Slots with a TYPE can only slot items of that TYPE 
+			 (item still needs to pass TAG filters if they exist-->
+	
+		<!-- Item Slots with NO type can carry ANY TYPE of item 
+			 (but can still filter by TAG)-->
+	
+		<!-- Equipable -	Bestows the 'Equip' Action. An item can be 'Equipped' if there is
+							an open 'Equipment' slot that is a valid destination.
+							(passes filters such as size/tags/types). 
+						 
+							'Equipables' are conceptually things that you are wearing, that give
+							you passive effects, like more defense, protection from the cold,
+							etc.. (ex: Clothing, Armor, Jewelry)
+							
+							You can specify 'OnEquip' and 'OnUnEquip' Actions, which are
+							good hooks for Stat Changes-->
+	
+		<!-- Fastenable -	Bestows the 'Fasten' Action. An item can be 'Fastened' if there is
+							an open 'Fasten' slot that is a valid destination.
+							(passes filters such as size/tags/types). 
+						 
+							Conceptually, something is 'Fastenable' if it can be reasonably strapped
+							to something else, like a Wine Bag being tied to a saddle with a strap,
+							or a small pouch being strapped to a belt with a cord.
+						 
+							'Fasten' Slots are specified on a Container Item that you want to be able to
+							strap things to, and like other Slot Types can be limited by Tag and Size.
+						 
+							(ex:	Leather Belt (Container) with a (Fasten Point) Slot that allows
+									'Small' or 'Very Small' Strappable items, so something like a 
+									small money pouch and a small herb bag can be strapped to the belt.-->
+	
+		<!-- Consumable -	Bestows the 'Consume' Action. An item can be 'Consumed' from an owned
+						    container, or a container being looted, if the player is not 'in danger'.
+							If the player is 'in danger', the item can only be consume if it is in hand.-->
+
+		<!-- Container Types-->
+		<!-- Sources/Vessels/Fluids -
+		
+							Sources and Vessels:
+							
+							Bestows the 'Fill' and 'Empty' Actions. A Vessel item is also required to
+							be a container. A Vessel can be 'Filled' or 'Emptied' at a 'Source' or it itself can
+							'Fill' or 'Empty' in to other Vessels.
+							
+							A Source can 'Fill' a Vessel, or allow a Vessel to be emptied into it.  A Sources
+							contents is defined in data and never depleted, whereas a Vessels contents is defined
+							by what it is filled with.
+							
+							A Fluid is a special item type that can only be contained by Vessels.
+							Conceptually meant for actual fluids, but could also be used for things like. 
+							
+							When holding a 'Vessel' and interacting with a 'Vessel' you can get either an 'Empty'
+							prompt, a 'Fill' prompt, or no prompt at all depending on the state of the vessels.
+							Contents can be MIXED.  The result 
+							
+							Scenarios:
+									Your Vessel is Empty, Other Vessel is Not Empty
+										If Other Vessel can FILL your Vessel
+													   will DEPLETE Other Vessel	 : "Empty <Other Vessel Name> into <Your Vessel Name>"
+																					 : "Empty Leather Flask into Tankard"
+																
+											           will NOT deplete Other Vessel : "Fill <Your Vessel> with <Other Vessel>
+																					 : "Fill Tankard with Leather Flask
+																					 
+										 If Other Vessel CANNOT fill your Vessel
+																					 : "Empty <Other Vessel> into <Your Vessel Name>"
+																					 
+									Your Vessel NOT Empty, Other Vessel NOT Empty
+										ABOVE +
+										If YOUR Vessel can FILL other Vessel		: "Fill <Other Vessel> with <Your Vessel>
+													   CANNOT FILL				    : "Empty <Your Vessel> into <Other Vessel>
+											
+																					
+										If Other Vessel CANNOT fill your Vessel:		"Empty <Other Vessel Name> into <Your Vessel Name> (Other Vessel Contents)"
+																					ex: "Empty Cup into Flask (Water)"
+																					
+									Your Vessel is Not Empty, Other Vessel is Not Empty (Same Contents)
+										If Other Vessel can FILL your Vessel, you get: "Fill <Your Vessel Name>"
+																					ex: "Fill Flask"
+										If 
+							
+							When holding a 'Vessel' and interacting with a 'Source' you get the 'Empty' prompt
+							if the vessel is not already empty, and the 'Fill' prompt if the vessel is not
+							already full.  Sources cannot be depleted.
+							
+							(ex:	A 'Water Well' Point of Interest is Marked as a 'Source' of the Item 'Water'
+									when interacting with the Well, while holding a Leather Flask 'Vessel' Item
+									you can either 'Fill' an empty flask, or 'Empty' a non-empty flask into the
+									well. A 'Source' will never deplete.
+									
+									A Wine Bag 'Vessel' Item has 4 Slots, which is four servings of wine for a
+									full bag. A Wine Glass 'Vessel' has 1 Slot.  If the Wine Bag is full and you
+									are holding an empty Wine Glass, Interacting with the Wine Bag from a looting
+									container or your inventory will give you the 'Fill' prompt, which would
+									remove 1 Slot of Wine from the Wine Bag, and add it to the Wine Glass.
+									
+									You would not have the 'Empty' prompt, because the Destination Vessel could
+									not hold the amount necessary to 'Empty' the Source Vessel-->
+
+</AvalonData>
+
+

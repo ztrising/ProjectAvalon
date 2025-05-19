@@ -1,0 +1,17 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position anchorH="Right" anchorV="Bottom" pivotX='1' pivotY='1' x='-28' y='-1'/>
+		<BufferLayer>
+			<Color BG="Black" FG="Black"/>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$/$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>/$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>\$$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+			<RowTxt>$\$$$$$$$$$$$$$$$$$$$$$</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

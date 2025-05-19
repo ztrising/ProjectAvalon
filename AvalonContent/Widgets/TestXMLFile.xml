@@ -1,0 +1,93 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position ViewportRelative="true" anchorV="Top" anchorH="Left" pivotX='0' pivotY='0' x='0' y='0'/>
+		<BufferLayer> <!-- Top Invisible Box-->
+			<Position anchorV="Top" anchorH="Left" pivotX='0' pivotY='0' x='0' y='0'/>
+			<Color BG="Black" FG="Black" FillChar="T"/>
+			<Fill FillY='4'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Bottom Invisible Box -->
+			<Position anchorV="Bottom" anchorH="Left" pivotX='0' pivotY='1' x='0' y='0'/>
+			<Color BG="Black" FG="Black" FillChar="T"/>
+			<Fill FillY='2'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Left Invisible Box -->
+			<Position anchorV="Top" anchorH="Left"  pivotX='0' pivotY='0' x='0' y='0'/>
+			<Color BG="Black" FG="Black" FillChar="T"/>
+			<Fill FillX='17'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Right Invisible Box -->
+			<Position anchorV="Top" anchorH="Right"  pivotX='1' pivotY='0' x='0' y='0'/>
+			<Color BG="Black" FG="Black" FillChar="T"/>
+			<Fill FillX='17'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Left Frame Piece -->
+			<Position anchorV="Top" anchorH="Left"  pivotX='0' pivotY='0' x='5' y='0'/>
+			<Color BG="Black" FG="White" FillChar="|"/>
+			<Fill FillX='2'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Left Frame Piece -->
+			<Position anchorV="Top" anchorH="Left"  pivotX='0' pivotY='0' x='15' y='0'/>
+			<Color BG="Black" FG="White" FillChar="|"/>
+			<Fill FillX='2'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Right Frame Piece -->
+			<Position anchorV="Top" anchorH="Right"  pivotX='1' pivotY='0' x='-5' y='0'/>
+			<Color BG="Black" FG="White" FillChar="|"/>
+			<Fill FillX='2'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Right Frame Piece -->
+			<Position anchorV="Top" anchorH="Right"  pivotX='1' pivotY='0' x='-15' y='0'/>
+			<Color BG="Black" FG="White" FillChar="|"/>
+			<Fill FillX='2'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Top Frame Piece -->
+			<Position anchorV="Top" anchorH="Left"  pivotX='0' pivotY='0' x='0' y='1'/>
+			<Color BG="Black" FG="White" FillChar="="/>
+			<Fill FillY='1'/>
+		</BufferLayer>
+		<BufferLayer> <!-- Top Frame Piece -->
+			<Position anchorV="Top" anchorH="Left"  pivotX='0' pivotY='0' x='0' y='3'/>
+			<Color BG="Black" FG="White" FillChar="="/>
+			<Fill FillY='1'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Position anchorH="Left" anchorV="Top" pivotX='0' pivotY='0' x='0' y='0'/>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>| ____________________ |</RowTxt>
+			<RowTxt>| |                  | |</RowTxt>
+			<RowTxt>| |  Top Left        | |</RowTxt>
+			<RowTxt>| |__________________| |</RowTxt>
+			<RowTxt>|______________________|</RowTxt>
+		</BufferLayer>
+		<BufferLayer>
+			<Position anchorH="Right" anchorV="Top" pivotX='1' pivotY='0' x='0' y='0'/>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>| ____________________ |</RowTxt>
+			<RowTxt>| |                  | |</RowTxt>
+			<RowTxt>| |  Top Right       | |</RowTxt>
+			<RowTxt>| |__________________| |</RowTxt>
+			<RowTxt>|______________________|</RowTxt>
+		</BufferLayer>
+		<BufferLayer>
+			<Position anchorH="Left" anchorV="Bottom" pivotX='0' pivotY='1' x='0' y='0'/>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>_______________________ </RowTxt>
+			<RowTxt>| ____________________ |</RowTxt>
+			<RowTxt>| |                  | |</RowTxt>
+			<RowTxt>| |  Bottom Left     | |</RowTxt>
+			<RowTxt>| |__________________| |</RowTxt>
+			<RowTxt>|______________________|</RowTxt>
+		</BufferLayer>
+		<BufferLayer>
+			<Position ViewportRelative="true" anchorH="Right" anchorV="Bottom" pivotX='1' pivotY='1' x='0' y='0'/>
+			<Color BG="Black" FG="White"/>
+			<RowTxt>_______________________ </RowTxt>
+			<RowTxt>| ____________________ |</RowTxt>
+			<RowTxt>| |                  | |</RowTxt>
+			<RowTxt>| |  Bottom Right    | |</RowTxt>
+			<RowTxt>| |__________________| |</RowTxt>
+			<RowTxt>|______________________|</RowTxt>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

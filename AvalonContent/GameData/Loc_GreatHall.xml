@@ -1,0 +1,54 @@
+<AvalonData>
+	<GreatHall	DisplayName="Great Hall"
+				Description="A great big expanse of a room.  Hearth in the center.">
+		
+		<LevelActors> 
+			<!-- The Actors in the Room -->
+			<Door	DisplayName="Door Example"
+					Description="This is a door. It goes places.">
+				<Portal PathID="Archway" Prompt="Head to the Kitchen"/>
+			</Door>
+			<BluePortal DisplayName="Swirling Portal"
+						Description="A swirling blue portal shimmers in the room">
+				<Portal PathID="EastCorridor" Prompt="Head to the Laboratory"/>
+			</BluePortal>
+
+			<!-- The "Floor" -->
+			<TheFloor	DisplayName="The Floor"
+						Description="There are things scattered on the floor...">
+				<ItemContainer>
+					<Contents>
+						<HerbBag	DisplayName="Herb Pouch"
+									Description="A Small Leather Pouch for Holding Things">
+							<Equipable Slot="Fastener"/>
+							<ItemContainer>
+								<Contents>
+									<Apple	DisplayName="Apple"
+											Description="A Juicy Apple">
+										<Lootable/>
+									</Apple>
+								</Contents>
+							</ItemContainer>>
+						</HerbBag>
+						<LeatherBelt  DisplayName="Worn Leather Belt"
+									  Description="Hold Thyne Trousers Aloft">
+							<Equipable Slot="Waist"/>
+							<Equipment>
+								<Fastener Capacity="3"/>
+							</Equipment>
+						</LeatherBelt>
+						<ItemPouch  DisplayName="Leather Pouch"
+									Description="A Small Leather Pouch for Holding Things">
+							<Equipable Slot="Fastener"/>
+							<ItemContainer/>
+						</ItemPouch>
+					</Contents>
+				</ItemContainer>
+			</TheFloor>
+		</LevelActors>
+	</GreatHall>
+</AvalonData>
+
+
+
+l

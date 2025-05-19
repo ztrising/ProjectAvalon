@@ -1,0 +1,8 @@
+<AvalonData>
+    <Containers>
+        <ItemPouch DisplayName="Item Pouch">
+            <Item FileName="Item_Apple.xml"/>
+            <Item FileName="Item_SteelSword.xml"/>
+        </ItemPouch>
+    </Containers>
+</AvalonData>

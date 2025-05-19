@@ -1,0 +1,28 @@
+<AvalonData>
+	<AvalonVisElement>
+		<Position ViewportRelative="false" anchorV="Center" anchorH="Right"  pivotX='1' pivotY='.5' x='-20' y='0'/>
+		<BufferLayer>
+			<Color BG="Black" FG="Yellow" FillChar=" "/>
+			<Fill FillX='50' FillY='15'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Color BG="Black" FG="Yellow" FillChar="#"/>
+			<Fill FillX='75' FillY='1'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Position ViewportRelative="true" x='0' y='3'/>
+			<Color BG="Black" FG="Yellow" FillChar="#"/>
+			<Fill FillX='1' FillY='11'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Position ViewportRelative="true" x='0' y='14'/>
+			<Color BG="Black" FG="Yellow" FillChar="#"/>
+			<Fill FillX='75' FillY='1'/>
+		</BufferLayer>
+		<BufferLayer>
+			<Position ViewportRelative="true" x='49' y='0'/>
+			<Color BG="Black" FG="Yellow" FillChar="#"/>
+			<Fill FillX='1' FillY='15'/>
+		</BufferLayer>
+	</AvalonVisElement>
+</AvalonData>

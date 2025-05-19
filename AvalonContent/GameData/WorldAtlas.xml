@@ -1,0 +1,67 @@
+<AvalonData>
+	<World>
+		<Regions>
+			<Kaedwen   Filename="Region_Kaedwen.xml" DisplayName="Kaedwen">
+				<Areas>
+					<KaerMorhen	   Filename="Area_KaerMorhen.xml" DisplayName="Kaer Morhen">
+						<Locations>
+							<GreatHall   Filename="Loc_GreatHall.xml"	DisplayName="The Great Hall"/>
+							<Kitchen	 Filename="Loc_Kitchen.xml"		DisplayName="Kitchen"/>
+							<Laboratory	 Filename="Loc_Laboratory.xml"	DisplayName="Laboratory"/>
+							<Armory		 Filename="Loc_Armory.xml"		DisplayName="Armory"/>
+							<FortYard	 Filename="Loc_FortYard.xml"	DisplayName="Training Yard"/>
+							<TrollCave   Filename="Loc_TrollCave.xml"	DisplayName="Troll Cave"/>
+						</Locations>
+						<Connections>
+							<Archway		Distance="50"
+											PointA="GreatHall"	PointB="Kitchen"/>
+							<EastCorridor	
+											Distance="2"
+											PointA="GreatHall"	PointB="Laboratory"/>
+							<NorthCorridor	PointA="GreatHall"	PointB="Armory"/>
+							<GreatDoor		PointA="GreatHall"	PointB="FortYard"/>
+							<CraggyPath		Distance="50"
+											PointA="FortYard"	PointB="TrollCave">
+								<MountainWolves Chance=".25"/>
+							</CraggyPath>
+						</Connections>
+					</KaerMorhen>
+					<OldCamp>
+						<Locations>
+							<Clearing	 Filename="Loc_Clearing.xml"/>
+							<Riverbed	 Filename="Loc_Riverbed.xml"/>
+						</Locations>
+						<Connections>
+							<PathThroughReeds	Distance ="1"
+												PointA="Clearing"	PointB="Riverbed">
+								<Drowners Chance=".5"/>
+							</PathThroughReeds>
+						</Connections>
+					</OldCamp>
+					<SmallVillage	 Filename="Area_Village.xml">
+						<Locations>
+							<Outskirts		Filename="KWN_SV_Outskirts.xml"/>
+							<VillageCenter	Filename="KWN_SV_VillageCenter.xml"/>
+						</Locations>
+					</SmallVillage>
+				</Areas>
+				<Connections>
+					<MountainRoad	Distance="30"
+									PointA="KaerMorhen.FortYard" PointB="OldCamp.Clearing"/>
+
+					<RiverPath		Distance="30"
+									PointA="OldCamp.Riverbed"	 PointB="Village.Outskirts"/>
+				</Connections>
+			</Kaedwen>
+			<Redania	Filename="Region_Redania.xml"/>
+			<Temeria	Filename="Region_Temeria.xml"/>
+		</Regions>
+		<Connections>
+			<RavineOfTheHydra	Distance="30"	
+								PointA="Kaedwen.KaerMorhen.PracticeYard"		
+								PointB="Redania.TestArea.TestLoc"/>
+		</Connections>
+	</World>
+</AvalonData>
+
+

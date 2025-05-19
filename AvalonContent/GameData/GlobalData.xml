@@ -1,0 +1,12 @@
+<AvalonData>
+	<StatusEffects>
+		<Hunger PeriodInHours="2">
+			<StatDamage StatID="Hunger" Damage="1"/>
+		</Hunger>
+		<Thirst PeriodInHours="2">
+			<StatDamage StatID="Hydration" Damage="1"/>
+		</Thirst>
+	</StatusEffects>
+</AvalonData>
+
+

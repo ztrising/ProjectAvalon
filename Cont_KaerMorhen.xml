@@ -1,0 +1,13 @@
+<AvalonData>
+    <Containers>
+        <Cupboard DisplayName="Cupboard">
+            <Item FileName="Item_Apple.xml"/>
+            <Item FileName="Item_Apple.xml"/>
+            <Item FileName="Item_Apple.xml"/>
+            <Item FileName="Item_SilverSword.xml"/>
+        </Cupboard>
+        <Lockbox DisplayName="Lockbox">
+            <Item FileName="Item_EstEst.xml"/>
+        </Lockbox>
+    </Containers>
+</AvalonData>

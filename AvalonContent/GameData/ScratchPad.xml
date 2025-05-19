@@ -1,0 +1,189 @@
+<AvalonData>
+	<SmallCottage	DisplayName="Small Cottage"
+					Description="A cozy, single-room wooden house.">
+		
+		<LevelActors> 
+			<!-- The Actors in the Room -->
+			<Hearth	DisplayName="Stone Hearth"
+					Description="A simple stone wood-burning hearth.">
+				<Appearance>
+					<Default>
+						Muffled sound filters in through the cracked chamber door.
+						Pans clashing, laughter, the activity of Kaer Morhen.
+					</Default>
+				</Appearance>
+				<ItemContainer>
+					<Contents>
+						<Cauldron	DisplayName="Cauldron"
+									Description="A pot for cooking things!">
+							<ItemContainer>
+								<Contents>
+									<Apple	DisplayName="Apple"
+											Description="A Juicy Apple">
+										<Lootable/>
+									</Apple>
+								</Contents>
+							</ItemContainer>>
+						</Cauldron>
+						<LeatherBelt  DisplayName="Worn Leather Belt"
+									  Description="Hold Thyne Trousers Aloft">
+							<Equipable Slot="Waist"/>
+							<Equipment>
+								<Fastener Capacity="3"/>
+							</Equipment>
+						</LeatherBelt>
+						<ItemPouch  DisplayName="Leather Pouch"
+									Description="A Small Leather Pouch for Holding Things">
+							<Equipable Slot="Fastener"/>
+							<ItemContainer/>
+						</ItemPouch>
+					</Contents>
+				</ItemContainer>
+			</Hearth>
+
+			<Door	DisplayName="Wooden Door"
+					Description="A wooden door in an iron frame.">
+				<Portal ID="Doorway" Prompt="Head outside."/>
+				<Appearance>
+					<Default>
+						Muffled sound filters in through the cracked chamber door.
+						Pans clashing, laughter, the activity of Kaer Morhen.
+					</Default>
+				</Appearance>
+			</Door>
+
+			<StorageTrunk	DisplayName="Old Trunk"
+							Desc="An old and worn trunk.  It no longer locks, but it holds your belongings just fine.">
+				<Inspect>
+					<Day>
+						Muffled sound filters in through the cracked chamber door.
+						Pans clashing, laughter, the activity of Kaer Morhen.
+					</Day>
+					<Night>
+
+					</Night>
+				</Inspect>
+				
+			</StorageTrunk>
+			
+			<BluePortal DisplayName="Swirling Portal"
+						Description="A swirling blue portal shimmers in the room">
+				<Portal ID="Archway" Prompt="Head to the Kitchen"/>
+			</BluePortal>
+
+			<!-- The "Floor" -->
+			<TheFloor	DisplayName="The Floor"
+						Description="There are things scattered on the floor...">
+				<ItemContainer>
+					<Contents>
+						<HerbBag  DisplayName="Herb Pouch"
+									Description="A Small Leather Pouch for Holding Things">
+							<Equipable Slot="Fastener"/>
+							<ItemContainer>
+								<Contents>
+									<Apple	DisplayName="Apple"
+											Description="A Juicy Apple">
+										<Lootable/>
+									</Apple>
+								</Contents>
+							</ItemContainer>>
+						</HerbBag>
+						<LeatherBelt  DisplayName="Worn Leather Belt"
+									  Description="Hold Thyne Trousers Aloft">
+							<Equipable Slot="Waist"/>
+							<Equipment>
+								<Fastener Capacity="3"/>
+							</Equipment>
+						</LeatherBelt>
+						<ItemPouch  DisplayName="Leather Pouch"
+									Description="A Small Leather Pouch for Holding Things">
+							<Equipable Slot="Fastener"/>
+							<ItemContainer/>
+						</ItemPouch>
+					</Contents>
+				</ItemContainer>
+			</TheFloor>
+		</LevelActors>
+	</SmallCottage>
+
+
+	<SpecialDelivery DisplayName="Special Delivery" Desc="Deliver the parcel to Anna in the Village">
+		<SuccessConditions>
+			<AtLocation />
+			<HasItem />
+		</SuccessConditions>
+		<FailureConditions>
+			<AtLocation />
+			<HasItem />
+		</FailureConditions>
+		<SubQuests>
+			<TravelTo Destination="Village"  TaskRequired="false" />
+			<!-- Acquire info on Anna's whereabouts-->
+			<MoveItemTo  Item="Parcel" DestinationActor="Anna" TaskRequired="true"/>
+		</SubQuests>
+		<OnStarted>
+			<!-- Journal Entry:  Eskel wants me to deliver this package.  Annoying.-->
+		</OnStarted>
+		<OnCompleted>
+			<!-- Journal Entry:  Well that took longer than expected.-->
+		</OnCompleted>
+	</SpecialDelivery>
+	
+	<QuestCompleter>
+		<QuestExample>
+			<HasItem ItemName="Parcel"/>
+		</QuestExample>
+	</QuestCompleter>
+	
+	<!--
+	So!  Journal Entry:
+	
+	I've been so excited I haven't had time to feel overwhelmed. I feel it now.
+	I know I should pack light, Eskel says its easy enough to earn a belly full
+	of stew, but I shouldn't be unprepared for a bit of camping..
+	
+	How much is too much?
+	
+	Leaving a Level:
+	-Save the Level you are Leaving
+	-Save the PLAYER
+	-Load the Level you are going to
+	
+	Dawning		(sunup)			[3-7)
+	Forenoon	(morning)		[7-11)
+	Noontide	(midday)		[11-3)
+	Eventide	(evening)		[3-7)
+	Gloaming	(sundown)		[7-11)
+	Fulldark	(night)			[11-3)
+	
+	  
+  _______________________________
+ |  __________________________  /
+ |  |	                     / / 
+ |  |  ~*~  KAEDWEN  ~*~    / /	
+ |  |	                    \ \
+ |  |________________________\ \
+ |______________________________\
+ 
+   _______________________________
+ |  __________________________  /
+ |  |	                     / / 
+ |  |  ~*~  KAEDWEN  ~*~    / /	
+ |  |	                    \ \
+ |  |________________________\ \
+ |______________________________\
+ 
+ 
+  | |               |
+  | |              |  
+  \ V /\ V / \ V / 
+   \_/  \_/   \_/
+ 
+ 
+ 
+ 
+	-->
+</AvalonData>
+
+
+
