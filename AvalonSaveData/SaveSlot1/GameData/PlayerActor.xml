@@ -1,6 +1,6 @@
 <AvalonData>
     <Player Tags="" DisplayName="" Description="">
-        <Traveller PathID="Archway" Save="Location" Progress="1"/>
+        <Traveller PathID="EastCorridor" Save="Location" Progress="1"/>
         <Looter/>
         <Meditator/>
         <Equipment>
@@ -20,11 +20,7 @@
                             <HerbBag Tags="" DisplayName="Herb Pouch" Description="A Small Leather Pouch for Holding Things">
                                 <Equipable Slot="Fastener"/>
                                 <ItemContainer>
-                                    <Contents>
-                                        <Apple Tags="" DisplayName="Apple" Description="A Juicy Apple">
-                                            <Lootable/>
-                                        </Apple>
-                                    </Contents>
+                                    <Contents/>
                                 </ItemContainer>
                             </HerbBag>
                         </Fastener>
@@ -40,7 +36,7 @@
                 <MaxValue BaseValue="100"/>
                 <Regen BaseValue="0"/>
             </Health>
-            <Hunger CurrentValue="0">
+            <Hunger CurrentValue="100">
                 <MinValue BaseValue="0"/>
                 <MaxValue BaseValue="100"/>
                 <Regen BaseValue="-1"/>
@@ -50,7 +46,7 @@
                 <MaxValue BaseValue="100"/>
                 <Regen BaseValue="0"/>
             </Stamina>
-            <Thirst CurrentValue="0">
+            <Thirst CurrentValue="100">
                 <MinValue BaseValue="0"/>
                 <MaxValue BaseValue="100"/>
                 <Regen BaseValue="-1"/>

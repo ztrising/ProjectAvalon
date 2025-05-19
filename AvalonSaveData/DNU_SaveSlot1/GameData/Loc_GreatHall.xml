@@ -10,16 +10,9 @@
             <TheFloor Tags="" DisplayName="The Floor" Description="There are things scattered on the floor...">
                 <ItemContainer>
                     <Contents>
-                        <HerbBag Tags="" DisplayName="Herb Pouch" Description="A Small Leather Pouch for Holding Things">
-                            <Equipable Slot="Fastener"/>
-                            <ItemContainer>
-                                <Contents>
-                                    <Apple Tags="" DisplayName="Apple" Description="A Juicy Apple">
-                                        <Lootable/>
-                                    </Apple>
-                                </Contents>
-                            </ItemContainer>
-                        </HerbBag>
+                        <Apple Tags="" DisplayName="Apple" Description="A Juicy Apple">
+                            <Lootable/>
+                        </Apple>
                     </Contents>
                 </ItemContainer>
             </TheFloor>

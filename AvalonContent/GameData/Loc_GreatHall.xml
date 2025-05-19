@@ -42,6 +42,10 @@
 							<Equipable Slot="Fastener"/>
 							<ItemContainer/>
 						</ItemPouch>
+						<SilverSword	DisplayName="Silver Sword"
+								Description="A Silver Sword">
+							<Equipable Slot="Hands"/>
+						</SilverSword>
 					</Contents>
 				</ItemContainer>
 			</TheFloor>
