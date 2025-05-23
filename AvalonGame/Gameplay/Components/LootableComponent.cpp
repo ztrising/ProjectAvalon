@@ -9,6 +9,8 @@
 #include "../Actor/PlayerActor.h"
 #include "../Actor/LevelActor.h"
 
+#include "../AvalonGameState.h"
+
 #include <algorithm>
 #include <iterator>
 
@@ -27,18 +29,19 @@ void Lootable::Save(FSaveContext& Context)
     // TODO:    mOnRemoved
 }
 
-void Lootable::GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions)
+void Lootable::GatherActionsFor(const AvalonActor* Target, ActionList& OutActions)
 {
-    AvalonActor* Actor = Target.Get<AvalonActor>();
-    std::vector<IContainer*> Containers;
-    Actor->GatherContainers(Containers);
+    ContainerList Containers;
+    Target->GatherContainers(Containers);
 
     // TODO:  Prevent dropping while travelling?
     // The "drop" option!
     AvalonActor* OuterActor = GetActorOwner();
-    if (OuterActor->IsOwnedBy(PlayerActor::mPlayer->GetSelfHandle()))
+    LevelActor* CurrentLevel = AvalonGameState::GetCurrentLevel();
+    AvalonActor* Player = AvalonGameState::GetPlayerActor();
+    if (OuterActor->IsOwnedBy(Player))
     {
-        if (IContainer* FloorContainer = LevelActor::mCurrentLevel->GetFloorContainer())
+        if (IContainer* FloorContainer = CurrentLevel->GetFloorContainer())
         {
             Containers.push_back(FloorContainer);
         }
@@ -47,12 +50,11 @@ void Lootable::GatherActionsFor(const FUnitHandle& Target, ActionList& OutAction
     for (IContainer* Container : Containers)
     {
         AvalonActor* ContainerActor = Container->GetActorOwner();
-        if (ContainerActor->IsOwnedBy(GetActorOwnerHandle()))
+        if (ContainerActor->IsOwnedBy(OuterActor))
         {
             continue; //Can't put myself, inside myself
         }
-
-        if (Container->CanAddToContainer(GetActorOwnerHandle()))
+        if (Container->CanAddToContainer(OuterActor))
         {
             AvalonAction* NewMove = new AvalonAction();
 
@@ -62,8 +64,11 @@ void Lootable::GatherActionsFor(const FUnitHandle& Target, ActionList& OutAction
             Effect->mDestination = Container;
             Effect->mLoot = this;
 
-            NewMove->mContext.mSource = GetActorOwnerHandle();
-            NewMove->mContext.mTarget = Target;
+            HardUnitRef SourceRef = OuterActor->GetSelfRef();
+            HardUnitRef TargetRef = Target->GetSelfRef();
+
+            NewMove->mContext.mSource = SourceRef;
+            NewMove->mContext.mTarget = TargetRef;
 
             OutActions.push_back(NewMove);
         }
@@ -74,9 +79,12 @@ void Lootable::OnAdded(IContainer* Container)
 {
     mIsWithin = Container;
 
+    HardUnitRef SourceRef = GetActorOwner()->GetSelfRef();
+    HardUnitRef TargetRef = Container->GetActorOwner()->GetSelfRef();
+
     // Run "On Added" actions!
-    mOnAdded.mContext.mSource = GetActorOwnerHandle();                 // Lootable Actor is the Source
-    mOnAdded.mContext.mTarget = Container->GetActorOwnerHandle();      // Container Actor is the Target
+    mOnAdded.mContext.mSource = SourceRef;  // Lootable Actor is the Source
+    mOnAdded.mContext.mTarget = TargetRef;  // Container Actor is the Target
     mOnAdded.Execute();
 }
 
@@ -84,13 +92,16 @@ void Lootable::OnRemoved(IContainer* Container)
 {
     mIsWithin = nullptr;
 
+    HardUnitRef SourceRef = GetActorOwner()->GetSelfRef();
+    HardUnitRef TargetRef = Container->GetActorOwner()->GetSelfRef();
+
     // Run "On Removed" actions!
-    mOnRemoved.mContext.mSource = GetActorOwnerHandle();               // Lootable Actor is the Source
-    mOnRemoved.mContext.mTarget = Container->GetActorOwnerHandle();    // Container Actor is the Target
+    mOnRemoved.mContext.mSource = SourceRef;    // Lootable Actor is the Source
+    mOnRemoved.mContext.mTarget = TargetRef;    // Container Actor is the Target
     mOnRemoved.Execute();
 }
 
-std::string Lootable::GenerateMoveActionString( const FUnitHandle& Looter
+std::string Lootable::GenerateMoveActionString( const AvalonActor* Looter
                                               , IContainer* Destination)
 {
     std::string RetString;
@@ -113,7 +124,8 @@ std::string Lootable::GenerateMoveActionString( const FUnitHandle& Looter
     }
     else
     {
-        if (Destination == LevelActor::mCurrentLevel->GetFloorContainer())
+        LevelActor* CurrentLevel = AvalonGameState::GetCurrentLevel();
+        if (Destination == CurrentLevel->GetFloorContainer())
         {
             RetString = "Drop " + MyName;
         }
@@ -128,60 +140,61 @@ std::string Lootable::GenerateMoveActionString( const FUnitHandle& Looter
 
 void Lootable::MoveTo(IContainer* NewContainer)
 {
-    FUnitHandle Lootable = GetActorOwnerHandle();
-    AvalonActor* LootableActor = Lootable.Get<AvalonActor>();
+    AvalonActor* LootableActor = GetActorOwner();
 
     // Store the chain of owners pre-move
-    std::vector<FUnitHandle> OldOwners;
-    Lootable.Get<AvalonActor>()->GatherOwners(OldOwners);
-    std::sort(OldOwners.begin(), OldOwners.end(), [](auto& a, auto& b) { return a.Get() < b.Get(); });
+    ActorList OldOwners;
+    LootableActor->GatherOwners(OldOwners);
+    std::sort(OldOwners.begin(), OldOwners.end(), [](auto& a, auto& b) { return a < b; });
 
-    bool WasOwnedByPlayer = LootableActor->IsOwnedBy(PlayerActor::mPlayerHandle);
+    AvalonActor* PlayerActor = AvalonGameState::GetPlayerActor();
+    bool WasOwnedByPlayer = LootableActor->IsOwnedBy(PlayerActor);
 
     // First! Remove it From where it is
     if (mIsWithin)
     {
-        mIsWithin->RemoveFromContainer(Lootable);
+        HardUnitRef LootableActorRef = LootableActor->GetSelfRef();
+        mIsWithin->RemoveFromContainer(LootableActorRef);
     }
 
     //Next! Add it to where it is going
-    NewContainer->AddToContainer(Lootable);
+    NewContainer->AddToContainer(LootableActor);
 
     // Get the new chain of owners post move
-    std::vector<FUnitHandle> NewOwners;
-    Lootable.Get<AvalonActor>()->GatherOwners(NewOwners);
-    std::sort(NewOwners.begin(), NewOwners.end(), [](auto& a, auto& b) { return a.Get() < b.Get(); });
+    ActorList NewOwners;
+    LootableActor->GatherOwners(NewOwners);
+    std::sort(NewOwners.begin(), NewOwners.end(), [](auto& a, auto& b) { return a < b; });
 
     // Do some vector math to tell the owners that lost
     // ownership that that happened.  And similarly
     // those who gained ownership that THAT happened.
     // AND this makes sure that parent owners where
     // ownership didn't change, don't get notified.  TREES!
-    std::vector<FUnitHandle> RemovedOwners;
+    ActorList RemovedOwners;
     std::set_difference(OldOwners.begin(), OldOwners.end(),
-        NewOwners.begin(), NewOwners.end(),
+                        NewOwners.begin(), NewOwners.end(),
         std::back_inserter(RemovedOwners),
-        [](auto& a, auto& b) { return a.Get() < b.Get(); });
+        [](auto& a, auto& b) { return a < b; });
 
-    for (FUnitHandle& Handle : RemovedOwners)
+    for (auto& Actor : RemovedOwners)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        if (Actor != nullptr)
         {
-            Actor->mOnItemRemoved.BroadcastEvent(Lootable);
+            Actor->mOnItemRemoved.BroadcastEvent(LootableActor);
         }
     }
 
-    std::vector<FUnitHandle> AddedOwners;
-    std::set_difference(NewOwners.begin(), NewOwners.end(),
-        OldOwners.begin(), OldOwners.end(),
+    ActorList AddedOwners;
+    std::set_difference( NewOwners.begin(), NewOwners.end(),
+                         OldOwners.begin(), OldOwners.end(),
         std::back_inserter(AddedOwners),
-        [](auto& a, auto& b) { return a.Get() < b.Get(); });
+        [](auto& a, auto& b) { return a < b; });
 
-    for (FUnitHandle& Handle : AddedOwners)
+    for (auto& Actor : AddedOwners)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        if (Actor != nullptr)
         {
-            Actor->mOnItemAdded.BroadcastEvent(Lootable);
+            Actor->mOnItemAdded.BroadcastEvent(LootableActor);
         }
     }
 }
@@ -213,9 +226,12 @@ void Equipable::OnAdded(IContainer* Container)
 {
     Lootable::OnAdded(Container);
 
+    HardUnitRef SourceRef = GetActorOwner()->GetSelfRef();
+    HardUnitRef TargetRef = Container->GetActorOwner()->GetSelfRef();
+
     // Run "On Equipped" actions!
-    mOnEquipped.mContext.mSource = GetActorOwnerHandle();              // Equipable Actor is the Source
-    mOnEquipped.mContext.mTarget = Container->GetActorOwnerHandle();   // Equip Slot Actor is the Target
+    mOnEquipped.mContext.mSource = SourceRef;   // Equipable Actor is the Source
+    mOnEquipped.mContext.mTarget = TargetRef;   // Equip Slot Actor is the Target
     mOnEquipped.Execute();
 }
 
@@ -223,8 +239,11 @@ void Equipable::OnRemoved(IContainer* Container)
 {
     Lootable::OnRemoved(Container);
 
+    HardUnitRef SourceRef = GetActorOwner()->GetSelfRef();
+    HardUnitRef TargetRef = Container->GetActorOwner()->GetSelfRef();
+
     // Run "On Equipped" actions!
-    mOnUnequipped.mContext.mSource = GetActorOwnerHandle();              // Equipable Actor is the Source
-    mOnUnequipped.mContext.mTarget = Container->GetActorOwnerHandle();   // Equip Slot Actor is the Target
+    mOnUnequipped.mContext.mSource = SourceRef;   // Equipable Actor is the Source
+    mOnUnequipped.mContext.mTarget = TargetRef;   // Equip Slot Actor is the Target
     mOnUnequipped.Execute();
 }

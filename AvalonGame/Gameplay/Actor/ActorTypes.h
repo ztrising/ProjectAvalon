@@ -8,22 +8,25 @@
 #include "../../AvalonUnit/AvalonUnit.h"
 
 class AvalonActor;
+typedef std::vector<AvalonActor*> ActorList;
 
-class IActorComponent : public ISaveable
+class IContainer;
+typedef std::vector<IContainer*> ContainerList;
+
+
+class IActorComponent : public ISaveable, public IAvalonUnit
 {
 public:
     virtual void Tick(float DeltaSeconds) {};
     virtual void AdvanceTime(long DeltaHours) {};
 
-    void SetActorOwner(const FUnitHandle Value) { mActorOwnerHandle = Value; }
-    FUnitHandle& GetActorOwnerHandle() { return mActorOwnerHandle;}
-    const FUnitHandle& GetActorOwnerHandleConst() const { return mActorOwnerHandle;}
-    AvalonActor* GetActorOwner() const { return mActorOwnerHandle.Get<AvalonActor>(); }
+    void SetActorOwner(const HardUnitRef Value) { mOwner = Value; }
+    AvalonActor* GetActorOwner() const { return Get<AvalonActor>(mOwner); }
     const AvalonActor* GetActorOwnerConst() const { return GetActorOwner(); }
-    FUnitHandle LoadChildActor(FSaveContext& Context);
+    void LoadChildActor(HardUnitRef& ChildActor, FSaveContext& Context);
 
 private:
-    FUnitHandle mActorOwnerHandle;
+    SoftUnitRef mOwner;
 };
 
 class ActorComponentFactory

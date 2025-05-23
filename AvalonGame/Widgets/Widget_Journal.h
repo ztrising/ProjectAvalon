@@ -15,7 +15,7 @@ public:
 	Widget_Journal();
 
 private:
-	FUnitHandle mJournalPage;
+	HardUnitRef mJournalPageRef;
 	void PopulateJournalPage();
 
 	void PopulateEntry(const FJournalEntry& Entry, int EntryNumber);

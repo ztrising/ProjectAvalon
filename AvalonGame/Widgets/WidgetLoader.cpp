@@ -497,13 +497,13 @@ void AssetLoaders::LoadVisualElement(const char* FileName, AvalonWidget* Element
 		bool IsAbsolute = false;
 		OffsetData->QueryBoolAttribute("ViewportRelative", &IsAbsolute);
 
-		if (IsAbsolute || !(Element->GetParent().IsValid()))
+		AvalonWidget* Parent = Element->GetParent();
+		if (IsAbsolute || Parent == nullptr)
 		{
 			OuterExtent = AvalonViewportManager::GetViewportManager().GetViewportSize();
 		}
 		else
 		{
-			AvalonWidget* Parent = Element->GetParent().Get<AvalonWidget>();
 			OuterExtent = Parent->mBuffer.GetSize();
 			OuterPos = Parent->mBuffer.GetPos();
 		}

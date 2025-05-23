@@ -23,7 +23,7 @@ public:
     void CloseContainer(class ContainerComponent* Container) {};
 
     FFrameBuffer* mBuffer = nullptr;
-    FUnitHandle mBaseWidget;
+    HardUnitRef mBaseWidget;
 
     void TickAnimation(float DeltaSeconds);
     void UpdateRenderState(bool& ForceRedraw);
@@ -51,7 +51,7 @@ public:
 
     // Widget Utils
 public:
-    FUnitHandle mFocusWidget;
+    SoftUnitRef mFocusWidget;
 
 public:
     FFrameBuffer* mDebugBuffer = nullptr;

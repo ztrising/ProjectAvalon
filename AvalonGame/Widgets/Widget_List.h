@@ -44,11 +44,11 @@ public:
 
 		for (unsigned int Index = 0; Index < NumElements; ++Index)
 		{
-			FUnitHandle NewHandle = AddChild<T>(WidgetAsset);
-			mListElements.push_back(NewHandle);
+			HardUnitRef NewWidget = AddChild<T>(WidgetAsset);
+			mListElements.push_back(NewWidget);
 		}
 
-		mElementDimensions = mListElements[0].Get<AvalonWidget>()->GetDimensions();
+		mElementDimensions = Get<AvalonWidget>(mListElements[0])->GetDimensions();
 
 		FCoord Dimensions;
 		Dimensions.X = mElementDimensions.X * mSettings.mMaxHorizontalElements;
@@ -60,7 +60,7 @@ public:
 		mBuffer.AllocateBuffer(Dimensions, AVALON_CHAR_TRANSPARENT, 0);
 
 		RepositionElements();
-		//RecalculatePosition();
+		//RecalculatePosition();  // TODO, was this necessary?
 	}
 
 	template<typename Predicate>
@@ -79,13 +79,13 @@ public:
 		unsigned int NumElements = mListElements.size();
 		for (unsigned int Index = 0; Index < NumElements; ++Index)
 		{
-			FUnitHandle& Handle = mListElements[Index];
-			RemoveChild<T>(Handle);
+			HardUnitRef WidgetRef = mListElements[Index];
+			RemoveChild<T>(WidgetRef);
 		}
 		mListElements.clear();
 	}
 
-	int GetElementIndex(const FUnitHandle& Handle);
+	int GetElementIndex(const HardUnitRef& WidgetRef);
 
 private:
 	void RepositionElements();
@@ -93,7 +93,7 @@ private:
 	FWidgetListSettings mSettings;
 	FCoord mElementDimensions;
 
-	std::vector<FUnitHandle> mListElements;
+	HardRefList mListElements;
 
 	/***************************************************************************************
 	*  Avalon Widget Interface

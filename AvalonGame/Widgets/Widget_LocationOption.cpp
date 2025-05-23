@@ -16,23 +16,24 @@ Widget_LocationOption::Widget_LocationOption()
 	mTextSettings.mJustified = ETextJustification::Left;
 }
 
-void Widget_LocationOption::SetActorHandle(FUnitHandle Handle)
+void Widget_LocationOption::SetLocationActorRef(HardUnitRef ActorRef)
 {
-	mActorHandle = Handle;
+	mLocationActorRef = ActorRef;
 
-	if (AvalonActor* Actor = mActorHandle.Get<AvalonActor>())
+	AvalonActor* Actor = Get<AvalonActor>(mLocationActorRef);
+	if (Actor != nullptr)
 	{
-		mText.Get<AvalonWidget>()->SetTextWithSettings(Actor->mDescription.c_str(), mTextSettings);
+		Get<AvalonWidget>(mTextWidgetRef)->SetTextWithSettings(Actor->mDescription.c_str(), mTextSettings);
 	}
 	else
 	{
-		mText.Get<AvalonWidget>()->SetTextWithSettings("Invalid Actor Handle", mTextSettings);
+		Get<AvalonWidget>(mTextWidgetRef)->SetTextWithSettings("Invalid Actor Handle", mTextSettings);
 	}
 }
 
 void Widget_LocationOption::SetLocationText(const char* Text)
 {
-	mText.Get<AvalonWidget>()->SetTextWithSettings(Text, mTextSettings);
+	Get<AvalonWidget>(mTextWidgetRef)->SetTextWithSettings(Text, mTextSettings);
 }
 
 /***************************************************************************************
@@ -41,23 +42,23 @@ void Widget_LocationOption::SetLocationText(const char* Text)
 void Widget_LocationOption::Construct(const char* WidgetAsset)
 {
 	Widget_ToggleButton::Construct("W_LocPanel_Option.xml");
-	mText = AddChild<AvalonWidget>("W_LocPanel_OptionText.xml");
-	mSymbolPrompt = AddChild<AvalonWidget>("W_LocPanel_OptionPrompt.xml");
+	mTextWidgetRef = AddChild<AvalonWidget>("W_LocPanel_OptionText.xml");
+	mSymbolPromptRef = AddChild<AvalonWidget>("W_LocPanel_OptionPrompt.xml");
 }
 
 void Widget_LocationOption::OnFocusGained()
 {
 	Widget_ToggleButton::OnFocusGained();
 
-	mSymbolPrompt.Get<AvalonWidget>()->ApplyAttributes(AVALON_FG_CYAN);
-	mText.Get<AvalonWidget>()->SetPosition(FCoord(6,0));
+	Get<AvalonWidget>(mSymbolPromptRef)->ApplyAttributes(AVALON_FG_CYAN);
+	Get<AvalonWidget>(mTextWidgetRef)->SetPosition(FCoord(6,0));
 }
 void Widget_LocationOption::OnFocusLost()
 {
 	Widget_ToggleButton::OnFocusGained();
 
-	mSymbolPrompt.Get<AvalonWidget>()->ApplyAttributes(AVALON_FG_WHITE);
-	mText.Get<AvalonWidget>()->SetPosition(FCoord(5,0));
+	Get<AvalonWidget>(mSymbolPromptRef)->ApplyAttributes(AVALON_FG_WHITE);
+	Get<AvalonWidget>(mTextWidgetRef)->SetPosition(FCoord(5,0));
 }
 /****************************************************************************************/
 
@@ -69,6 +70,6 @@ void Widget_LocationOption::SetActive(bool Active)
 	Widget_ToggleButton::SetActive(Active);
 	// Play animation
 
-	ActionManager::Get().SetActionFocus(mActorHandle);
+	ActionManager::Get().SetActionFocus(mLocationActorRef.lock());
 }
 /****************************************************************************************/

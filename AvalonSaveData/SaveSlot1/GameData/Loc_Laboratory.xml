@@ -1,9 +1,9 @@
 <AvalonData>
-    <Kitchen Tags="" DisplayName="Laboratory" Description="Laboratory-y Description.">
+    <Laboratory Tags="" DisplayName="Laboratory" Description="Laboratory-y Description.">
         <LevelActors>
             <Doorway Tags="" DisplayName="Swishy Portal" Description="No door, but... a way!">
                 <Portal PathID="EastCorridor" Save="Location" Prompt="Go back from whence ye came"/>
             </Doorway>
         </LevelActors>
-    </Kitchen>
+    </Laboratory>
 </AvalonData>

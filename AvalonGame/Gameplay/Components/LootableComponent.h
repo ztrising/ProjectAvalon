@@ -20,12 +20,12 @@ public:
     virtual void Load(FSaveContext& Context) override;
     virtual void Save(FSaveContext& Context) override;
 
-    void GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions) override;
+    void GatherActionsFor(const AvalonActor* Target, ActionList& OutActions) override;
 
     virtual void OnAdded(IContainer* Container);
     virtual void OnRemoved(IContainer* Container);
 
-    std::string GenerateMoveActionString( const FUnitHandle& Looter
+    std::string GenerateMoveActionString( const AvalonActor* Looter
                                         , IContainer* Destination);
 
     void MoveTo(IContainer* NewContainer);

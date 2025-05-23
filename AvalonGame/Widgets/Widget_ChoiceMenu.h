@@ -10,7 +10,7 @@
 
 struct FActionMenuEntry
 {
-	FUnitHandle mButton;
+	HardUnitRef mButton;
 	AvalonAction* mChoice = nullptr;
 
 	bool operator==(const FActionMenuEntry& rhs) const
@@ -39,7 +39,7 @@ public:
 	~Widget_ChoiceMenu();
 
 	void PopulateFromChoiceArray(const ActionList& Source);
-	void UpdateActionFocus(const FUnitHandle& Focus);
+	void UpdateActionFocus(const AvalonActor* FocusActor);
 
 	void UpdateActions(const FActionState& ActionState);
 	
@@ -50,7 +50,7 @@ private:
 	unsigned short mColorData[EActionContext::Count];
 
 	// Item Focus Desc
-	FUnitHandle mItemDesc;
+	HardUnitRef mItemDescWidget;
 	short mCachedYLoc;
 
 	/***************************************************************************************
@@ -69,6 +69,6 @@ public:
 								, const FActionState& ActionState);
 
 	static void HandleButtonPressed( IEventListener* Listener
-								   , const FUnitHandle& Source);
+								   , const Widget_Button* Source);
 	/****************************************************************************************/
 };

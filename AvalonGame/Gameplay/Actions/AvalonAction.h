@@ -23,8 +23,8 @@ enum EActionContext
 
 struct FEffectContext
 {
-    FUnitHandle mSource;
-    FUnitHandle mTarget;
+    SoftUnitRef mSource;
+    SoftUnitRef mTarget;
 };
 
 class IAvalonEffect : public ISaveable
@@ -77,14 +77,14 @@ typedef std::vector<AvalonAction*> ActionList;
 struct FActionState
 {
     EActionContext mContext;
-    FUnitHandle mFocus;
+    SoftUnitRef mFocus;
     ActionList mActions;
 };
 
 class IActionProvider
 {
 public:
-    virtual void GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions) {};
+    virtual void GatherActionsFor(const AvalonActor* Target, ActionList& OutActions) {};
 };
 
 

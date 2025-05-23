@@ -57,7 +57,7 @@ public:
     void Load(FSaveContext& Context) override;
     void Save(FSaveContext& Context) override;
 
-    void GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions) override;
+    void GatherActionsFor(const AvalonActor* Target, ActionList& OutActions) override;
 
     FPathRequest mRequest;
     std::string mTravelPrompt;

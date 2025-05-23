@@ -52,7 +52,7 @@ void Widget_Journal::PopulateEntry(const FJournalEntry& Entry, int EntryNumber)
 	//char GameTimeString[100];
 	//Entry.mTimeStamp.PopulateString(GameTimeString);
 
-	AvalonWidget* PageWidget = mJournalPage.Get<AvalonWidget>();
+	AvalonWidget* PageWidget = Get<AvalonWidget>(mJournalPageRef);
 
 	const char* GameTimeString = "24th of Beltane, Yr 1132";
 	PageWidget->SetTextWithSettings(GameTimeString, TextSettings);
@@ -78,8 +78,8 @@ void Widget_Journal::PopulateEntry(const FJournalEntry& Entry, int EntryNumber)
 void Widget_Journal::Construct(const char* WidgetAsset)
 {
 	Widget_ToggleButton::Construct("W_Journal_Button.xml");
-	mJournalPage = AddChild<AvalonWidget>("W_Journal_Page.xml");
-	mJournalPage.Get<AvalonWidget>()->Hide();
+	mJournalPageRef = AddChild<AvalonWidget>("W_Journal_Page.xml");
+	Get<AvalonWidget>(mJournalPageRef)->Hide();
 }
 
 void Widget_Journal::OnGameLoaded()
@@ -96,7 +96,7 @@ void Widget_Journal::SetActive(bool Active)
 {
 	Widget_ToggleButton::SetActive(Active);
 
-	AvalonWidget* PageWidget = mJournalPage.Get<AvalonWidget>();
+	AvalonWidget* PageWidget = Get<AvalonWidget>(mJournalPageRef);
 
 	if (Active)
 	{

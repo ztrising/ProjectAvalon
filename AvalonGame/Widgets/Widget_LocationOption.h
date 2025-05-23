@@ -14,17 +14,17 @@ class Widget_LocationOption : public Widget_ToggleButton
 public:
 	Widget_LocationOption();
 
-	void SetActorHandle(FUnitHandle Handle);
+	void SetLocationActorRef(HardUnitRef ActorRef);
 	void SetLocationText(const char* Text);
 
 private:
-	FUnitHandle mSymbolPrompt; // > or [1]
-	FUnitHandle mText;
+	HardUnitRef mSymbolPromptRef; // > or [1]
+	HardUnitRef mTextWidgetRef;
 
 	FMoveAnimSettings mAnimation;
 	FTextSettings mTextSettings;
 
-	FUnitHandle mActorHandle;
+	SoftUnitRef mLocationActorRef;
 
 	/***************************************************************************************
 	*  Avalon Widget Interface

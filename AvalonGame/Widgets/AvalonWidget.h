@@ -27,6 +27,7 @@
 //  Like frames, or backgrounds
 
 class IAvalonAnimation;
+class AvalonWidget;
 
 class AvalonWidget : public IAvalonUnit
 {
@@ -107,7 +108,7 @@ public:
 	*  Focus
 	****************************************************************************************/
 protected:
-	FUnitHandle UpdateFocus(const FCoord& MousePosition);
+	AvalonWidget* UpdateFocus(const FCoord& MousePosition);
 
 	virtual void OnFocusGained() {}
 	virtual void OnFocusLost() {}
@@ -120,13 +121,26 @@ protected:
 	*  Animation
 	****************************************************************************************/
 public:
-	void PlayAnimation(FBufferAnimSettings Settings);
-	IAvalonAnimation* MoveTo(FMoveAnimSettings Settings);
+	void PlayAnimation(FBufferAnimSettings* Settings);
+	IAvalonAnimation* MoveTo(FMoveAnimSettings* Settings);
 	void StopAnimations();
 
 private:
 	void TickAnimation(float DeltaSeconds);
-	std::vector<IAvalonAnimation*> mRunningAnimations;
+	//std::vector<IAvalonAnimation*> mRunningAnimations;
+	HardRefList mRunningAnimations;
+
+protected:
+	template <class T>
+	HardUnitRef CreatAnimation(const char* WidgetAsset = nullptr)
+	{
+		HardUnitRef ChildWidget;// = std::make_shared<T>();
+		AvalonMemory::NewUnit<T>(ChildWidget);
+		AddChild_Internal(ChildWidget, WidgetAsset);
+
+		return ChildWidget;
+	}
+
 	/****************************************************************************************/
 
 	/***************************************************************************************
@@ -144,30 +158,33 @@ private:
 	****************************************************************************************/
 public:
 	template <class T>
-	FUnitHandle AddChild(const char* WidgetAsset = nullptr)
+	HardUnitRef AddChild(const char* WidgetAsset = nullptr)
 	{
-		FUnitHandle NewHandle = AvalonMemory::NewUnit<T>();
-		AddChild_Internal(NewHandle, WidgetAsset);
-		return NewHandle;
+		HardUnitRef ChildWidget;
+		AvalonMemory::NewUnit<T>(ChildWidget);
+		AddChild_Internal(ChildWidget, WidgetAsset);
+
+		return ChildWidget;
 	}
 
 	template <class T>
-	void RemoveChild(FUnitHandle& Handle)
+	void RemoveChild(HardUnitRef& ChildWidget)
 	{
-		RemoveChild_Internal(Handle);
-		AvalonMemory::DestroyUnit(Handle.Get<T>());
+		RemoveChild_Internal(ChildWidget);
+		ChildWidget.reset();
+		//AvalonMemory::DestroyUnit(Handle.Get<T>());
 		//AvalonMemory::DestroyUnit<T>(Handle);
 	}
 
-	void SetParent(const FUnitHandle& Handle) { mParent = Handle; }
-	FUnitHandle& GetParent() { return mParent; }
+	void SetParent(const SoftUnitRef& Widget) { mParent = Widget; }
+	AvalonWidget* GetParent() { return IAvalonUnit::Get<AvalonWidget>(mParent); }
 
 private:
-	void AddChild_Internal(const FUnitHandle& ChildHandle, const char* WidgetAsset);
-	void RemoveChild_Internal(const FUnitHandle& Handle);
+	void AddChild_Internal(const HardUnitRef& ChildWidget, const char* WidgetAsset);
+	void RemoveChild_Internal(const HardUnitRef& ChildWidget);
 
-	FUnitHandle mParent;
-	std::vector<FUnitHandle> mChildren;
+	SoftUnitRef mParent;
+	HardRefList mChildren;
 	/****************************************************************************************/
 
 	/* Debugging Helpers */

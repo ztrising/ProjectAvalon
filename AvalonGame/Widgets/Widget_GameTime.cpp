@@ -16,7 +16,7 @@ Widget_GameTime::Widget_GameTime()
 void Widget_GameTime::Construct(const char* WidgetAsset)
 {
 	AvalonWidget::Construct("W_GameTime_Frame.xml");
-	mTextArea = AddChild<AvalonWidget>("W_GameTime_TextArea.xml");
+	mTextAreaRef = AddChild<AvalonWidget>("W_GameTime_TextArea.xml");
 }
 
 void Widget_GameTime::OnGameLoaded()
@@ -38,7 +38,7 @@ void Widget_GameTime::OnGameLoaded()
 
 void Widget_GameTime::PopulateTimeText()
 {
-	AvalonWidget* TextWidget = mTextArea.Get<AvalonWidget>();
+	AvalonWidget* TextWidget = Get<AvalonWidget>(mTextAreaRef);
 
 	const FGameTime& CurrentTime = GameCalendar::GetCurrentTime();
 	int Years	= CurrentTime.mTimeStamp[ETimeScale::ETS_Years].mValue + 1;
@@ -82,7 +82,7 @@ void Widget_GameTime::PopulateTimeText()
 
 void Widget_GameTime::PopulateTravellingText()
 {
-	AvalonWidget* TextWidget = mTextArea.Get<AvalonWidget>();
+	AvalonWidget* TextWidget = Get<AvalonWidget>(mTextAreaRef);
 	FCoord TravellingTextPos = FCoord(4, 6);
 
 

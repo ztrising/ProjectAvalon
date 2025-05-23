@@ -1,5 +1,5 @@
 <AvalonData>
-	<Kitchen	DisplayName="Laboratory"
+	<Laboratory	DisplayName="Laboratory"
 				Description="Laboratory-y Description.">
 		
 		<LevelActors> <!-- The "Floor" -->
@@ -8,7 +8,7 @@
 				<Portal PathID="EastCorridor" Prompt="Go back from whence ye came"/>
 			</Doorway>
 		</LevelActors>
-	</Kitchen>
+	</Laboratory>
 </AvalonData>
 
 

@@ -14,7 +14,7 @@ class ActionManager
     ****************************************************************************************/
 public:
     void UpdateCurrentActions();
-    void SetActionFocus(FUnitHandle NewFocus);
+    void SetActionFocus(HardUnitRef NewFocus);
     void ClearActionFocus();
 
 private:

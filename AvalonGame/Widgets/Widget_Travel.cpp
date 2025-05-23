@@ -8,6 +8,7 @@
 
 #include "../Gameplay/Actor/PlayerActor.h"
 #include "../Gameplay/Components/TravellerComponent.h"
+#include "../Gameplay/AvalonGameState.h"
 
 #include <string>
 
@@ -18,7 +19,8 @@ Widget_Travel::Widget_Travel()
 
 Widget_Travel::~Widget_Travel()
 {
-	if (PlayerActor* Player = PlayerActor::mPlayer)
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	if (Player != nullptr)
 	{
 		if (Traveller* TravellerComp = Player->GetComponent<Traveller>())
 		{
@@ -70,11 +72,12 @@ void Widget_Travel::PopulateTravelText()
 	//								  //
 	////////////////////////////////////
 
-	FLocationInfo* LocationInfo = PlayerActor::mPlayer->GetLocation();
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	FLocationInfo* LocationInfo = Player->GetLocation();
 	LocationNameList GeoNames;
 	PopulateLocationName(LocationInfo, GeoNames);
 
-	Traveller* TravellerComp = PlayerActor::mPlayer->GetComponent<Traveller>();
+	Traveller* TravellerComp = Player->GetComponent<Traveller>();
 
 	FTextSettings TextSettings;
 	TextSettings.mExtent		= FCoord(20, 1);
@@ -180,7 +183,8 @@ void Widget_Travel::Construct(const char* WidgetAsset)
 
 void Widget_Travel::OnGameLoaded()
 {
-	if (PlayerActor* Player = PlayerActor::mPlayer)
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	if (Player != nullptr)
 	{
 		if (Traveller* TravellerComp = Player->GetComponent<Traveller>())
 		{

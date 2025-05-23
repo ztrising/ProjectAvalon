@@ -26,8 +26,8 @@
 	TheHUD.mBuffer->AllocateBuffer(ViewportSize, 'H', 0);
 	FFrameBuffer::InitDrawBuffer(TheHUD.mBuffer);
 
-	TheHUD.mBaseWidget = AvalonMemory::NewUnit<Widget_Background>();
-	AvalonWidget* Widget = TheHUD.mBaseWidget.Get<AvalonWidget>();
+	AvalonMemory::NewUnit<Widget_Background>(TheHUD.mBaseWidget);
+	AvalonWidget* Widget = IAvalonUnit::Get<AvalonWidget>(TheHUD.mBaseWidget);
 	Widget->Construct();
 
 	// The debug draw buffer we collapse onto the HUD draw buffer at the end
@@ -61,13 +61,14 @@ void AvalonHUD::SetHUDContext(HUDContext NewContext)
 	if (NewContext != mHUDContext)
 	{
 		mHUDContext = NewContext;
-		mBaseWidget.Get<AvalonWidget>()->OnHUDContextChanged(mHUDContext);
+		AvalonWidget::Get<AvalonWidget>(mBaseWidget)->OnHUDContextChanged(mHUDContext);
 	}
 }
 
 void AvalonHUD::HandleGameLoaded()
 {
-	if (PlayerActor* Player = PlayerActor::mPlayer)
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	if (Player != nullptr)
 	{
 		if (Traveller* TravellerComp = Player->GetComponent<Traveller>())
 		{
@@ -79,20 +80,19 @@ void AvalonHUD::HandleGameLoaded()
 		}
 	}
 
-	mBaseWidget.Get<AvalonWidget>()->OnGameLoaded();
+	AvalonWidget::Get<AvalonWidget>(mBaseWidget)->OnGameLoaded();
 
 	SetHUDContext(EHUDContext::LOCATION);
 }
 
 void AvalonHUD::TickAnimation(float DeltaSeconds)
 {
-	mBaseWidget.Get<AvalonWidget>()->TickAnimation(DeltaSeconds);
+	AvalonWidget::Get<AvalonWidget>(mBaseWidget)->TickAnimation(DeltaSeconds);
 }
 
 void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 {
-	AvalonWidget* BaseWidget = mBaseWidget.Get<AvalonWidget>();
-	BaseWidget->UpdateRenderState(ForceRedraw);
+	AvalonWidget::Get<AvalonWidget>(mBaseWidget)->UpdateRenderState(ForceRedraw);
 
 	//BaseWidget->DrawDebugText("X", mCachedMousePos);
 
@@ -141,8 +141,7 @@ void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 		}
 	}
 
-	AvalonWidget* BaseWidget = HUD->mBaseWidget.Get<AvalonWidget>();
-	BaseWidget->HandleInput_Internal(EventParams);
+	AvalonWidget::Get<AvalonWidget>(HUD->mBaseWidget)->HandleInput_Internal(EventParams);
 }
 
 /*static*/ void AvalonHUD::HandleInputMouseEvent( IEventListener* Listener
@@ -153,29 +152,29 @@ void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 	HUD->mCachedMousePos = EventParams.mMousePosition;
 	HUD->mDebugBufferChanged = true;
 
-	AvalonWidget* BaseWidget = HUD->mBaseWidget.Get<AvalonWidget>();
-	FUnitHandle NewFocus = BaseWidget->UpdateFocus(EventParams.mMousePosition);
+	AvalonWidget* BaseWidget = AvalonWidget::Get<AvalonWidget>(HUD->mBaseWidget);
+	AvalonWidget* NewFocus = BaseWidget->UpdateFocus(EventParams.mMousePosition);
 
-	if (NewFocus != HUD->mFocusWidget)
+	HardUnitRef FocusRef = HUD->mFocusWidget.lock();
+	AvalonWidget* FocusWidget = AvalonWidget::Get<AvalonWidget>(FocusRef);
+
+	if (NewFocus != FocusWidget)
 	{
-		if (HUD->mFocusWidget.IsValid())
+		if (FocusWidget != nullptr)
 		{
-			if (AvalonWidget* Widget = HUD->mFocusWidget.Get<AvalonWidget>())
-			{
-				Widget->mHasFocus = false;
-				Widget->OnFocusLost();
-			}
+			FocusWidget->mHasFocus = false;
+			FocusWidget->OnFocusLost();
 		}
 
-		HUD->mFocusWidget = NewFocus;
-
-		if (HUD->mFocusWidget.IsValid())
+		if (NewFocus != nullptr)
 		{
-			if (AvalonWidget* Widget = HUD->mFocusWidget.Get<AvalonWidget>())
-			{
-				Widget->mHasFocus = true;
-				Widget->OnFocusGained();
-			}
+			HUD->mFocusWidget = NewFocus->GetSelfRef();
+			NewFocus->mHasFocus = true;
+			NewFocus->OnFocusGained();
+		}
+		else
+		{
+			HUD->mFocusWidget.reset();
 		}
 	}
 }

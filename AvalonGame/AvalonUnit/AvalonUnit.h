@@ -6,38 +6,17 @@
 
 #include <vector>
 #include <list>
+#include <memory>
 
 class IAvalonUnit;
 class AvalonMemory;
 
-struct FUnitHandle
-{
-public:
-    bool IsValid() const;
-    void Reset();
-    IAvalonUnit* Get() const;
+class IAvalonUnit;
+typedef std::shared_ptr<IAvalonUnit> HardUnitRef;
+typedef std::weak_ptr<IAvalonUnit> SoftUnitRef;
 
-    template <class T>
-    T* Get() const
-    {
-        return (T*)(Get());
-    }
+typedef std::vector<HardUnitRef> HardRefList;
 
-    bool operator==(const FUnitHandle& rhs) const;
-    bool operator!=(const FUnitHandle& rhs) const;
-
-private:
-    int mSlotID = -1;
-    int mSlotGeneration = -1;
-
-    friend class AvalonMemory;
-};
-
-struct FUnitSlot
-{
-    IAvalonUnit* mUnit = nullptr;
-    int mSlotGeneration = -1;
-};
 
 // Classes allocated through this system aught to have
 // virtualized destructors! (or put destruction logic in OnDestroyed)
@@ -45,15 +24,34 @@ class IAvalonUnit
 {
 public:
 
-    // Returns true if not marked for destruction
-    bool IsValid() const { return mManagedHandle.IsValid(); }
-    FUnitHandle GetSelfHandle() const { return mManagedHandle; }
+    bool operator==(const IAvalonUnit& rhs) const;
+    bool operator!=(const IAvalonUnit& rhs) const;
 
-    virtual void OnCreated() {}
-    virtual void OnDestroyed() {}
+    template <class T>
+    static T* Get(HardUnitRef HardRef)
+    {
+        return (T*)(HardRef.get());
+    }
+
+    template <class T>
+    static T* Get(SoftUnitRef SoftRef)
+    {
+        return (T*)(SoftRef.lock().get());
+    }
+
+    // Returns true if not marked for destruction
+    bool IsValid() const { return mSelfRef.lock() != nullptr; }
+    HardUnitRef GetSelfRef() const 
+    { 
+        HardUnitRef RetRef = mSelfRef.lock();
+        return RetRef;
+    }
 
 private:
-    FUnitHandle mManagedHandle;
+    SoftUnitRef mSelfRef;
+
+    virtual void OnCreated(HardUnitRef UnitRef);
+    virtual void OnDestroyed() {}
 
     friend class AvalonMemory;
 };
@@ -61,38 +59,12 @@ private:
 class AvalonMemory
 {
 public:
-    void TickGarbageCollection(float DeltaSeconds);
-
     template <class T>
-    static FUnitHandle NewUnit()
+    static void NewUnit(HardUnitRef& NewUnit)
     {
-        T* Unit = new T;
-
-        if (IAvalonUnit* AvalonUnit = static_cast<IAvalonUnit*>(Unit))
-        {
-            AvalonUnit->OnCreated();
-        }
-
-        return AvalonMemory::Get().AllocateUnit(Unit);
+        NewUnit = std::make_shared<T>();
+        NewUnit->OnCreated(NewUnit);
     }
-
-    static void DestroyUnit(IAvalonUnit* Unit);
-
-    IAvalonUnit* GetUnitFromHandle(const FUnitHandle& Handle);
-
-private:
-    FUnitHandle AllocateUnit(IAvalonUnit* Unit);
-
-    void MarkForGarbageCollection(FUnitHandle& Handle);
-    void DoGarbageCollection();
-
-    std::vector<FUnitSlot*> mAllocatedUnits;
-    std::list<int> mFreeSlots;
-    std::list<int> mGarbageSlots;
-
-    bool mForceGarbageCollection = false;
-    float mGarbageCollectionDelay = 30.f;
-    float mTimeSinceLastGarbageCollection = 0.f;
 
     //////////////////////////////////////////////////////////////////////////
     //  Singleton Implementation

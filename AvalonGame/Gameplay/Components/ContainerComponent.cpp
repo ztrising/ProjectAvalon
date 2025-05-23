@@ -11,60 +11,65 @@
 /***************************************************************************************
 *  IContainer
 ****************************************************************************************/
-void IContainer::GetContainersWithin(std::vector<IContainer*>& OutContainers)
+void IContainer::GetContainersWithin(ContainerList& OutContainers)
 {
-    std::vector<FUnitHandle> Contents;
+    HardRefList Contents;
     GetContainerContents(Contents);
-    for (FUnitHandle& Handle : Contents)
+    for (auto& ActorRef : Contents)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        AvalonActor* Actor = Get<AvalonActor>(ActorRef);
+        if (Actor != nullptr)
         {
             Actor->GatherContainers(OutContainers);
         }
     }
 }
 
-bool IContainer::IsInContainer(const FUnitHandle& ActorHandle) const
+bool IContainer::IsInContainer(const AvalonActor* InActor) const
 {
-    std::vector<FUnitHandle> Contents;
-    GetContainerContents(Contents);
-
-    for (FUnitHandle& CheckHandle : Contents)
+    if (InActor != nullptr)
     {
-        if (CheckHandle == ActorHandle)
+        HardRefList Contents;
+        GetContainerContents(Contents);
+
+        for (auto& CheckActorRef : Contents)
         {
-            return true;
+            AvalonActor* CheckActor = Get<AvalonActor>(CheckActorRef);
+            if (CheckActor == InActor)
+            {
+                return true;
+            }
         }
     }
 
     return false;
 }
 
-bool IContainer::CanAddToContainer(const FUnitHandle& ActorHandle) const
+bool IContainer::CanAddToContainer(const AvalonActor* Actor) const
 {
-    const FUnitHandle& MyActorHandle = GetActorOwnerHandleConst();
-    return (ActorHandle != MyActorHandle && IsInContainer(ActorHandle) == false);
+    return (IsInContainer(Actor) == false);
 }
 
-void IContainer::AddToContainer(FUnitHandle& ToAddHandle)
+void IContainer::AddToContainer(AvalonActor* ToAdd)
 {
-    if (ToAddHandle.IsValid())
+    if (ToAdd != nullptr)
     {
-        AvalonActor* ToAddActor = ToAddHandle.Get<AvalonActor>();
-        ToAddActor->SetOwner(GetActorOwnerHandle());
+        AvalonActor* ContainerOwner = GetActorOwner();
+        HardUnitRef ContainerOwnerRef = ContainerOwner->GetSelfRef();
+        ToAdd->SetOwner(ContainerOwnerRef);
 
-        if (Lootable* Item = ToAddActor->GetComponent<Lootable>())
+        if (Lootable* Item = ToAdd->GetComponent<Lootable>())
         {
             Item->OnAdded(this);
         }
     }
 }
 
-void IContainer::RemoveFromContainer(FUnitHandle& ToRemoveHandle)
+void IContainer::RemoveFromContainer(HardUnitRef& ToRemove)
 {
-    if (ToRemoveHandle.IsValid())
+    AvalonActor* ToRemoveActor = Get<AvalonActor>(ToRemove);
+    if (ToRemoveActor != nullptr)
     {
-        AvalonActor* ToRemoveActor = ToRemoveHandle.Get<AvalonActor>();
         ToRemoveActor->ResetOwner();
 
         if (Lootable* Loot = ToRemoveActor->GetComponent<Lootable>())
@@ -79,13 +84,15 @@ void IContainer::RemoveFromContainer(FUnitHandle& ToRemoveHandle)
 ****************************************************************************************/
 void LevelContainer::Load(FSaveContext& Context)
 {
-    LevelActor* Level = GetActorOwnerHandle().Get<LevelActor>();
+    AvalonActor* OwnerActor = GetActorOwner();
+    LevelActor* Level = OwnerActor ? OwnerActor->GetLevel() : nullptr;
     Level->SetLevelContainer(this);
 
     auto LoadActors_Lamdba = [&](FSaveContext& InContext)
     {
-        FUnitHandle Handle = LoadChildActor(InContext);
-        AddToContainer(Handle);
+        HardUnitRef ActorRef;
+        LoadChildActor(ActorRef, InContext);
+        AddToContainer(AvalonActor::Get<AvalonActor>(ActorRef));
     };
 
     Context.LoadChildren(LoadActors_Lamdba);
@@ -93,10 +100,11 @@ void LevelContainer::Load(FSaveContext& Context)
 
 void LevelContainer::Save(FSaveContext& Context)
 {
-    for (FUnitHandle& Handle : mLevelActors)
+    for (HardUnitRef& ActorRef : mLevelActors)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        if (ActorRef != nullptr)
         {
+            AvalonActor* Actor = Get<AvalonActor>(ActorRef);
             ISaveable::Save(Actor, Context);
         }
     }
@@ -104,10 +112,11 @@ void LevelContainer::Save(FSaveContext& Context)
 
 void LevelContainer::Tick(float DeltaSeconds)
 {
-    for (FUnitHandle& ActorHandle : mLevelActors)
+    for (HardUnitRef& ActorRef : mLevelActors)
     {
-        if (AvalonActor* Actor = ActorHandle.Get<AvalonActor>())
+        if (ActorRef != nullptr)
         {
+            AvalonActor* Actor = IAvalonUnit::Get<AvalonActor>(ActorRef);
             Actor->Tick(DeltaSeconds);
         }
     }
@@ -115,40 +124,43 @@ void LevelContainer::Tick(float DeltaSeconds)
 
 void LevelContainer::AdvanceTime(long DeltaHours)
 {
-    for (FUnitHandle& ActorHandle : mLevelActors)
+    for (HardUnitRef& ActorRef : mLevelActors)
     {
-        if (AvalonActor* Actor = ActorHandle.Get<AvalonActor>())
+        if (ActorRef != nullptr)
         {
+            AvalonActor* Actor = IAvalonUnit::Get<AvalonActor>(ActorRef);
             Actor->AdvanceTime(DeltaHours);
         }
     }
 }
 
-void LevelContainer::GetContainerContents(std::vector<FUnitHandle>& OutContents) const
+void LevelContainer::GetContainerContents(std::vector<HardUnitRef>& OutContents) const
 {
     OutContents = mLevelActors;
 }
 
-bool LevelContainer::CanAddToContainer(const FUnitHandle& Handle) const
+bool LevelContainer::CanAddToContainer(const AvalonActor* Actor) const
 {
-    return IContainer::CanAddToContainer(Handle);
+    return IContainer::CanAddToContainer(Actor);
 }
 
-void LevelContainer::AddToContainer(FUnitHandle& Handle)
+void LevelContainer::AddToContainer(AvalonActor* Actor)
 {
-    IContainer::AddToContainer(Handle);
-    mLevelActors.push_back(Handle);
+    IContainer::AddToContainer(Actor);
+
+    HardUnitRef ActorRef = Actor->GetSelfRef();
+    mLevelActors.push_back(ActorRef);
 }
 
-void LevelContainer::RemoveFromContainer(FUnitHandle& Handle)
+void LevelContainer::RemoveFromContainer(HardUnitRef& ToRemove)
 {
-    auto position = std::find(mLevelActors.begin(), mLevelActors.end(), Handle);
+    auto position = std::find(mLevelActors.begin(), mLevelActors.end(), ToRemove);
     if (position != mLevelActors.end())
     {
         mLevelActors.erase(position);
     }
 
-    IContainer::RemoveFromContainer(Handle);
+    IContainer::RemoveFromContainer(ToRemove);
 }
 
 /***************************************************************************************
@@ -169,8 +181,9 @@ void ItemContainer::Load(FSaveContext& Context)
 
     auto LoadItem_Lamdba = [&](FSaveContext& InContext)
     { 
-        FUnitHandle Handle = LoadChildActor(InContext);
-        AddToContainer(Handle);
+        HardUnitRef ActorRef;
+        LoadChildActor(ActorRef, InContext);
+        AddToContainer(AvalonActor::Get<AvalonActor>(ActorRef));
     };
 
     mFilter.Load(Context);
@@ -183,10 +196,11 @@ void ItemContainer::Save(FSaveContext& Context)
 
     // Because Invalid Handles Save UGH
     std::vector<AvalonActor*> ActorList;
-    for (FUnitHandle& Handle : mContents)
+    for (HardUnitRef& ActorRef : mContents)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        if (ActorRef != nullptr)
         {
+            AvalonActor* Actor = Get<AvalonActor>(ActorRef);
             ActorList.push_back(Actor);
         }
     }
@@ -194,25 +208,28 @@ void ItemContainer::Save(FSaveContext& Context)
     Context.SaveUnderWrapper("Contents", ActorList);
 }
 
-void ItemContainer::GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions)
+void ItemContainer::GatherActionsFor(const AvalonActor* Target, ActionList& OutActions)
 {
+    AvalonActor* OwnerActor = GetActorOwner();
+    HardUnitRef OwnerActorRef = OwnerActor->GetSelfRef();
+
     // TODO:  Don't allow the LOOTER to act on this if another LOOTER is
     AvalonAction* ContainerAction = new AvalonAction();
     if (mIsOpen)
     {
-        ContainerAction->mActionPrompt = "Close " + GetActorOwnerHandle().Get<AvalonActor>()->mDisplayName;
+        ContainerAction->mActionPrompt = "Close " + OwnerActor->mDisplayName;
         Effect_CloseContainer* Effect = ContainerAction->AddEffect<Effect_CloseContainer>();
         Effect->mContainer = this;
     }
     else
     {
-        ContainerAction->mActionPrompt = "Open " + GetActorOwnerHandle().Get<AvalonActor>()->mDisplayName;
+        ContainerAction->mActionPrompt = "Open " + OwnerActor->mDisplayName;
         Effect_OpenContainer* Effect = ContainerAction->AddEffect<Effect_OpenContainer>();
         Effect->mContainer = this;
     }
 
-    ContainerAction->mContext.mSource = GetActorOwnerHandle();
-    ContainerAction->mContext.mTarget = Target;
+    ContainerAction->mContext.mSource = OwnerActorRef;
+    ContainerAction->mContext.mTarget = Target->GetSelfRef();
 
     OutActions.push_back(ContainerAction);
 }
@@ -227,27 +244,29 @@ void ItemContainer::CloseContainer()
     mIsOpen = false;
 }
 
-void ItemContainer::AddToContainer(FUnitHandle& Handle)
+void ItemContainer::AddToContainer(AvalonActor* Actor)
 {
-    mContents.push_back(Handle);
-    IContainer::AddToContainer(Handle);
+    HardUnitRef ActorRef = Actor->GetSelfRef();
+    mContents.push_back(ActorRef);
+
+    IContainer::AddToContainer(Actor);
 }
 
-void ItemContainer::RemoveFromContainer(FUnitHandle& Handle)
+void ItemContainer::RemoveFromContainer(HardUnitRef& ToRemove)
 {
-
-    std::vector<FUnitHandle>::iterator position = std::find( mContents.begin()
-                                                            , mContents.end(), Handle);
+    std::vector<HardUnitRef>::iterator position = std::find( mContents.begin()
+                                                            , mContents.end(), ToRemove);
     if (position != mContents.end())
     {
         mContents.erase(position);
-    }      
-    IContainer::RemoveFromContainer(Handle);
+    }
+
+    IContainer::RemoveFromContainer(ToRemove);
 }
 
-bool ItemContainer::CanAddToContainer(const FUnitHandle& Handle) const
+bool ItemContainer::CanAddToContainer(const AvalonActor* Actor) const
 {
-    if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+    if (Actor != nullptr)
     {
         if (!mFilter.PassesQuery(Actor->mTags))
         {
@@ -257,15 +276,15 @@ bool ItemContainer::CanAddToContainer(const FUnitHandle& Handle) const
         // TODO: Capacity Check
     }
 
-    return IContainer::CanAddToContainer(Handle);
+    return IContainer::CanAddToContainer(Actor);
 }
 
-void ItemContainer::GetContainerContents(std::vector<FUnitHandle>& OutContents) const
+void ItemContainer::GetContainerContents(std::vector<HardUnitRef>& OutContents) const
 {
     OutContents = mContents;
 }
 
-void ItemContainer::GetItemPouchContainers(std::vector<IContainer*>& OutContainers)
+void ItemContainer::GetItemPouchContainers(ContainerList& OutContainers)
 {
     OutContainers.push_back(this);
 }
@@ -273,14 +292,14 @@ void ItemContainer::GetItemPouchContainers(std::vector<IContainer*>& OutContaine
 /***************************************************************************************
 *  Container UI Helpers
 ****************************************************************************************/
-FUnitHandle ItemContainer::GetContentsByIndex(int Index)
+HardUnitRef ItemContainer::GetContentsByIndex(int Index)
 {
     return mContents[Index];
 }
 
 std::string ItemContainer::GetDisplayName()
 {
-    return GetActorOwnerHandle().Get<AvalonActor>()->mDisplayName;
+    return GetActorOwner()->mDisplayName;
 }
 
 int ItemContainer::GetNumItems()
@@ -298,13 +317,15 @@ int ItemContainer::GetMaxSlots()
 ****************************************************************************************/
 void Effect_OpenContainer::ExecuteEffect(FEffectContext& Context)
 {
-    LooterComponent* Looter = Context.mTarget.Get<AvalonActor>()->GetComponent<LooterComponent>();
+    AvalonActor* LooterActor = AvalonActor::Get<AvalonActor>(Context.mTarget);
+    LooterComponent* Looter = LooterActor->GetComponent<LooterComponent>();
     Looter->OpenContainer(mContainer);
 }
 
 void Effect_CloseContainer::ExecuteEffect(FEffectContext& Context)
 {
-    LooterComponent* Looter = Context.mTarget.Get<AvalonActor>()->GetComponent<LooterComponent>();
+    AvalonActor* LooterActor = AvalonActor::Get<AvalonActor>(Context.mTarget);
+    LooterComponent* Looter = LooterActor->GetComponent<LooterComponent>();
     Looter->CloseContainer(mContainer);
 }
 
@@ -349,8 +370,9 @@ void FEquipSlot::Load(FSaveContext& Context, IActorComponent* Parent)
         //FSaveContext ChildContext;
         //InContext.GetChild(ChildContext);
 
-        FUnitHandle Handle = Parent->LoadChildActor(InContext);
-        mSlotContents.push_back(Handle);
+        HardUnitRef ActorRef;
+        Parent->LoadChildActor(ActorRef, InContext);
+        mSlotContents.push_back(ActorRef);
     };
 
     mID = Context.GetSaveID();
@@ -361,17 +383,16 @@ void FEquipSlot::Load(FSaveContext& Context, IActorComponent* Parent)
 
 void FEquipSlot::Save(FSaveContext& Context)
 {
-    // Because Invalid Handles Save UGH
-    std::vector<AvalonActor*> ActorList;
-    for (FUnitHandle& Handle : mSlotContents)
+    ActorList Actors;
+    for (HardUnitRef& ActorRef : mSlotContents)
     {
-        if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+        if (AvalonActor* Actor = AvalonActor::Get<AvalonActor>(ActorRef))
         {
-            ActorList.push_back(Actor);
+            Actors.push_back(Actor);
         }
     }
 
-    Context.SaveUnderWrapper(mID.c_str(), ActorList);
+    Context.SaveUnderWrapper(mID.c_str(), Actors);
 
     FSaveContext ChildContext;
     Context.GetChild(ChildContext, mID.c_str());
@@ -415,14 +436,14 @@ void Equipment::Save(FSaveContext& Context)
     }
 }
 
-bool Equipment::CanAddToContainer(const FUnitHandle& Handle) const
+bool Equipment::CanAddToContainer(const AvalonActor* Actor) const
 {
-    if (IContainer::CanAddToContainer(Handle) == false)
+    if (IContainer::CanAddToContainer(Actor) == false)
     {
         return false;
     }
 
-    Equipable* Item = Handle.Get<AvalonActor>()->GetComponent<Equipable>();
+    Equipable* Item = Actor->GetComponent<Equipable>();
     if (Item)
     {
         const FEquipSlot* Slot = GetSlotByID(Item->mSlotID);
@@ -438,37 +459,39 @@ bool Equipment::CanAddToContainer(const FUnitHandle& Handle) const
     return false;
 }
 
-void Equipment::AddToContainer(FUnitHandle& Handle)
+void Equipment::AddToContainer(AvalonActor* Actor)
 {
-    Equipable* Item = Handle.Get<AvalonActor>()->GetComponent<Equipable>();
+    Equipable* Item = Actor->GetComponent<Equipable>();
     if (Item)
     {
         if (FEquipSlot* Slot = GetSlotByID(Item->mSlotID))
         {
-            Slot->mSlotContents.push_back(Handle);
+            HardUnitRef ActorRef = Actor->GetSelfRef();
+            Slot->mSlotContents.push_back(ActorRef);
         }
     }
-    IContainer::AddToContainer(Handle);
+    IContainer::AddToContainer(Actor);
 }
 
-void Equipment::RemoveFromContainer(FUnitHandle& Handle)
+void Equipment::RemoveFromContainer(HardUnitRef& ActorRef)
 {
-    Equipable* Item = Handle.Get<AvalonActor>()->GetComponent<Equipable>();
+    AvalonActor* Actor = Get<AvalonActor>(ActorRef);
+    Equipable* Item = Actor->GetComponent<Equipable>();
     if (Item)
     {
         FEquipSlot* Slot = GetSlotByID(Item->mSlotID);
 
         auto It = std::find( Slot->mSlotContents.begin()
-                           , Slot->mSlotContents.end(), Handle);
+                           , Slot->mSlotContents.end(), ActorRef);
         if (It != Slot->mSlotContents.end())
         {
             Slot->mSlotContents.erase(It);
         }
     }
-    IContainer::RemoveFromContainer(Handle);
+    IContainer::RemoveFromContainer(ActorRef);
 }
 
-void Equipment::GetContainerContents(std::vector<FUnitHandle>& OutContents) const
+void Equipment::GetContainerContents(HardRefList& OutContents) const
 {
     for (auto& elem : mEquipment)
     {
@@ -479,13 +502,14 @@ void Equipment::GetContainerContents(std::vector<FUnitHandle>& OutContents) cons
     }
 }
 
-void Equipment::GetItemPouchContainers(std::vector<IContainer*>& OutContainers)
+void Equipment::GetItemPouchContainers(ContainerList& OutContainers)
 {
     for (auto& elem : mEquipment)
     {
-        for (auto& Handle : elem.mSlotContents)
+        for (HardUnitRef& ActorRef : elem.mSlotContents)
         {
-            if (AvalonActor* Actor = Handle.Get<AvalonActor>())
+            AvalonActor* Actor = Get<AvalonActor>(ActorRef);
+            if (Actor != nullptr)
             {
                 Actor->GetItemPouchContainers(OutContainers);
             }

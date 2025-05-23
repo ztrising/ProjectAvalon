@@ -14,12 +14,6 @@
 #include <string.h>
 #endif //AVALON_DISPLAY_ANIM_ALPHA
 
-
-void IAvalonAnimation::OnCreated()
-{
-
-}
-
 void IAvalonAnimation::OnDestroyed()
 {
 	StopAnimation();
@@ -139,12 +133,12 @@ bool BufferAnimation_WipeOverTime::SourceFromEnd(float Alpha, int BufferIndex)
 	return RetValue;
 }
 
-void BufferAnimation_WipeOverTime::InitAnimation(FFrameBuffer* TargetBuffer, FBufferAnimSettings Settings)
+void BufferAnimation_WipeOverTime::InitAnimation(FFrameBuffer* TargetBuffer, FBufferAnimSettings* Settings)
 {
 	mTargetBuffer	= TargetBuffer;
-	mSettings		= Settings;
+	mSettings		= *Settings;
 	mLength			= mSettings.mLength;
-	mEndAlpha		= Settings.mEndAlpha;
+	mEndAlpha		= mSettings.mEndAlpha;
 
 	switch (mSettings.mStyle)
 	{
@@ -181,10 +175,10 @@ void BufferAnimation_WipeOverTime::InitAnimation(FFrameBuffer* TargetBuffer, FBu
 /***************************************************************************************
 *  Animation_MoveTo
 ****************************************************************************************/
-void Animation_MoveTo::InitMoveTo(FMoveAnimSettings Settings)
+void Animation_MoveTo::InitMoveTo(FMoveAnimSettings* Settings)
 {
-	mLength = Settings.mLength;
-	mSettings = Settings;
+	mSettings = *Settings;
+	mLength = mSettings.mLength;
 }
 
 void Animation_MoveTo::OnAnimUpdated(float Alpha)
@@ -203,17 +197,17 @@ void Animation_MoveTo::OnAnimUpdated(float Alpha)
 	AssetLoader::LinearWriteToBuffer(mSettings.Handle.Get()->mBuffer, DebugString, FCoord(), AVALON_FG_WHITE, true);
 #endif //AVALON_DISPLAY_ANIM_ALPHA
 
-	mSettings.mWidgetHandle.Get<AvalonWidget>()->SetPosition(Location);
+	AvalonWidget::Get<AvalonWidget>(mSettings.mWidgetRef)->SetPosition(Location);
 }
 
 void Animation_MoveTo::OnAnimStarted()
 {
-	mSettings.mWidgetHandle.Get<AvalonWidget>()->SetPosition(mSettings.mStartLocation);
+	AvalonWidget::Get<AvalonWidget>(mSettings.mWidgetRef)->SetPosition(mSettings.mStartLocation);
 }
 
 void Animation_MoveTo::OnAnimStopped()
 {
-	mSettings.mWidgetHandle.Get<AvalonWidget>()->SetPosition(mSettings.mEndLocation);
+	AvalonWidget::Get<AvalonWidget>(mSettings.mWidgetRef)->SetPosition(mSettings.mEndLocation);
 
 	//gross
 	AvalonViewportManager::GetViewportManager().RequestRedraw();

@@ -6,6 +6,7 @@
 
 #include "AvalonWidget.h"
 #include "Widget_Button.h"
+#include "../Gameplay/Actor/ActorTypes.h"
 
 #include "../Gameplay/Utility/EventDispatcher.h"
 
@@ -19,11 +20,11 @@ public:
 	void SetContainer(ItemContainer* NewContainer);
 	void PopulateItems();
 	void DeselectAll();
-	ItemContainer* GetContainer() { return mContainer; }
+	ItemContainer* GetContainer() { return Get<ItemContainer>(mItemContainerRef); }
 
 private:
-	ItemContainer* mContainer = nullptr;
-	FUnitHandle mItemButtonList;
+	HardUnitRef mItemContainerRef;
+	HardUnitRef mItemButtonListRef;
 	
 	/***************************************************************************************
 	*  AvalonWidget
@@ -36,7 +37,7 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleContentsChanged(IEventListener* Listener, FUnitHandle& Item);
-	static void HandleButtonPressed(IEventListener* Listener, const FUnitHandle& Source);
+	static void HandleContentsChanged(IEventListener* Listener, AvalonActor* Item);
+	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };

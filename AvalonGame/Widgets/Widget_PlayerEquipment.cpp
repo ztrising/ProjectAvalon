@@ -9,15 +9,16 @@
 
 #include "../Gameplay/Actor/PlayerActor.h"
 #include "../Gameplay/Components/ContainerComponent.h"
+#include "../Gameplay/AvalonGameState.h"
 
 void Widget_PlayerEquipment::ShowEquipmentPanel()
 {
-	mEquipmentPanel.Get<AvalonWidget>()->Show();
+	Get<AvalonWidget>(mEquipmentPanelRef)->Show();
 }
 
 void Widget_PlayerEquipment::HideEquipmentPanel()
 {
-	mEquipmentPanel.Get<AvalonWidget>()->Hide();
+	Get<AvalonWidget>(mEquipmentPanelRef)->Hide();
 }
 
 /***************************************************************************************
@@ -27,17 +28,18 @@ void Widget_PlayerEquipment::Construct(const char* WidgetAsset)
 {
 	Widget_ToggleButton::Construct("W_EquipmentHUDButton.xml");
 
-	mEquipmentPanel = AddChild<Widget_Equipment>();
-	mEquipmentPanel.Get<AvalonWidget>()->Hide();
+	mEquipmentPanelRef = AddChild<Widget_Equipment>();
+	Get<AvalonWidget>(mEquipmentPanelRef)->Hide();
 }
 
 void Widget_PlayerEquipment::OnGameLoaded()
 {
 	AvalonWidget::OnGameLoaded();
 
-	Equipment* EquipCont = PlayerActor::mPlayer->GetComponent<Equipment>();
-	Widget_Equipment* EquipWidget = mEquipmentPanel.Get<Widget_Equipment>();
-	EquipWidget->SetEquipmentRef(EquipCont);
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	Equipment* EquipCont = Player->GetComponent<Equipment>();
+	Widget_Equipment* EquipWidget = Get<Widget_Equipment>(mEquipmentPanelRef);
+	EquipWidget->SetEquipmentRef(EquipCont->GetSelfRef());
 }
 /****************************************************************************************/
 

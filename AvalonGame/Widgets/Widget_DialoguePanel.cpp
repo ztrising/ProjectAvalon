@@ -26,8 +26,8 @@ void Widget_DialoguePanel::Construct(const char* WidgetAsset)
 {
 	AvalonWidget::Construct("W_DialoguePanel_Frame.xml");
 
-	//mSpeakerName = AddChild<AvalonWidget>("W_DialoguePanel_SpeakerName.xml");
-	mSpeakerText = AddChild<AvalonWidget>("W_DialoguePanel_SpeakerText.xml");
+	mSpeakerNameWidgetRef = AddChild<AvalonWidget>("W_DialoguePanel_SpeakerName.xml");
+	mSpeakerTextWidgetRef = AddChild<AvalonWidget>("W_DialoguePanel_SpeakerText.xml");
 }
 
 void Widget_DialoguePanel::OnDialogueOpened(const FDialogueInfo* Dialogue)
@@ -57,7 +57,7 @@ void Widget_DialoguePanel::PopulateFromDialogue(const FDialogueInfo* Dialogue)
 	const char* SpeakerText = Dialogue->mText.c_str();
 
 	SetTextBox(SpeakerName, FCoord(0, 1), FCoord(mBuffer.GetSize().X, 1), false, false);
-	mSpeakerText.Get<AvalonWidget>()->SetTextBox(SpeakerText, FCoord(), FCoord(), true);
+	Get<AvalonWidget>(mSpeakerTextWidgetRef)->SetTextBox(SpeakerText, FCoord(), FCoord(), true);
 
 	FBufferAnimSettings Animation = FBufferAnimSettings();
 	Animation.mStyle = EAnimationStyle::FadeIn;

@@ -59,7 +59,7 @@ bool Widget_Button::HandleInput(const FInputKeyEventParams& EventParams)
 			|| EventParams.mEvent == EInputEvent::ELeftMouseButton)
 		{
 			OnButtonPressed();
-			mOnButtonPressed.BroadcastEvent(GetSelfHandle());
+			mOnButtonPressed.BroadcastEvent(this);
 			return true;
 		}
 	}

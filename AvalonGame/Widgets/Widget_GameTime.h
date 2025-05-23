@@ -13,7 +13,7 @@ public:
 	Widget_GameTime();
 
 private:
-	FUnitHandle mTextArea;
+	HardUnitRef mTextAreaRef;
 
 	void PopulateTimeText();
 	void PopulateTravellingText();

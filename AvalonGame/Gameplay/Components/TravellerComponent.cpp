@@ -12,6 +12,7 @@
 #include "../Actor/PlayerActor.h"
 
 #include "../Actions/ActionManager.h"
+#include "../AvalonGameState.h"
 
 /***************************************************************************************
 *  Traveller Component
@@ -38,7 +39,9 @@ void Traveller::Load(FSaveContext& Context)
 		if (mPath = MapUtils::GetPath(mPathDef))
 		{
 			mPathDirection = (mPathDef.mStartPos == mPath->mPointA);
-			LevelActor::MoveActorTo(GetActorOwnerHandle(), LevelActor::mStreamingLevel);
+			AvalonActor* TravellerActor = GetActorOwner();
+			HardUnitRef TravellerRef = TravellerActor->GetSelfRef();
+			AvalonGameState::SetActorTravelling(TravellerRef);
 
 			Context.Load("Progress", mProgress);
 		}
@@ -64,7 +67,10 @@ void Traveller::RequestTravel(const FPathRequest& Request)
 			mPathDef = Request;
 
 			mPathDirection = (Request.mStartPos == mPath->mPointA);
-			LevelActor::MoveActorTo(GetActorOwnerHandle(), LevelActor::mStreamingLevel);
+
+			AvalonActor* TravellingActor = GetActorOwner();
+			HardUnitRef TravellingActorRef = TravellingActor->GetSelfRef();
+			AvalonGameState::SetActorTravelling(TravellingActorRef);
 
 			mOnTravelBegin.BroadcastEvent(this);
 
@@ -76,7 +82,8 @@ void Traveller::RequestTravel(const FPathRequest& Request)
 			{
 				// If travel isn't immediate, and this is the player
 				// we save the player state
-				bool IsPlayer = (GetActorOwnerHandle().Get() == PlayerActor::mPlayer);
+				AvalonActor* PlayerActor = AvalonGameState::GetPlayerActor();
+				bool IsPlayer = (TravellingActor == PlayerActor);
 				if (IsPlayer)
 				{
 					PlayerActor::SavePlayer();
@@ -101,19 +108,24 @@ void Traveller::FinishTravel()
 		FWorldPos& Destination = mPathDirection ? mPath->mPointB : mPath->mPointA;
 
 		// When the player travels we change which Levels are loaded
-		bool IsPlayer = (GetActorOwnerHandle().Get() == PlayerActor::mPlayer);
+		AvalonActor* TravellingActor = GetActorOwner();
+		AvalonActor* PlayerActor = AvalonGameState::GetPlayerActor();
+
+		bool IsPlayer = (TravellingActor == PlayerActor);
 		if (IsPlayer)
 		{
 			ActionManager::Get().ClearActionFocus();
 			FLocationInfo* NewLocation = MapUtils::GetLocation(Destination, EGeoScale::EGS_Location);
-			LevelActor::OpenLevel(LevelActor::mCurrentLevel, NewLocation);
+			AvalonGameState::OpenCurrentLevelAt(NewLocation);
 		}
 
-		std::string LevelSaveID = LevelActor::mCurrentLevel->GetSaveID();
+		LevelActor* CurrentLevel = AvalonGameState::GetCurrentLevel();
+		std::string LevelSaveID = CurrentLevel->GetSaveID();
 		std::string DestinationID = Destination[EGeoScale::EGS_Location];
 		if (LevelSaveID == DestinationID)
 		{
-			LevelActor::MoveActorTo(GetActorOwnerHandle(), LevelActor::mCurrentLevel);
+			HardUnitRef TravellerRef = TravellingActor->GetSelfRef();
+			LevelActor::MoveActorTo(TravellerRef, CurrentLevel);
 		}
 		else
 		{
@@ -164,7 +176,8 @@ void PortalComponent::Load(FSaveContext& Context)
 	if (mRequest.mStartPos.IsValid() == false)
 	{
 		// No start position given, use position of portal
-		FLocationInfo* PortalLocation = GetActorOwnerHandle().Get<AvalonActor>()->GetLocation();
+		AvalonActor* OwnerActor = GetActorOwner();
+		FLocationInfo* PortalLocation = OwnerActor->GetLocation();
 		mRequest.mStartPos = PortalLocation->mPosition;
 		mRequest.mGeoScale = PortalLocation->mGeoScale;
 	}
@@ -178,20 +191,21 @@ void PortalComponent::Save(FSaveContext& Context)
 	Context.Save("Prompt", mTravelPrompt);
 }
 
-void PortalComponent::GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions)
+void PortalComponent::GatherActionsFor(const AvalonActor* Target, ActionList& OutActions)
 {
-	AvalonActor* TargetActor = Target.Get<AvalonActor>();
-	Traveller* TravelComp = TargetActor->GetComponent<Traveller>();
+	Traveller* TravelComp = Target->GetComponent<Traveller>();
 	if (TravelComp)
 	{
+		// TODO: are actions unsafe??
 		AvalonAction* TravelAction = new AvalonAction();
 		TravelAction->mActionPrompt = mTravelPrompt;
 		TravelAction->AddEffect<Effect_Travel>();
 
 		// TODO: is there a pattern to the context?
 		// is there a way we can do this automagically?
-		TravelAction->mContext.mSource = GetActorOwnerHandle();
-		TravelAction->mContext.mTarget = Target;
+		HardUnitRef PortalActorRef = GetActorOwner()->GetSelfRef();
+		TravelAction->mContext.mSource = PortalActorRef;
+		TravelAction->mContext.mTarget = Target->GetSelfRef();
 
 		OutActions.push_back(TravelAction);
 	}
@@ -202,13 +216,15 @@ void PortalComponent::GatherActionsFor(const FUnitHandle& Target, ActionList& Ou
 ****************************************************************************************/
 void Effect_Travel::ExecuteEffect(FEffectContext& Context)
 {
-	AvalonActor* TargetActor = Context.mTarget.Get<AvalonActor>();
-	Traveller* TravelComp = TargetActor->GetComponent<Traveller>();
+	AvalonActor* TargetActor = AvalonActor::Get<AvalonActor>(Context.mTarget);
+	if (TargetActor)
+	{
+		Traveller* TravelComp = TargetActor->GetComponent<Traveller>();
+		AvalonActor* SourceActor = AvalonActor::Get<AvalonActor>(Context.mSource);
+		PortalComponent* PortalComp = SourceActor->GetComponent<PortalComponent>();
 
-	AvalonActor* SourceActor = Context.mSource.Get<AvalonActor>();
-	PortalComponent* PortalComp = SourceActor->GetComponent<PortalComponent>();
-
-	TravelComp->RequestTravel(PortalComp->mRequest);
+		TravelComp->RequestTravel(PortalComp->mRequest);
+	}
 }
 
 

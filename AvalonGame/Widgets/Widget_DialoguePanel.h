@@ -16,8 +16,8 @@ public:
 private:
 	void PopulateFromDialogue(const FDialogueInfo* Dialogue);
 
-	FUnitHandle mSpeakerName;
-	FUnitHandle mSpeakerText;
+	HardUnitRef mSpeakerNameWidgetRef;
+	HardUnitRef mSpeakerTextWidgetRef;
 
 	/***************************************************************************************
 	*  Avalon Widget Interface

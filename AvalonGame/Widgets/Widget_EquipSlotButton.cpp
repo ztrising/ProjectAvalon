@@ -8,9 +8,9 @@
 #include "../Gameplay/Components/ContainerComponent.h"
 #include "../Gameplay/Actions/ActionManager.h"
 
-void Widget_EquipSlotButton::SetSlottedActor(FUnitHandle Handle)
+void Widget_EquipSlotButton::SetSlottedActor(HardUnitRef ActorRef)
 {
-	mSlottedActor = Handle;
+	mSlottedActor = ActorRef;
 
 	FTextSettings TextSettings;
 	TextSettings.mOffset = FCoord(0, 0);
@@ -20,14 +20,11 @@ void Widget_EquipSlotButton::SetSlottedActor(FUnitHandle Handle)
 	TextSettings.mFillExtent = true;
 
 	std::string DisplayName = "<< Empty >>";
-	if (mSlottedActor.IsValid())
+	if (ActorRef != nullptr)
 	{
-		if (AvalonActor* EquipmentActor = mSlottedActor.Get<AvalonActor>())
-		{
-			TextSettings.mJustified = ETextJustification::Left;
-			DisplayName = EquipmentActor->mDisplayName;
+		TextSettings.mJustified = ETextJustification::Left;
+		DisplayName = Get<AvalonActor>(ActorRef)->mDisplayName;
 
-		}
 	}
 
 	SetTextWithSettings(DisplayName.c_str(), TextSettings);
@@ -53,26 +50,26 @@ void Widget_EquipSlotButton::SetActive(bool Active)
 
 	if (ActiveValueChanged)
 	{
+		HardUnitRef SlottedActorRef = mSlottedActor.lock();
+		AvalonActor* SlottedActor = Get<AvalonActor>(SlottedActorRef);
 		if (Active)
 		{
-			if (mSlottedActor.IsValid())
+			if (SlottedActor != nullptr)
 			{
-				ActionManager::Get().SetActionFocus(mSlottedActor);
-
-				AvalonActor* SlottedActor = mSlottedActor.Get<AvalonActor>();
+				ActionManager::Get().SetActionFocus(SlottedActorRef);
 				Equipment* EquipComp = SlottedActor->GetComponent<Equipment>();
 				if (EquipComp)
 				{
 					mSubMenu = AddChild<Widget_Equipment>();
-					Widget_Equipment* EquipWidget = mSubMenu.Get<Widget_Equipment>();
-					EquipWidget->SetEquipmentRef(EquipComp);
+					Widget_Equipment* EquipWidget = Get<Widget_Equipment>(mSubMenu);
+					EquipWidget->SetEquipmentRef(EquipComp->GetSelfRef());
 					EquipWidget->SetPosition(FCoord(-27, 0));
 				}
 			}
 		}
 		else
 		{
-			if (mSlottedActor.IsValid())
+			if (SlottedActor != nullptr)
 			{
 				ActionManager::Get().ClearActionFocus();
 				RemoveChild<Widget_Equipment>(mSubMenu);

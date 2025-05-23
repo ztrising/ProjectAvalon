@@ -54,7 +54,7 @@ public:
 	/***************************************************************************************
 	*  IAvalonUnit
 	****************************************************************************************/
-	virtual void OnCreated() override;
+	//virtual void OnCreated(HardUnitRef UnitRef) override;
 	virtual void OnDestroyed() override;
 	/****************************************************************************************/
 
@@ -98,7 +98,7 @@ protected:
 public:
 	~BufferAnimation_WipeOverTime();
 
-	void InitAnimation(FFrameBuffer* TargetBuffer, FBufferAnimSettings Settings);
+	void InitAnimation(FFrameBuffer* TargetBuffer, FBufferAnimSettings* Settings);
 
 private:
 	bool SourceFromEnd(float Alpha, int BufferIndex);
@@ -119,7 +119,7 @@ private:
 
 struct FMoveAnimSettings
 {
-	FUnitHandle mWidgetHandle = FUnitHandle();
+	SoftUnitRef mWidgetRef;
 	FCoord mStartLocation = FCoord();
 	FCoord mEndLocation = FCoord();
 	float mLength = 1.f;
@@ -137,7 +137,7 @@ protected:
 	/****************************************************************************************/
 
 public:
-	void InitMoveTo(FMoveAnimSettings Settings);
+	void InitMoveTo(FMoveAnimSettings* Settings);
 
 private:
 	FMoveAnimSettings mSettings;

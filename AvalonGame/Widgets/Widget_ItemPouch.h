@@ -15,7 +15,7 @@ public:
 	~Widget_ItemPouch();
 
 private:
-	FUnitHandle mPouchImage;
+	HardUnitRef mPouchImageRef;
 
 	FBufferAnimSettings* mPouchOpenAnimation;
 	FBufferAnimSettings* mPouchCloseAnimation;

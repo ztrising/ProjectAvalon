@@ -39,7 +39,7 @@ public:
 	*   Button Event!
 	****************************************************************************************/
 public:
-	typedef FEventDispatcher<const FUnitHandle&> ButtonEvent;
+	typedef FEventDispatcher<const Widget_Button*> ButtonEvent;
 	ButtonEvent mOnButtonPressed;
 	/****************************************************************************************/
 };

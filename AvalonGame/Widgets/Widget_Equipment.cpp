@@ -14,10 +14,10 @@ Widget_Equipment::~Widget_Equipment()
 {
 	SetEquipmentRef(nullptr);
 
-	Widget_List* List = mSlotList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mSlotListRef);
 	List->EmptyList<Widget_EquipSlot>();
 
-	RemoveChild<Widget_List>(mSlotList);
+	RemoveChild<Widget_List>(mSlotListRef);
 }
 
 /***************************************************************************************
@@ -26,35 +26,41 @@ Widget_Equipment::~Widget_Equipment()
 void Widget_Equipment::Construct(const char* WidgetAsset)
 {
 	AvalonWidget::Construct("W_EquipmentPanel.xml");
-	mSlotList = AddChild<Widget_List>();
-	mSlotList.Get<AvalonWidget>()->SetPosition(FCoord(0, 1));
+	mSlotListRef = AddChild<Widget_List>();
+
+	Widget_List* List = Get<Widget_List>(mSlotListRef);
+	List->SetPosition(FCoord(0, 1));
 }
 /****************************************************************************************/
 
-void Widget_Equipment::SetEquipmentRef(Equipment* EquipmentRef)
+void Widget_Equipment::SetEquipmentRef(HardUnitRef EquipmentContainerRef)
 {
-	if (mEquipment != nullptr)
+	if (mEquipmentContainerRef != nullptr)
 	{
+		Equipment* OldEquipmentContainer = Get<Equipment>(mEquipmentContainerRef);
+
 		// Unbind event
-		AvalonActor* Actor = mEquipment->GetActorOwner();
+		AvalonActor* Actor = OldEquipmentContainer->GetActorOwner();
 		Actor->mOnItemAdded.UnBindEvent(this);
 		Actor->mOnItemRemoved.UnBindEvent(this);
 	}
 
-	mEquipment = EquipmentRef;
+	mEquipmentContainerRef = EquipmentContainerRef;
 
-	if (mEquipment != nullptr)
+	if (mEquipmentContainerRef != nullptr)
 	{
+		Equipment* NewEquipmentContainer = Get<Equipment>(mEquipmentContainerRef);
+
 		// Bind event
-		AvalonActor* Actor = mEquipment->GetActorOwner();
+		AvalonActor* Actor = NewEquipmentContainer->GetActorOwner();
 
 		AvalonActor::InventoryEvent::Callback Callback = Widget_Equipment::HandleEquipmentChanged;
 		Actor->mOnItemAdded.BindEvent(this, Callback);
 		Actor->mOnItemRemoved.BindEvent(this, Callback);
 
 		// Set name
-		FUnitHandle Outer = EquipmentRef->GetActorOwnerHandle();
-		std::string DisplayName = Outer.Get<AvalonActor>()->mDisplayName;
+		//HardUnitRef Outer = EquipmentRef->GetActorOwner();
+		std::string DisplayName = Actor->mDisplayName;
 
 		SetText(DisplayName.c_str(), FCoord(0, 0));
 
@@ -64,17 +70,18 @@ void Widget_Equipment::SetEquipmentRef(Equipment* EquipmentRef)
 
 void Widget_Equipment::PopulateEquipment()
 {
-	if (mEquipment == nullptr)
+	if (mEquipmentContainerRef == nullptr)
 	{
 		return;
 	}
 
-	int NumSlots = mEquipment->mEquipment.size();
+	Equipment* EquipmentContainer = Get<Equipment>(mEquipmentContainerRef);
+	int NumSlots = EquipmentContainer->mEquipment.size();
 
 	/***************************************************************************************
 	*  Equipment Slots
 	****************************************************************************************/
-	Widget_List* List = mSlotList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mSlotListRef);
 
 	FWidgetListSettings ListSettings;
 	ListSettings.mMaxHorizontalElements = 1;
@@ -83,10 +90,10 @@ void Widget_Equipment::PopulateEquipment()
 
 	List->ConstructList<Widget_EquipSlot>(NumSlots, ListSettings, "W_EquipSlot.xml");
 
-	auto It = mEquipment->mEquipment.begin();
-	auto InitSlotLambda = [&](FUnitHandle& Handle)
+	auto It = EquipmentContainer->mEquipment.begin();
+	auto InitSlotLambda = [&](HardUnitRef& WidgetRef)
 	{
-		Widget_EquipSlot* Slot = Handle.Get<Widget_EquipSlot>();
+		Widget_EquipSlot* Slot = Get<Widget_EquipSlot>(WidgetRef);
 		Slot->InitializeWithData(&((*It)));
 
 		It++;
@@ -100,27 +107,27 @@ void Widget_Equipment::PopulateEquipment()
 *  IEventListener
 ****************************************************************************************/
 /*static*/ void Widget_Equipment::HandleEquipmentChanged( IEventListener* Listener
-													    , FUnitHandle& Item)
+													    , AvalonActor* Item)
 {
 	Widget_Equipment* Widget = static_cast<Widget_Equipment*>(Listener);
 	Widget->PopulateEquipment();
 }
 
 /*static*/ void Widget_Equipment::HandleButtonPressed( IEventListener* Listener
-													 , const FUnitHandle& Source)
+													 , const Widget_Button* Source)
 {
 	Widget_Equipment* Widget = static_cast<Widget_Equipment*>(Listener);
 
-	auto ExclusiveSlotActiveLamba = [&](FUnitHandle& Handle)
+	auto ExclusiveSlotActiveLamba = [&](HardUnitRef& WidgetRef)
 	{
-		Widget_EquipSlot* Slot = Handle.Get<Widget_EquipSlot>();
+		Widget_EquipSlot* Slot = AvalonWidget::Get<Widget_EquipSlot>(WidgetRef);
 		Slot->HandleButtonPressed(Slot, Source);
 	};
 
-	Widget_EquipSlotButton* SourceButton = Source.Get<Widget_EquipSlotButton>();
+	const Widget_EquipSlotButton* SourceButton = static_cast<const Widget_EquipSlotButton*>(Source);
 	if (SourceButton->GetActive())
 	{
-		Widget_List* List = Widget->mSlotList.Get<Widget_List>();
+		Widget_List* List = Get<Widget_List>(Widget->mSlotListRef);
 		List->ForEachItem(ExclusiveSlotActiveLamba);
 	}
 }

@@ -13,6 +13,7 @@
 struct FActorHandle;
 class IContainer;
 class Traveller;
+class AvalonActor;
 
 /***************************************************************************************
 *  Widget_Inventory
@@ -28,8 +29,8 @@ public:
 	~Widget_Inventory();
 
 private:
-	std::vector<FUnitHandle> mItemPouches;
-	std::vector<FUnitHandle> mItemPouchContainers;
+	HardRefList mItemPouches;
+	HardRefList mItemPouchContainers;
 
 	void RequestContainerOpen(IContainer* Container);
 	void RequestContainerClosed(IContainer* Container);
@@ -39,8 +40,10 @@ private:
 	void HideLevelContainer();
 
 	// Containers you can open in the environment
-	FUnitHandle mLevelContainer;
-	FUnitHandle mCloseButton;
+	HardUnitRef mLevelContainer;
+	HardUnitRef mCloseButton;
+
+	// TODO, should be HardUnitRef... once I get to the animation systems
 	IAvalonAnimation* mCloseAnimation = nullptr;
 
 	// TODO: Special Trading Panel...
@@ -63,8 +66,8 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleItemAdded(IEventListener* Listener, FUnitHandle& AddedItem);
-	static void HandleItemRemoved(IEventListener* Listener, FUnitHandle& RemovedItem);
+	static void HandleItemAdded(IEventListener* Listener, AvalonActor* AddedItem);
+	static void HandleItemRemoved(IEventListener* Listener, AvalonActor* RemovedItem);
 
 	static void HandleContainerOpened(IEventListener* Listener, IContainer* Container);
 	static void HandleContainerClosed(IEventListener* Listener, IContainer* Container);
@@ -73,7 +76,7 @@ public:
 
 	static void OnCloseAnimFinished(IEventListener* Listener, IAvalonAnimation* Animation);
 	
-	static void HandleButtonPressed(IEventListener* Listener, const FUnitHandle& Source);
+	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };
 

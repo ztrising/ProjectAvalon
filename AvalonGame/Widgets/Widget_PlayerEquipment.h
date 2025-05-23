@@ -16,7 +16,7 @@
 class Widget_PlayerEquipment : public Widget_ToggleButton
 {
 private:
-	FUnitHandle mEquipmentPanel;
+	HardUnitRef mEquipmentPanelRef;
 
 	void ShowEquipmentPanel();
 	void HideEquipmentPanel();

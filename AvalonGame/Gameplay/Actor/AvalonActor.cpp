@@ -4,52 +4,51 @@
 
 #include "AvalonActor.h"
 #include "LevelActor.h"
+#include "../Components/ContainerComponent.h"
 
 
-void AvalonActor::SetOwner(const FUnitHandle& InActorHandle)
+void AvalonActor::SetOwner(HardUnitRef& InActor)
 {
-	mOwnerHandle = InActorHandle;
+	mOwner = InActor;
 }
 
 void AvalonActor::ResetOwner()
 {
-	mOwnerHandle.Reset();
+	mOwner.reset();
 }
 
-bool AvalonActor::IsOwnedBy(const FUnitHandle& InActorHandle)
+bool AvalonActor::IsOwnedBy(const AvalonActor* InActor)
 {
 	// The actor I'm checking is the owner is not valid!
-	if (!InActorHandle.IsValid())
+	if (InActor == nullptr)
 	{
 		return false;
 	}
 
 	// I cannot own myself
-	if (InActorHandle == GetSelfHandle())
+	if (InActor == this)
 	{
 		return false;
 	}
 	
 	// Starting with my owner, keep checking the owner chain
 	// until we run out of owners
-	const AvalonActor* InActor = InActorHandle.Get<AvalonActor>();
-	FUnitHandle& OwnerChainHandle = mOwnerHandle;
-	while (OwnerChainHandle.IsValid())
+	AvalonActor* OwnerChainActor = Get<AvalonActor>(mOwner);
+	while (OwnerChainActor != nullptr)
 	{
-		const AvalonActor* OwnerChainActor = OwnerChainHandle.Get<AvalonActor>();
 		if (OwnerChainActor == InActor)
 		{
 			return true;
 		}
 
-		OwnerChainHandle = OwnerChainActor->mOwnerHandle;
+		OwnerChainActor = IAvalonUnit::Get<AvalonActor>(OwnerChainActor->mOwner);
 	}
 
 	// Didn't find the In Actor in the ownership chain for this Actor
 	return false;
 }
 
-void AvalonActor::GatherOwners(std::vector<FUnitHandle>& OutOwners)
+void AvalonActor::GatherOwners(ActorList& OutOwners)
 {
 	// Levels are allowed to "directly" own actors but aren't allowed
 	// to be "grandparents".
@@ -63,23 +62,24 @@ void AvalonActor::GatherOwners(std::vector<FUnitHandle>& OutOwners)
 	// notified to update the "location panel" display
 
 	const LevelActor* MyLevel = GetLevel();
-	FUnitHandle OwnerChainHandle = mOwnerHandle;
-	while (OwnerChainHandle.IsValid())
+	HardUnitRef OwnerRef = mOwner.lock();
+	while (OwnerRef != nullptr)
 	{
-		const AvalonActor* OwnerChainActor = OwnerChainHandle.Get<AvalonActor>();
-		if (OwnerChainActor == MyLevel && OutOwners.size() > 0)
+		if (OwnerRef.get() == MyLevel && OutOwners.size() > 0)
 		{
 			return;
 		}
 		
-		OutOwners.push_back(OwnerChainHandle);
-		OwnerChainHandle = OwnerChainActor->mOwnerHandle;
+		AvalonActor* OwnerActor = Get<AvalonActor>(OwnerRef);
+		OutOwners.push_back(OwnerActor);
+
+		OwnerRef = OwnerActor->mOwner.lock();
 	}
 }
 
 LevelActor* AvalonActor::GetLevel()
 {
-	return mLevel.Get<LevelActor>();
+	return Get<LevelActor>(mLevelRef);
 }
 
 void AvalonActor::Tick(float DeltaSeconds)
@@ -98,9 +98,7 @@ void AvalonActor::AdvanceTime(long DeltaHours)
 	}
 }
 
-#include "../Components/ContainerComponent.h"
-
-void AvalonActor::GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions)
+void AvalonActor::GatherActionsFor(const AvalonActor* Target, ActionList& OutActions)
 {
 	for (IActorComponent* Component : mComponents)
 	{
@@ -111,9 +109,9 @@ void AvalonActor::GatherActionsFor(const FUnitHandle& Target, ActionList& OutAct
 	}
 }
 
-void AvalonActor::GetItemPouchContainers(std::vector<IContainer*>& OutContainers)
+void AvalonActor::GetItemPouchContainers(ContainerList& OutContainers)
 {
-	std::vector<IContainer*> Containers;
+	ContainerList Containers;
 	GetComponents<IContainer>(Containers);
 
 	for (IContainer* Container : Containers)
@@ -122,9 +120,9 @@ void AvalonActor::GetItemPouchContainers(std::vector<IContainer*>& OutContainers
 	}
 }
 
-void AvalonActor::GatherContainers(std::vector<IContainer*>& OutContainers)
+void AvalonActor::GatherContainers(ContainerList& OutContainers) const
 {
-	std::vector<IContainer*> Containers;
+	ContainerList Containers;
 	GetComponents<IContainer>(Containers);
 
 	OutContainers.insert( OutContainers.end()
@@ -132,7 +130,7 @@ void AvalonActor::GatherContainers(std::vector<IContainer*>& OutContainers)
 
 	for (IContainer* Container : Containers)
 	{
-		std::vector<IContainer*> InnerContainers;
+		ContainerList InnerContainers;
 		Container->GetContainersWithin(InnerContainers);
 
 		OutContainers.insert( OutContainers.end()
@@ -156,6 +154,8 @@ void AvalonActor::Load(FSaveContext& Context)
 	//strip it of end lines and tabs
 	mDescription.erase(remove(mDescription.begin(), mDescription.end(), '\t'), mDescription.end());
 	mDescription.erase(remove(mDescription.begin(), mDescription.end(), '\n'), mDescription.end());
+
+	HardUnitRef OwnerRef = GetSelfRef();
 
 	// Component Factory - Create and Init Properties!
 	auto ComponentFactory_Lambda = [&](FSaveContext& Context)
@@ -206,7 +206,7 @@ void AvalonActor::Load(FSaveContext& Context)
 
 		if (RetValue != nullptr)
 		{
-			RetValue->SetActorOwner(GetSelfHandle());
+			RetValue->SetActorOwner(OwnerRef);
 		}
 
 		return RetValue;

@@ -6,7 +6,7 @@
 
 #include "../Gameplay/Actor/AvalonActor.h"
 #include "../Gameplay/Components/StatsComponent.h"
-#include "../Gameplay/Actor/PlayerActor.h"
+#include "../Gameplay/AvalonGameState.h"
 
 unsigned short GetColorForStat(std::string Stat)
 {
@@ -52,7 +52,9 @@ void Widget_PlayerStatus::Show()
 {
 	AvalonWidget::Show();
 
-	StatsComponent* StatsComp = PlayerActor::mPlayer->GetComponent<StatsComponent>();
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	StatsComponent* StatsComp = Player->GetComponent<StatsComponent>();
+	
 
 	FCoord Spacing = FCoord(5, 0);
 	short XOffset = 25;
@@ -60,11 +62,11 @@ void Widget_PlayerStatus::Show()
 	std::vector<std::string> DisplayOrder = { "Health", "Stamina", "Hunger", "Thirst", "Toxicity" };
 	for (int i = 0; i < DisplayOrder.size(); ++i)
 	{
-		FUnitHandle Handle = AddChild<AvalonWidget>("W_PlayerStatus_StatTextArea.xml");
+		HardUnitRef WidgetRef = AddChild<AvalonWidget>("W_PlayerStatus_StatTextArea.xml");
 		std::string StatID = DisplayOrder[i];
-		mStatDisplays[StatID] = Handle;
+		mStatDisplays[StatID] = WidgetRef;
 
-		AvalonWidget* StatWidget = Handle.Get<AvalonWidget>();
+		AvalonWidget* StatWidget = Get<AvalonWidget>(WidgetRef);
 		StatWidget->Show();
 		StatWidget->SetPosition(Spacing);
 		Spacing.X += XOffset;
@@ -104,7 +106,7 @@ void Widget_PlayerStatus::HandleStatValueChange(std::string Stat, float Value, f
 	float ValuePct = Value / MaxDisplayableValue;
 	unsigned int NumFilledSections = (ValuePct * NumDisplayableUnits);
 
-	AvalonWidget* StatWidget = mStatDisplays[Stat].Get<AvalonWidget>();
+	AvalonWidget* StatWidget = Get<AvalonWidget>(mStatDisplays[Stat]);
 
 	for (unsigned int PosY = 1; PosY < 3; ++PosY)
 	{
@@ -132,7 +134,8 @@ void Widget_PlayerStatus::HandleStatValueChange(std::string Stat, float Value, f
 {
 	Widget_PlayerStatus* Widget = static_cast<Widget_PlayerStatus*>(Listener);
 
-	StatsComponent* StatsComp = PlayerActor::mPlayer->GetComponent<StatsComponent>();
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	StatsComponent* StatsComp = Player->GetComponent<StatsComponent>();
 	FAvalonStat* Stat = StatsComp->mStats[StatID];
 	Widget->HandleStatValueChange(StatID, Stat->mCurrentValue
 										, Stat->mMaxValue.GetValue());

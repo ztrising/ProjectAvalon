@@ -17,7 +17,7 @@ public:
 	Widget_PlayerStatus();
 
 private:
-	std::map<std::string, FUnitHandle> mStatDisplays;
+	std::map<std::string, HardUnitRef> mStatDisplays;
 
 	/***************************************************************************************
 	*  IEventListener

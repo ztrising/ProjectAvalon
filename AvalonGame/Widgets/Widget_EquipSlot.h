@@ -21,7 +21,7 @@ private:
 	void PopulateItems();
 
 	FEquipSlot* mSlotData = nullptr;
-	FUnitHandle mEquipmentList;
+	HardUnitRef mEquipmentList;
 
 	/***************************************************************************************
 	*  AvalonWidget
@@ -34,6 +34,6 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleButtonPressed(IEventListener* Listener, const FUnitHandle& Source);
+	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };

@@ -10,11 +10,11 @@
 class Widget_EquipSlotButton : public Widget_ToggleButton
 {
 public:
-	void SetSlottedActor(FUnitHandle Handle);
+	void SetSlottedActor(HardUnitRef Handle);
 
 private:
-	FUnitHandle mSlottedActor;
-	FUnitHandle mSubMenu;
+	SoftUnitRef mSlottedActor;
+	HardUnitRef mSubMenu;
 
 	/***************************************************************************************
 	*  Widget_ToggleButton

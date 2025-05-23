@@ -6,6 +6,7 @@
 
 #include "../Gameplay/Actor/PlayerActor.h"
 #include "../Gameplay/Components/Meditator.h"
+#include "../Gameplay/AvalonGameState.h"
 
 /***************************************************************************************
 *  AvalonWidget
@@ -21,9 +22,10 @@ void Widget_Meditate::Construct(const char* WidgetAsset)
 ****************************************************************************************/
 void Widget_Meditate::OnButtonPressed()
 {
-	if (PlayerActor::mPlayer)
+	AvalonActor* Player = AvalonGameState::GetPlayerActor();
+	if (Player != nullptr)
 	{
-		PlayerActor::mPlayer->GetComponent<Meditator>()->StartMeditating(1);
+		Player->GetComponent<Meditator>()->StartMeditating(1);
 	}
 }
 /****************************************************************************************/

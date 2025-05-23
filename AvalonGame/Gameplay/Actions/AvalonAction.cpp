@@ -6,6 +6,7 @@
 #include "ActionManager.h"
 
 #include "../Actor/PlayerActor.h"
+#include "../AvalonGameState.h"
 
 /***************************************************************************************
 *  Action Manager
@@ -21,14 +22,14 @@ void ActionManager::PopulateActions()
 {
 	mActionState.mActions.clear();
 
-	if (AvalonActor* FocusActor = mActionState.mFocus.Get<AvalonActor>())
+	if (AvalonActor* FocusActor = IAvalonUnit::Get<AvalonActor>(mActionState.mFocus))
 	{
-		FUnitHandle PlayerHandle = PlayerActor::mPlayer->GetSelfHandle();
-		FocusActor->GatherActionsFor(PlayerHandle, mActionState.mActions);
+		AvalonActor* Player = AvalonGameState::GetPlayerActor();
+		FocusActor->GatherActionsFor(Player, mActionState.mActions);
 	}
 }
 
-void ActionManager::SetActionFocus(FUnitHandle NewFocus)
+void ActionManager::SetActionFocus(HardUnitRef NewFocus)
 {
 	mActionState.mFocus = NewFocus;
 	UpdateCurrentActions();
@@ -36,7 +37,7 @@ void ActionManager::SetActionFocus(FUnitHandle NewFocus)
 
 void ActionManager::ClearActionFocus()
 {
-	mActionState.mFocus.Reset();
+	mActionState.mFocus.reset();
 	UpdateCurrentActions();
 }
 

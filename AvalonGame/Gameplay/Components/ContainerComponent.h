@@ -12,19 +12,17 @@
 #include <vector>
 #include <map>
 
-class AvalonActor;
-
 class IContainer : public IActorComponent
 {
 public:
-    virtual void GetContainerContents(std::vector<FUnitHandle>& OutContents) const = 0;
+    virtual void GetContainerContents(HardRefList& OutContents) const = 0;
 
-    void GetContainersWithin(std::vector<IContainer*>& OutContainers);
-    bool IsInContainer(const FUnitHandle& InHandle) const;
-    virtual bool CanAddToContainer(const FUnitHandle& InHandle) const;
-    virtual void AddToContainer(FUnitHandle& ToAddHandle);
-    virtual void RemoveFromContainer(FUnitHandle& ToRemoveHandle);
-    virtual void GetItemPouchContainers(std::vector<IContainer*>& OutContainers) {}
+    void GetContainersWithin(ContainerList& OutContainers);
+    bool IsInContainer(const AvalonActor* InActor) const;
+    virtual bool CanAddToContainer(const AvalonActor* InActor) const;
+    virtual void AddToContainer(AvalonActor* ToAdd);
+    virtual void RemoveFromContainer(HardUnitRef& ToRemove);
+    virtual void GetItemPouchContainers(ContainerList& OutContainers) {}
 };
 
 /***************************************************************************************
@@ -48,15 +46,17 @@ public:
     *  IContainer
     ****************************************************************************************/
 public:
-    void GetContainerContents(std::vector<FUnitHandle>& OutContents) const override;
+    void GetContainerContents(HardRefList& OutContents) const override;
     
-    bool CanAddToContainer(const FUnitHandle& InHandle) const override;
-    void AddToContainer(FUnitHandle& InHandle) override;
-    void RemoveFromContainer(FUnitHandle& InHandle) override;
+    bool CanAddToContainer(const AvalonActor* Actor) const override;
+    void AddToContainer(AvalonActor* ToAdd) override;
+    void RemoveFromContainer(HardUnitRef& ToRemove) override;
     /***************************************************************************************/
 
 private:
-    std::vector<FUnitHandle> mLevelActors;
+
+    // Levels hold an ownership reference to actors directly in the level
+    std::vector<HardUnitRef> mLevelActors;
 };
 
 /***************************************************************************************
@@ -68,7 +68,7 @@ public:
     void Load(FSaveContext& Context) override;
     void Save(FSaveContext& Context) override;
 
-    void GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions) override;
+    void GatherActionsFor(const AvalonActor* Target, ActionList& OutActions) override;
 
     void OpenContainer();
     void CloseContainer();
@@ -76,18 +76,18 @@ public:
     /***************************************************************************************
     *  IContainer
     ****************************************************************************************/
-    void GetContainerContents(std::vector<FUnitHandle>& OutContents) const override;
+    void GetContainerContents(HardRefList& OutContents) const override;
     
-    bool CanAddToContainer(const FUnitHandle& InHandle) const override;
-    void AddToContainer(FUnitHandle& InHandle) override;
-    void RemoveFromContainer(FUnitHandle& InHandle) override;
-    void GetItemPouchContainers(std::vector<IContainer*>& OutContainers) override;
+    bool CanAddToContainer(const AvalonActor* Actor) const override;
+    void AddToContainer(AvalonActor* ToAdd) override;
+    void RemoveFromContainer(HardUnitRef& ToRemove) override;
+    void GetItemPouchContainers(ContainerList& OutContainers) override;
     /***************************************************************************************/
 
 protected:
 
     FAvalonTagQuery mFilter;
-    std::vector<FUnitHandle> mContents;
+    HardRefList mContents;
 
     bool mIsOpen = false;
 
@@ -96,7 +96,7 @@ protected:
     ****************************************************************************************/
 public:
     // TODO:  All this, but like, better
-    FUnitHandle GetContentsByIndex(int Index);
+    HardUnitRef GetContentsByIndex(int Index);
     std::string GetDisplayName();
     int GetNumItems();
     int GetMaxSlots();
@@ -129,7 +129,7 @@ public:
     void OpenContainer(IContainer* Container);
     void CloseContainer(IContainer* Container);
 
-    std::vector<IContainer*> mOpenContainers;
+    ContainerList mOpenContainers;
 
     /***************************************************************************************
     *   Open/Close Container Events!
@@ -152,7 +152,7 @@ struct FEquipSlot
 
     std::string mID;
     int mMaxCapacity = 1;
-    std::vector<FUnitHandle> mSlotContents;
+    HardRefList mSlotContents;
 };
 
 class Equipment : public IContainer
@@ -167,11 +167,11 @@ public:
     /***************************************************************************************
     *  IContainer
     ****************************************************************************************/
-    void GetContainerContents(std::vector<FUnitHandle>& OutContents) const override;
+    void GetContainerContents(std::vector<HardUnitRef>& OutContents) const override;
     
-    bool CanAddToContainer(const FUnitHandle& Actor) const override;
-    void AddToContainer(FUnitHandle& Actor) override;
-    void RemoveFromContainer(FUnitHandle& Actor) override;
+    bool CanAddToContainer(const AvalonActor* Actor) const override;
+    void AddToContainer(AvalonActor* ToAdd) override;
+    void RemoveFromContainer(HardUnitRef& Actor) override;
     void GetItemPouchContainers(std::vector<IContainer*>& OutContainers) override;
     /***************************************************************************************/
 

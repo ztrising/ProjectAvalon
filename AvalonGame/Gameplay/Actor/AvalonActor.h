@@ -12,9 +12,9 @@
 #include "../../AvalonUnit/AvalonUnit.h"
 
 #include <vector>
+#include <memory>
 
 class LevelActor;
-class IContainer;
 
 class AvalonActor : public IAvalonUnit, public ISaveable, public IActionProvider, public IEventListener
 {
@@ -30,7 +30,7 @@ protected:
     *  IActionProvider
     ****************************************************************************************/
 public:
-    virtual void GatherActionsFor(const FUnitHandle& Target, ActionList& OutActions) override;
+    virtual void GatherActionsFor(const AvalonActor* Target, ActionList& OutActions) override;
     /****************************************************************************************/
 
     /***************************************************************************************
@@ -40,7 +40,7 @@ public:
     std::string mDisplayName;
     std::string mDescription;
 
-    FUnitHandle mLevel;
+    SoftUnitRef mLevelRef;
 
     FAvalonTagContainer mTags;
     
@@ -49,33 +49,33 @@ public:
     // Used by containers to set themselves as the owners of Actors
     // or reset the ownership when this actor is being removed from
     // a container.  (Levels are also containers)
-    void SetOwner(const FUnitHandle& InActorHandle);
+    void SetOwner(HardUnitRef& InActor);
     void ResetOwner();
     
     // Check if the given InActorHandle is in the ownership chain of this actor
-    bool IsOwnedBy(const FUnitHandle& InActorHandle);
-    void GatherOwners(std::vector<FUnitHandle>& OutOwners);
+    bool IsOwnedBy(const AvalonActor* InActor);
+    void GatherOwners(ActorList& OutOwners);
 
     virtual void Tick(float DeltaSeconds);
     virtual void AdvanceTime(long DeltaHours);
 
-    void GetItemPouchContainers(std::vector<IContainer*>& OutContainers);
+    void GetItemPouchContainers(ContainerList& OutContainers);
 
-    void GatherContainers(std::vector<IContainer*>& OutContainers);
+    void GatherContainers(ContainerList& OutContainers) const;
     FLocationInfo* GetLocation() const { return mLocation; }
     void SetLocation(FLocationInfo* NewLocation) { mLocation = NewLocation; }
 protected:
     FLocationInfo* mLocation = nullptr;
 
 private:
-    FUnitHandle mOwnerHandle;
+    SoftUnitRef mOwner;
     /****************************************************************************************/
 
     /***************************************************************************************
     *   Actor Events!
     ****************************************************************************************/
 public:
-    typedef FEventDispatcher<FUnitHandle&> InventoryEvent;
+    typedef FEventDispatcher<AvalonActor*> InventoryEvent;
 
     InventoryEvent mOnItemAdded;
     InventoryEvent mOnItemRemoved;
@@ -112,6 +112,7 @@ public:
     }
 
 private:
+    // TODO: make these shared ptrs, the actor should own the components
     std::vector<IActorComponent*> mComponents;
     /****************************************************************************************/
 };

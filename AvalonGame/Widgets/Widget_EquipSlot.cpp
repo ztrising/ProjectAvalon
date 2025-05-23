@@ -13,7 +13,7 @@
 
 Widget_EquipSlot::~Widget_EquipSlot()
 {
-	Widget_List* List = mEquipmentList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mEquipmentList);
 	List->EmptyList<Widget_EquipSlotButton>();
 
 	RemoveChild<Widget_List>(mEquipmentList);
@@ -26,7 +26,8 @@ void Widget_EquipSlot::Construct(const char* WidgetAsset)
 {
 	AvalonWidget::Construct(WidgetAsset);
 	mEquipmentList = AddChild<Widget_List>();
-	mEquipmentList.Get<AvalonWidget>()->SetPosition(FCoord(2, 2));
+	Widget_List* Widget = Get<Widget_List>(mEquipmentList);
+	Widget->SetPosition(FCoord(2, 2));
 }
 /****************************************************************************************/
 
@@ -59,7 +60,7 @@ void Widget_EquipSlot::PopulateItems()
 	/***************************************************************************************
 	*  Equipment in Slot
 	****************************************************************************************/
-	Widget_List* List = mEquipmentList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mEquipmentList);
 
 	FWidgetListSettings ListSettings;
 	ListSettings.mMaxHorizontalElements = 1;
@@ -70,20 +71,20 @@ void Widget_EquipSlot::PopulateItems()
 
 	// The Equipment Page that is showing this slot, listens for the buttons
 	// to be pressed!
-	AvalonWidget* ListParent = GetParent().Get<AvalonWidget>();
-	Widget_Equipment* ParentListener = ListParent->GetParent().Get<Widget_Equipment>();
+	AvalonWidget* ListParent = GetParent();
+	Widget_Equipment* ParentListener = static_cast<Widget_Equipment*>(ListParent->GetParent());
 
-	auto InitSlotEntryLambda = [&](FUnitHandle& Handle)
+	auto InitSlotEntryLambda = [&](HardUnitRef& WidgetRef)
 	{
-		FUnitHandle EquipmentHandle;
+		HardUnitRef EquipmentRef;
 		if (It != mSlotData->mSlotContents.end())
 		{
-			EquipmentHandle = (*It);
+			EquipmentRef = (*It);
 			It++;
 		}
 
-		Widget_EquipSlotButton* SlotButton = Handle.Get<Widget_EquipSlotButton>();
-		SlotButton->SetSlottedActor(EquipmentHandle);
+		Widget_EquipSlotButton* SlotButton = Get<Widget_EquipSlotButton>(WidgetRef);
+		SlotButton->SetSlottedActor(EquipmentRef);
 
 		Widget_Button::ButtonEvent::Callback ButtonPressedCallback = Widget_Equipment::HandleButtonPressed;
 		SlotButton->mOnButtonPressed.BindEvent(ParentListener, ButtonPressedCallback);
@@ -108,20 +109,20 @@ void Widget_EquipSlot::PopulateItems()
 *  Button Event Handler
 ****************************************************************************************/
 /*static*/ void Widget_EquipSlot::HandleButtonPressed( IEventListener* Listener
-													 , const FUnitHandle& Source)
+													 , const Widget_Button* Source)
 {
-	Widget_EquipSlot* Widget = static_cast<Widget_EquipSlot*>(Listener);
+	Widget_EquipSlot* SlotWidget = static_cast<Widget_EquipSlot*>(Listener);
 
-	auto ExclusiveEquipActiveLamba = [&](FUnitHandle& Handle)
+	auto ExclusiveEquipActiveLamba = [&](HardUnitRef& Widget)
 	{
-		if (Source != Handle)
+		if (Source != Widget.get())
 		{
-			Widget_EquipSlotButton* Button = Handle.Get<Widget_EquipSlotButton>();
+			Widget_EquipSlotButton* Button = Get<Widget_EquipSlotButton>(Widget);
 			Button->SetActive(false);
 		}
 	};
 
-	Widget_List* List = Widget->mEquipmentList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(SlotWidget->mEquipmentList);
 	List->ForEachItem(ExclusiveEquipActiveLamba);
 }
 /****************************************************************************************/

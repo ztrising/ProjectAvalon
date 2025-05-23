@@ -11,8 +11,8 @@
 #include <vector>
 
 struct FLocationInfo;
-struct FActorHandle;
 class IContainer;
+class AvalonActor;
 
 class Widget_LocationPanel : public AvalonWidget, public IEventListener
 {
@@ -24,12 +24,11 @@ private:
 	void PopulateFromLocation();
 	void PopulateTravelling();
 
-	void PopulateWorldPosInfo(const FLocationInfo* LocationInfo);
+	//void PopulateWorldPosInfo(const FLocationInfo* LocationInfo);  // Where did this go?
 
 	//FUnitHandle mTitleText;
-	FUnitHandle mDescText;
-
-	std::vector<FUnitHandle> mLocationActors;
+	HardUnitRef mDescTextRef;
+	HardRefList mLocationActors;
 
 	// Let's try the "Floor" and "Dialogue" and "Shops" and other things
 	// being panels that pop to the right of the Location
@@ -52,7 +51,7 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleLevelActorsChanged(IEventListener* Listener, FUnitHandle& Handle);
+	static void HandleLevelActorsChanged(IEventListener* Listener, AvalonActor* Actor);
 	static void OnPlayerFinishTravel(IEventListener* Listener, class Traveller* PlayerTraveller);
 	static void HandleContainerOpened(IEventListener* Listener, IContainer* Container);
 	static void HandleContainerClosed(IEventListener* Listener, IContainer* Container);

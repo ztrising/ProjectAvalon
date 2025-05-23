@@ -14,11 +14,11 @@ void Widget_List::Construct(const char* WidgetAsset)
 }
 /****************************************************************************************/
 
-int Widget_List::GetElementIndex(const FUnitHandle& Handle)
+int Widget_List::GetElementIndex(const HardUnitRef& WidgetRef)
 {
 	for (unsigned int Index = 0; Index < mListElements.size(); ++Index)
 	{
-		if (Handle == mListElements[Index])
+		if (WidgetRef == mListElements[Index])
 		{
 			return Index;
 		}
@@ -35,8 +35,8 @@ void Widget_List::RepositionElements()
 	unsigned int NumElements = mListElements.size();
 	for (unsigned int Index = 0; Index < NumElements; ++Index)
 	{
-		FUnitHandle& Handle = mListElements[Index];
-		AvalonWidget* Widget = Handle.Get<AvalonWidget>();
+		HardUnitRef WidgetRef = mListElements[Index];
+		AvalonWidget* Widget = Get<AvalonWidget>(WidgetRef);
 		
 		FCoord NewPosition;
 		NewPosition.X = (XSlot * mElementDimensions.X) + (XSlot * mSettings.mHorizontalPadding);

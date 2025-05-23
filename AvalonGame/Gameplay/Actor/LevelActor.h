@@ -24,20 +24,17 @@ public:
     void OnLevelOpened();
     void OnLevelClosed();
 
-    // For level transitions
-    static void OpenLevel(LevelActor*& Level, struct FLocationInfo* NewLocation);
+    LevelActor* GetLevel() override { return this; }
 
-    // For actors NOT in levels (Players Spawning)
-    static void PlaceActorInLevel(FUnitHandle& ActorHandle, LevelActor* NewLevel);
+    // For actors NOT in levels (Players Spawning, Travellers Moving)
+    static void PlaceActorInLevel(HardUnitRef& ActorRef, LevelActor* Level);
+    static void RemoveActorFromLevel(HardUnitRef& ActorRef, LevelActor* Level);
 
     // For actors in a level moving to another level (Player/Travellers)
-    static void MoveActorTo(FUnitHandle& ActorHandle, LevelActor* NewLevel);
-
-    static LevelActor* mCurrentLevel;
-    static LevelActor* mStreamingLevel;
+    static void MoveActorTo(HardUnitRef& ActorRef, LevelActor* Level);
 
     // Gets a list of Actors "placed" in the level, doesn't include actors "within" those actors.
-    void GetActorsPlacedInLevel(std::vector<FUnitHandle>& OutActors) const;
+    void GetActorsPlacedInLevel(HardRefList& OutActors) const;
 
     void SetLevelContainer(class LevelContainer* Container) { mLevelContainer = Container; }
     IContainer* GetFloorContainer() { return mFloorContainer; }
@@ -59,6 +56,6 @@ public:
     *  Actor Memory Management
     ****************************************************************************************/
 public:
-    FUnitHandle LoadActor(const FUnitHandle& Owner, FSaveContext& Context);
+    void LoadActor(HardUnitRef& OutNewActor, HardUnitRef& Owner, FSaveContext& Context);
     /****************************************************************************************/
 };

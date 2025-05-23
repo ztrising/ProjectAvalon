@@ -7,16 +7,12 @@
 #include "../Components/ContainerComponent.h"
 #include "../Map/TravelTypes.h"
 
-LevelActor* LevelActor::mCurrentLevel = nullptr;
-LevelActor* LevelActor::mStreamingLevel = nullptr;
-
 /***************************************************************************************
 *  Level Actor
 ****************************************************************************************/
 LevelActor::LevelActor()
 {
     SetSavesToFile();
-
 }
 
 LevelActor::~LevelActor()
@@ -43,6 +39,7 @@ void LevelActor::AdvanceTime(long DeltaHours)
 void LevelActor::OnLevelOpened()
 {
     ISaveable::LoadFromFile(this, mLocation->mFilename);
+
     InitializeDefaultComponents();
 
     GameCalendar::GameTimeEvent::Callback Callback = LevelActor::HandleTimeAdvanced;
@@ -59,70 +56,69 @@ void LevelActor::OnLevelClosed()
     }
 }
 
-FUnitHandle LevelActor::LoadActor(const FUnitHandle& Owner, FSaveContext& Context)
+void LevelActor::LoadActor(HardUnitRef& OutNewActor, HardUnitRef& OwnerRef, FSaveContext& Context)
 {
-    FUnitHandle NewHandle = AvalonMemory::NewUnit<AvalonActor>();
-    AvalonActor* NewActor = NewHandle.Get<AvalonActor>();
-    NewActor->SetOwner(Owner);
-
-    if (AvalonActor* Outer = Owner.Get<AvalonActor>())
+    AvalonMemory::NewUnit<AvalonActor>(OutNewActor);
+    
+    AvalonActor* NewActor = Get<AvalonActor>(OutNewActor);
+    if (NewActor != nullptr)
     {
-        NewActor->SetLocation(Outer->GetLocation());
-        NewActor->mLevel    = Outer->mLevel;
+        NewActor->SetOwner(OwnerRef);
+
+        AvalonActor* OwnerActor = Get<AvalonActor>(OwnerRef);
+        if (OwnerActor != nullptr)
+        {
+            NewActor->SetLocation(OwnerActor->GetLocation());
+            NewActor->mLevelRef = GetSelfRef();// OwnerActor->mLevelRef;
+        }
     }
-
+    
     ISaveable::Load(NewActor, Context);
-
-    return NewHandle;
 }
 
-/*static*/ void LevelActor::OpenLevel(LevelActor*& Level, FLocationInfo* NewLocation)
+/*static*/ void LevelActor::PlaceActorInLevel(HardUnitRef& ActorRef, LevelActor* Level)
 {
-    // We are closing a level before opening one
     if (Level != nullptr)
     {
-        // Unbinds events, and saves the level file
-        Level->OnLevelClosed();
+        AvalonActor* Actor = Get<AvalonActor>(ActorRef);
+        if (Actor != nullptr)
+        {
+            Actor->SetLocation(Level->mLocation);
+            Actor->mLevelRef = Level->GetSelfRef();
 
-        // TODO:  Evaluate if need to do more for "unloading"
-        AvalonMemory::DestroyUnit(Level);
-    }
-
-    const FUnitHandle LevelHandle = AvalonMemory::NewUnit<LevelActor>();
-
-    Level = LevelHandle.Get<LevelActor>();
-    Level->mLocation = NewLocation;
-    Level->mLevel    = Level->GetSelfHandle();
-
-    // Initializes components and loads from file
-    Level->OnLevelOpened();
-}
-
-/*static*/ void LevelActor::PlaceActorInLevel(FUnitHandle& ActorHandle, LevelActor* NewLevel)
-{
-    AvalonActor* Actor = ActorHandle.Get<AvalonActor>();
-    Actor->SetLocation(NewLevel->mLocation);
-    Actor->mLevel = NewLevel->GetSelfHandle();
-
-    if (LevelContainer* Container = NewLevel->mLevelContainer)
-    {
-        Container->AddToContainer(ActorHandle);
+            if (LevelContainer* Container = Level->mLevelContainer)
+            {
+                Container->AddToContainer(Actor);
+            }
+        }
     }
 }
 
-/*static*/ void LevelActor::MoveActorTo(FUnitHandle& ActorHandle, LevelActor* NewLevel)
+/*static*/ void LevelActor::RemoveActorFromLevel(HardUnitRef& ActorRef, LevelActor* Level)
 {
-    AvalonActor* Actor = ActorHandle.Get<AvalonActor>();
-
-    // Detach it from its current level:
-    LevelActor* From = Actor->mLevel.Get<LevelActor>();
-    if (LevelContainer* Container = From->mLevelContainer)
+    if (LevelContainer* Container = Level->mLevelContainer)
     {
-        // TODO:  What if this is inside of something?  Or equipment?
-        Container->RemoveFromContainer(ActorHandle);
+        Container->RemoveFromContainer(ActorRef);
     }
+}
 
-    PlaceActorInLevel(ActorHandle, NewLevel);
+/*static*/ void LevelActor::MoveActorTo(HardUnitRef& ActorRef, LevelActor* Level)
+{
+    if (Level != nullptr)
+    {
+        AvalonActor* Actor = Get<AvalonActor>(ActorRef);
+        if (Actor != nullptr)
+        {
+            LevelActor* PrevLevel = Get<LevelActor>(Actor->mLevelRef);
+            if (PrevLevel != nullptr)
+            {
+                // TODO:  What if this is inside of something?  Or equipment?
+                RemoveActorFromLevel(ActorRef, PrevLevel);
+            }
+
+            PlaceActorInLevel(ActorRef, Level);
+        }
+    }
 }
 
 /*static*/ void LevelActor::HandleTimeAdvanced(IEventListener* Listener, long HoursAdvanced)
@@ -131,7 +127,7 @@ FUnitHandle LevelActor::LoadActor(const FUnitHandle& Owner, FSaveContext& Contex
     Level->AdvanceTime(HoursAdvanced);
 }
 
-void LevelActor::GetActorsPlacedInLevel(std::vector<FUnitHandle>& OutActors) const
+void LevelActor::GetActorsPlacedInLevel(HardRefList& OutActors) const
 {
     if (mLevelContainer)
     {
@@ -142,12 +138,12 @@ void LevelActor::GetActorsPlacedInLevel(std::vector<FUnitHandle>& OutActors) con
 void LevelActor::InitializeDefaultComponents()
 {
     // Look for the floor container
-    std::vector<FUnitHandle> ActorsInLevel;
+    HardRefList ActorsInLevel;
     GetActorsPlacedInLevel(ActorsInLevel);
 
-    for (FUnitHandle& ActorHandle : ActorsInLevel)
+    for (HardUnitRef& ActorRef : ActorsInLevel)
     {
-        if (AvalonActor* Actor = ActorHandle.Get<AvalonActor>())
+        if (AvalonActor* Actor = Get<AvalonActor>(ActorRef))
         {
             if (Actor->mDisplayName == "The Floor")
             {
@@ -164,25 +160,33 @@ void LevelActor::InitializeDefaultComponents()
 /***************************************************************************************
 *  IActorComponent
 ****************************************************************************************/
-FUnitHandle IActorComponent::LoadChildActor(FSaveContext& Context)
+void IActorComponent::LoadChildActor(HardUnitRef& OutChildActor, FSaveContext& Context)
 {
-    FUnitHandle RetValue;
-
     if (Context.IsValid())
     {
-        FUnitHandle& OwnerHandle = GetActorOwnerHandle();
-        if (AvalonActor* Outer = OwnerHandle.Get<AvalonActor>())
+        AvalonActor* OwnerActor = GetActorOwner();
+        if (OwnerActor != nullptr)
         {
-            if (LevelActor* Level = Outer->mLevel.Get<LevelActor>())
+            HardUnitRef OwnerRef = OwnerActor->GetSelfRef();
+
+            LevelActor* Level = Get<LevelActor>(OwnerActor->mLevelRef);
+            if (Level != nullptr)
             {
-                RetValue = Level->LoadActor(OwnerHandle, Context);
+                HardUnitRef LevelRef = OwnerActor->mLevelRef.lock();
+                Level->LoadActor(OutChildActor, OwnerRef, Context);
             }
-            else if (LevelActor* Level = dynamic_cast<LevelActor*>(Outer))
+            else
             {
-                RetValue = Level->LoadActor(OwnerHandle, Context);
+                if (LevelActor* OwnerActorLevel = dynamic_cast<LevelActor*>(OwnerActor))
+                {
+                    OwnerActorLevel->LoadActor(OutChildActor, OwnerRef, Context);
+                }
+                else
+                {
+                    int i = 0;
+                    // something went terribly wrong
+                }
             }
         }
     }
-
-    return RetValue;
 }

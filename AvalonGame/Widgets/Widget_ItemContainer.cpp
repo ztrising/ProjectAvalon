@@ -17,10 +17,10 @@ Widget_ItemContainer::~Widget_ItemContainer()
 {
 	SetContainer(nullptr);
 
-	Widget_List* List = mItemButtonList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mItemButtonListRef);
 	List->EmptyList<Widget_ToggleButton>();
 
-	RemoveChild<Widget_List>(mItemButtonList);
+	RemoveChild<Widget_List>(mItemButtonListRef);
 }
 
 /***************************************************************************************
@@ -29,30 +29,41 @@ Widget_ItemContainer::~Widget_ItemContainer()
 void Widget_ItemContainer::Construct(const char* WidgetAsset)
 {
 	AvalonWidget::Construct(WidgetAsset);
-	mItemButtonList = AddChild<Widget_List>();
-	mItemButtonList.Get<Widget_List>()->SetPosition(FCoord(3, 3));
+	mItemButtonListRef = AddChild<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mItemButtonListRef);
+	List->SetPosition(FCoord(3, 3));
 }
 /****************************************************************************************/
 
-void Widget_ItemContainer::SetContainer(ItemContainer* NewContainer)
+void Widget_ItemContainer::SetContainer(ItemContainer* NewItemContainer)
 {
-	if (mContainer != nullptr)
+	if (mItemContainerRef != nullptr)
 	{
+		ItemContainer* OldItemContainer = Get<ItemContainer>(mItemContainerRef);
+
 		// Unbind event
-		AvalonActor* Actor = mContainer->GetActorOwnerHandle().Get<AvalonActor>();
-		Actor->mOnItemAdded.UnBindEvent(this);
-		Actor->mOnItemRemoved.UnBindEvent(this);
+		AvalonActor* ParentActor = OldItemContainer->GetActorOwner();
+		ParentActor->mOnItemAdded.UnBindEvent(this);
+		ParentActor->mOnItemRemoved.UnBindEvent(this);
 	}
 
-	mContainer = NewContainer;
-
-	if (mContainer != nullptr)
+	HardUnitRef NewItemRef;
+	if (NewItemContainer != nullptr)
 	{
+		NewItemRef = NewItemContainer->GetSelfRef();
+	}
+
+	mItemContainerRef = NewItemRef;
+
+	if (mItemContainerRef != nullptr)
+	{
+		ItemContainer* NewItemContainer = Get<ItemContainer>(mItemContainerRef);
+
 		// Bind event
-		AvalonActor* Actor = mContainer->GetActorOwnerHandle().Get<AvalonActor>();
+		AvalonActor* ParentActor = NewItemContainer->GetActorOwner();
 		AvalonActor::InventoryEvent::Callback Callback = Widget_ItemContainer::HandleContentsChanged;
-		Actor->mOnItemAdded.BindEvent(this, Callback);
-		Actor->mOnItemRemoved.BindEvent(this, Callback);
+		ParentActor->mOnItemAdded.BindEvent(this, Callback);
+		ParentActor->mOnItemRemoved.BindEvent(this, Callback);
 
 		PopulateItems();
 	}
@@ -60,12 +71,13 @@ void Widget_ItemContainer::SetContainer(ItemContainer* NewContainer)
 
 void Widget_ItemContainer::PopulateItems()
 {
-	if (mContainer == nullptr)
+	if (mItemContainerRef == nullptr)
 	{
 		return;
 	}
 
-	unsigned int NumItems = mContainer->GetNumItems();
+	ItemContainer* Container = Get<ItemContainer>(mItemContainerRef);
+	unsigned int NumItems = Container->GetNumItems();
 
 	/***************************************************************************************
 	*  Container Name and Capacity Display
@@ -75,12 +87,12 @@ void Widget_ItemContainer::PopulateItems()
 	TextSettings.mExtent = FCoord(20,1);
 	//TextSettings.mUseBufferExtentWidth = true;
 	TextSettings.mJustified = ETextJustification::Left;
-	std::string DisplayName = mContainer->GetDisplayName();
+	std::string DisplayName = Container->GetDisplayName();
 
 	SetTextWithSettings(DisplayName.c_str(), TextSettings);
 	
 	// Show capacity if it isn't infinite
-	int MaxSlots = mContainer->GetMaxSlots();
+	int MaxSlots = Container->GetMaxSlots();
 	if (MaxSlots > 0)
 	{
 		TextSettings.mOffset = FCoord(-1,1);
@@ -96,19 +108,19 @@ void Widget_ItemContainer::PopulateItems()
 	/***************************************************************************************
 	*  Item List - Create Buttons, Populate Names, Listen for Input
 	****************************************************************************************/
-	Widget_List* List = mItemButtonList.Get<Widget_List>();
+	Widget_List* List = Get<Widget_List>(mItemButtonListRef);
 
 	// Creates the buttons, and displays them based on settings
 	FWidgetListSettings ListSettings;
 	List->ConstructList<Widget_ToggleButton>(NumItems, ListSettings, "W_ItemPanel_ItemEntry.xml");
 
-	auto InitButtonLambda = [&](FUnitHandle& Handle)
+	auto InitButtonLambda = [&](HardUnitRef& WidgetRef)
 	{
-		int TextIndex = List->GetElementIndex(Handle);
-		Widget_ToggleButton* Button = Handle.Get<Widget_ToggleButton>();
+		int TextIndex = List->GetElementIndex(WidgetRef);
+		Widget_ToggleButton* Button = Get<Widget_ToggleButton>(WidgetRef);
 
-		FUnitHandle Item = mContainer->GetContentsByIndex(TextIndex);
-		std::string DisplayName = Item.Get<AvalonActor>()->mDisplayName;
+		HardUnitRef Item = Container->GetContentsByIndex(TextIndex);
+		std::string DisplayName = Get<AvalonActor>(Item)->mDisplayName;
 
 		Button->SetText(DisplayName.c_str(), FCoord(0, 0));
 		Widget_Button::ButtonEvent::Callback ButtonPressedCallback = Widget_ItemContainer::HandleButtonPressed;
@@ -121,10 +133,10 @@ void Widget_ItemContainer::PopulateItems()
 
 void Widget_ItemContainer::DeselectAll()
 {
-	Widget_List* List = mItemButtonList.Get<Widget_List>();
-	auto DeselectLambda = [&](FUnitHandle& Handle)
+	Widget_List* List = Get<Widget_List>(mItemButtonListRef);
+	auto DeselectLambda = [&](HardUnitRef& WidgetRef)
 	{
-		Widget_ToggleButton* Button = Handle.Get<Widget_ToggleButton>();
+		Widget_ToggleButton* Button = Get<Widget_ToggleButton>(WidgetRef);
 		Button->SetActive(false);
 	};
 
@@ -135,43 +147,46 @@ void Widget_ItemContainer::DeselectAll()
 *  IEventListener
 ****************************************************************************************/
 /*static*/ void Widget_ItemContainer::HandleContentsChanged( IEventListener* Listener
-														   , FUnitHandle& Item)
+														   , AvalonActor* Item)
 {
 	Widget_ItemContainer* Widget = static_cast<Widget_ItemContainer*>(Listener);
 	Widget->PopulateItems();
 }
 
 /*static*/ void Widget_ItemContainer::HandleButtonPressed( IEventListener* Listener
-														 , const FUnitHandle& Source)
+														 , const Widget_Button* Source)
 {
-	Widget_ItemContainer* Widget = static_cast<Widget_ItemContainer*>(Listener);
+	Widget_ItemContainer* ItemContainerWidget = static_cast<Widget_ItemContainer*>(Listener);
+	const Widget_ToggleButton* FocusButton = static_cast<const Widget_ToggleButton*>(Source);
 
-	Widget_ToggleButton* FocusButton = Source.Get<Widget_ToggleButton>();
 	bool SetFocus = FocusButton->GetActive();
 
-	Widget_List* List = Widget->mItemButtonList.Get<Widget_List>();
-	int FocusIndex = List->GetElementIndex(Source);
+	Widget_List* ListWidget = Get<Widget_List>(ItemContainerWidget->mItemButtonListRef);
+
+	HardUnitRef WidgetButtonRef = Source->GetSelfRef();
+	int FocusIndex = ListWidget->GetElementIndex(WidgetButtonRef);
 
 	// Make sure only one Item is active at the same time
 	if (SetFocus)
 	{
-		auto DeactiveNotFocusLamdba = [&](FUnitHandle& Handle)
+		auto DeactiveNotFocusLamdba = [&](HardUnitRef& WidgetRef)
 		{
-			if (Handle != Source)
+			if (WidgetRef != WidgetButtonRef)
 			{
-				Widget_ToggleButton* Button = Handle.Get<Widget_ToggleButton>();
+				Widget_ToggleButton* Button = Get<Widget_ToggleButton>(WidgetRef);
 				Button->SetActive(false);
 			}
 		};
 
-		List->ForEachItem(DeactiveNotFocusLamdba);
+		ListWidget->ForEachItem(DeactiveNotFocusLamdba);
 	}
 
 	// Tell the inventory to focus on the new item/container
-	FUnitHandle Handle = Widget->mContainer->GetContentsByIndex(FocusIndex);
-	if (Handle.IsValid())
+	ItemContainer* Container = Get<ItemContainer>(ItemContainerWidget->mItemContainerRef);
+	HardUnitRef ItemRef = Container->GetContentsByIndex(FocusIndex);
+	if (ItemRef != nullptr)
 	{
-		ActionManager::Get().SetActionFocus(Handle);
+		ActionManager::Get().SetActionFocus(ItemRef);
 	}
 	else
 	{

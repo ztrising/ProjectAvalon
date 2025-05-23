@@ -49,7 +49,7 @@ void Widget_ChoiceMenu::RepositionMenu(unsigned int NumActions)
 	MoveAnim.mStartLocation = StartLocation;
 	MoveAnim.mEndLocation = EndLocation;
 	MoveAnim.mLength = 0.25f;
-	MoveTo(MoveAnim);
+	MoveTo(&MoveAnim);
 }
 
 /***************************************************************************************
@@ -62,8 +62,8 @@ void Widget_ChoiceMenu::Construct(const char* WidgetAsset)
 
 	// TODO:	Create a ItemDesc sublcass OR a slick way to gain
 	//			access to dynamically created children...
-	mItemDesc = AddChild<AvalonWidget>("W_ItemPanel_ItemDesc.xml");
-	mItemDesc.Get<AvalonWidget>()->Hide();
+	mItemDescWidget = AddChild<AvalonWidget>("W_ItemPanel_ItemDesc.xml");
+	Get<AvalonWidget>(mItemDescWidget)->Hide();
 
 	ActionManager::ActionEvent::Callback Callback = Widget_ChoiceMenu::OnActionsUpdated;
 	ActionManager::Get().BindActionEvent(this, Callback);
@@ -90,7 +90,7 @@ void Widget_ChoiceMenu::OnGameLoaded()
 }
 
 /*static*/ void Widget_ChoiceMenu::HandleButtonPressed( IEventListener* Listener
-													  , const FUnitHandle& Source)
+													  , const Widget_Button* Source)
 {
 	Widget_ChoiceMenu* Widget = static_cast<Widget_ChoiceMenu*>(Listener);
 
@@ -98,7 +98,7 @@ void Widget_ChoiceMenu::OnGameLoaded()
 	for (unsigned int Index = 0; Index < NumChoices; ++Index)
 	{
 		FActionMenuEntry& Entry = Widget->mActions[Index];
-		if (Entry.mButton == Source)
+		if (Entry.mButton.get() == Source)
 		{
 			Entry.mChoice->Execute();
 			ActionManager::Get().ClearActionFocus();
@@ -110,13 +110,15 @@ void Widget_ChoiceMenu::OnGameLoaded()
 void Widget_ChoiceMenu::UpdateActions(const FActionState& ActionState)
 {
 	PopulateFromChoiceArray(ActionState.mActions);
-	UpdateActionFocus(ActionState.mFocus);
+
+	HardUnitRef FocusActorRef = ActionState.mFocus.lock();
+	AvalonActor* FocusActor = Get<AvalonActor>(FocusActorRef);
+
+	UpdateActionFocus(FocusActor);
 
 	unsigned int NumActions = ActionState.mActions.size();
 	RepositionMenu(NumActions);
-
 	ApplyAttributes(mColorData[ActionState.mContext]);
-
 	Show();
 }
 /****************************************************************************************/
@@ -141,7 +143,7 @@ void Widget_ChoiceMenu::PopulateFromChoiceArray(const ActionList& Source)
 		NewEntry.mChoice = Source[Index];
 		NewEntry.mButton = AddChild<Widget_Button>("W_ChoiceMenu_ChoiceButton.xml");
 
-		Widget_Button* Button = (Widget_Button*)(NewEntry.mButton.Get());
+		Widget_Button* Button = Get<Widget_Button>(NewEntry.mButton);
 
 		const char* ChoiceText = NewEntry.mChoice->mActionPrompt.c_str();
 		FTextSettings TextSettings;
@@ -160,14 +162,12 @@ void Widget_ChoiceMenu::PopulateFromChoiceArray(const ActionList& Source)
 	}
 }
 
-void Widget_ChoiceMenu::UpdateActionFocus(const FUnitHandle& Focus)
+void Widget_ChoiceMenu::UpdateActionFocus(const AvalonActor* FocusActor)
 {
-	AvalonWidget* DescWidget = mItemDesc.Get<AvalonWidget>();
+	AvalonWidget* DescWidget = Get<AvalonWidget>(mItemDescWidget);
 
-	if (Focus.IsValid())
+	if (FocusActor != nullptr)
 	{
-		AvalonActor* FocusActor = Focus.Get<AvalonActor>();
-
 		FTextSettings TextSettings;
 		TextSettings.mOffset = FCoord(2, 0);
 		TextSettings.mExtent = FCoord(16, 1);

@@ -52,7 +52,8 @@ void AvalonWidget::OnGameLoaded()
 {
 	for (auto& ChildHandle : mChildren)
 	{
-		ChildHandle.Get<AvalonWidget>()->OnGameLoaded();
+		AvalonWidget* ChildWidget = Get<AvalonWidget>(ChildHandle);
+		ChildWidget->OnGameLoaded();
 	}
 }
 
@@ -60,7 +61,8 @@ void AvalonWidget::OnHUDContextChanged(HUDContext NewContext)
 {
 	for (auto& ChildHandle : mChildren)
 	{
-		ChildHandle.Get<AvalonWidget>()->OnHUDContextChanged(NewContext);
+		AvalonWidget* ChildWidget = Get<AvalonWidget>(ChildHandle);
+		ChildWidget->OnHUDContextChanged(NewContext);
 	}
 
 	UpdateVisibility();
@@ -124,7 +126,8 @@ void AvalonWidget::UpdateRenderState(bool& ForceRedraw)
 		// then the things on TOP
 		for (auto& ChildHandle : mChildren)
 		{
-			ChildHandle.Get<AvalonWidget>()->UpdateRenderState(ForceRedraw);
+			AvalonWidget* ChildWidget = Get<AvalonWidget>(ChildHandle);
+			ChildWidget->UpdateRenderState(ForceRedraw);
 		}
 
 #if AVALON_DISPLAY_WIDGET_FOCUS
@@ -173,7 +176,8 @@ void AvalonWidget::SetPosition(FCoord NewPos)
 void AvalonWidget::RecalculatePosition()
 {
 	const FCoord OldPos = mBuffer.GetPos();
-	if (const AvalonWidget* Parent = mParent.Get<AvalonWidget>())
+	AvalonWidget* Parent = IAvalonUnit::Get<AvalonWidget>(mParent);
+	if (Parent != nullptr)
 	{
 		FCoord NewPos = FFrameBuffer::GetWorldPosition(  mBuffer.GetSize()
 													   , Parent->mBuffer.GetPos()
@@ -186,9 +190,10 @@ void AvalonWidget::RecalculatePosition()
 	}
 
 	// Update children positions
-	for (auto& ChildHandle : mChildren)
+	for (auto& ChildRef : mChildren)
 	{
-		ChildHandle.Get<AvalonWidget>()->RecalculatePosition();
+		AvalonWidget* ChildWidget = IAvalonUnit::Get<AvalonWidget>(ChildRef);
+		ChildWidget->RecalculatePosition();
 	}
 }
 
@@ -264,32 +269,39 @@ void AvalonWidget::ApplyAttributes(unsigned short Attributes)
 /***************************************************************************************
 *  Animation
 ****************************************************************************************/
-void AvalonWidget::PlayAnimation(FBufferAnimSettings Settings)
+void AvalonWidget::PlayAnimation(FBufferAnimSettings* Settings)
 {
-	BufferAnimation_WipeOverTime* NewAnim = new BufferAnimation_WipeOverTime();
-	NewAnim->InitAnimation(&mBuffer, Settings);
+	HardUnitRef AnimationRef;
+	AvalonMemory::NewUnit<BufferAnimation_WipeOverTime>(AnimationRef);
+	BufferAnimation_WipeOverTime* NewAnim = Get<BufferAnimation_WipeOverTime>(AnimationRef);
 
+	NewAnim->InitAnimation(&mBuffer, Settings);
 	NewAnim->PlayAnimation();
-	mRunningAnimations.push_back(NewAnim);
+
+	mRunningAnimations.push_back(AnimationRef);
 }
 
-IAvalonAnimation* AvalonWidget::MoveTo(FMoveAnimSettings Settings)
+IAvalonAnimation* AvalonWidget::MoveTo(FMoveAnimSettings* Settings)
 {
-	Animation_MoveTo* NewAnim = new Animation_MoveTo();
-	Settings.mWidgetHandle = GetSelfHandle();
+	HardUnitRef AnimationRef;
+	AvalonMemory::NewUnit<Animation_MoveTo>(AnimationRef);
+	Animation_MoveTo* NewAnim = Get<Animation_MoveTo>(AnimationRef);
+
+	Settings->mWidgetRef = GetSelfRef();
+
 	NewAnim->InitMoveTo(Settings);
-	 
 	NewAnim->PlayAnimation();
-	mRunningAnimations.push_back(NewAnim);
+
+	mRunningAnimations.push_back(AnimationRef);
 
 	return NewAnim;
 }
 
 void AvalonWidget::StopAnimations()
 {
-	for (auto Animation : mRunningAnimations)
+	for (auto& Animation : mRunningAnimations)
 	{
-		AvalonMemory::DestroyUnit(Animation);
+		Animation.reset();
 	}
 
 	mRunningAnimations.clear();
@@ -306,7 +318,7 @@ void AvalonWidget::TickAnimation(float DeltaSeconds)
 			auto It = mRunningAnimations.begin();
 			while (It != mRunningAnimations.end())
 			{
-				IAvalonAnimation* Animation = (*It);
+				IAvalonAnimation* Animation = Get<IAvalonAnimation>(*It);
 				if (Animation->Update(DeltaSeconds))
 				{
 					// TODO: Anim events makes updating anims volatile...
@@ -315,8 +327,8 @@ void AvalonWidget::TickAnimation(float DeltaSeconds)
 					// to be stopped and deleted...
 					if (mRunningAnimations.size() > 0)
 					{
+						It->reset();
 						It = mRunningAnimations.erase(It);
-						delete Animation;
 					}
 					else
 					{
@@ -332,7 +344,8 @@ void AvalonWidget::TickAnimation(float DeltaSeconds)
 
 		for (auto& ChildHandle : mChildren)
 		{
-			ChildHandle.Get<AvalonWidget>()->TickAnimation(DeltaSeconds);
+			AvalonWidget* ChildWidget = Get<AvalonWidget>(ChildHandle);
+			ChildWidget->TickAnimation(DeltaSeconds);
 		}
 	}
 }
@@ -343,10 +356,10 @@ void AvalonWidget::TickAnimation(float DeltaSeconds)
 ****************************************************************************************/
 bool AvalonWidget::HandleInput_Internal(const FInputKeyEventParams& EventParams)
 {
-	for (auto& ChildHandle : mChildren)
+	for (auto& ChildRef : mChildren)
 	{
-		AvalonWidget* Widget = ChildHandle.Get<AvalonWidget>();
-		if (Widget->IsVisible() && Widget->HandleInput_Internal(EventParams))
+		AvalonWidget* ChildWidget = Get<AvalonWidget>(ChildRef);
+		if (ChildWidget->IsVisible() && ChildWidget->HandleInput_Internal(EventParams))
 		{
 			return true;
 		}
@@ -356,8 +369,10 @@ bool AvalonWidget::HandleInput_Internal(const FInputKeyEventParams& EventParams)
 }
 /****************************************************************************************/
 
-FUnitHandle AvalonWidget::UpdateFocus(const FCoord& MousePosition)
+AvalonWidget* AvalonWidget::UpdateFocus(const FCoord& MousePosition)
 {
+	AvalonWidget* RetValue = nullptr;
+
 	if (mIsVisible)
 	{
 		// The most recently added children are checked first
@@ -367,44 +382,46 @@ FUnitHandle AvalonWidget::UpdateFocus(const FCoord& MousePosition)
 		{
 			It--;
 
-			AvalonWidget* Widget = (*It).Get<AvalonWidget>();
-			FUnitHandle ChildHandle = Widget->UpdateFocus(MousePosition);
-			if (ChildHandle.IsValid())
+			AvalonWidget* ChildWidget = IAvalonUnit::Get<AvalonWidget>(*It);
+			RetValue = ChildWidget->UpdateFocus(MousePosition);
+			if (RetValue != nullptr)
 			{
-				return ChildHandle;
+				break;
 			}
 		}
 
 		
-		if (mWantsFocus)
+		if (RetValue == nullptr && mWantsFocus)
 		{
 			bool IsColliding = IsPositionColliding(MousePosition);
 			if (IsColliding)
 			{
-				return GetSelfHandle();
+				RetValue = this;
 			}
 		}
 	}
 
-	return FUnitHandle();
+	return RetValue;
 }
 
-void AvalonWidget::AddChild_Internal(const FUnitHandle& ChildHandle, const char* WidgetAsset)
+void AvalonWidget::AddChild_Internal(const HardUnitRef& ChildWidget, const char* WidgetAsset)
 {
-	mChildren.push_back(ChildHandle);
+	mChildren.push_back(ChildWidget);
 
-	AvalonWidget* Widget = ChildHandle.Get<AvalonWidget>();
-	Widget->SetParent(GetSelfHandle());
-	
-	Widget->Construct(WidgetAsset);
+	AvalonWidget* Child = IAvalonUnit::Get<AvalonWidget>(ChildWidget);
+
+	HardUnitRef SelfRef = GetSelfRef();
+	Child->SetParent(SelfRef);
+	Child->Construct(WidgetAsset);
+
 	RecalculatePosition();
 }
 
-void AvalonWidget::RemoveChild_Internal(const FUnitHandle& Handle)
+void AvalonWidget::RemoveChild_Internal(const HardUnitRef& ChildWidget)
 {
 	mNeedsRedraw = true;
 
-	auto It = std::find(mChildren.begin(), mChildren.end(), Handle);
+	auto It = std::find(mChildren.begin(), mChildren.end(), ChildWidget);
 	if (It != mChildren.end())
 	{
 		mChildren.erase(It);

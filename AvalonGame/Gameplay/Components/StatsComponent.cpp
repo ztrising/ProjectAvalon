@@ -102,7 +102,7 @@ void StatsComponent::RemoveStatusEffect(FStatusEffect* StatusEffect)
 ****************************************************************************************/
 void FStatusEffect::ExecuteEffect(FEffectContext& Context)
 {
-    AvalonActor* TargetActor = Context.mTarget.Get<AvalonActor>();
+    AvalonActor* TargetActor = AvalonActor::Get<AvalonActor>(Context.mTarget);
     if (StatsComponent* StatsComp = TargetActor->GetComponent<StatsComponent>())
     {
         StatsComp->ApplyStatusEffect(this);

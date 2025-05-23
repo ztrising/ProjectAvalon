@@ -64,7 +64,7 @@ void AvalonGame::GameLoop()
 		AvalonViewportManager::GetViewportManager().Draw(mLastFrameTime);
 
 		// Garbage Collection
-		AvalonMemory::Get().TickGarbageCollection(mLastFrameTime);
+		//AvalonMemory::Get().TickGarbageCollection(mLastFrameTime);
 		//AvalonMemory::TickGarbageCollection(mLastFrameTime);
 
 		mLastFrameTime = GetCounter();

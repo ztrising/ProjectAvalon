@@ -15,6 +15,7 @@ Widget_ItemPouch::Widget_ItemPouch()
 	mActiveColor = 0;
 	mActiveFocussedColor = (AVALON_FG_YELLOW | AVALON_FG_INTENSITY);
 
+	// TODO - Make this SAFE??
 	mPouchOpenAnimation = new FBufferAnimSettings("W_ItemPouch_Open.xml");
 	mPouchOpenAnimation->mStyle		= EAnimationStyle::FadeTo;
 	mPouchOpenAnimation->mDirection = EAnimationDirection::DrizzleUp;
@@ -36,7 +37,7 @@ Widget_ItemPouch::~Widget_ItemPouch()
 void Widget_ItemPouch::Construct(const char* WidgetAsset)
 {
 	Widget_ToggleButton::Construct("W_ItemPouch_Frame.xml");
-	mPouchImage = AddChild<AvalonWidget>("W_ItemPouch_Closed.xml");
+	mPouchImageRef = AddChild<AvalonWidget>("W_ItemPouch_Closed.xml");
 }
 
 void Widget_ItemPouch::SetActive(bool Active)
@@ -45,10 +46,10 @@ void Widget_ItemPouch::SetActive(bool Active)
 
 	if (mIsActive)
 	{
-		mPouchImage.Get<AvalonWidget>()->PlayAnimation(*mPouchOpenAnimation);
+		Get<AvalonWidget>(mPouchImageRef)->PlayAnimation(mPouchOpenAnimation);
 	}
 	else
 	{
-		mPouchImage.Get<AvalonWidget>()->PlayAnimation(*mPouchCloseAnimation);
+		Get<AvalonWidget>(mPouchImageRef)->PlayAnimation(mPouchCloseAnimation);
 	}
 }
