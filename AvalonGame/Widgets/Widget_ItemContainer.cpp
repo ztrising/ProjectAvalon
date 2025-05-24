@@ -43,8 +43,11 @@ void Widget_ItemContainer::SetContainer(ItemContainer* NewItemContainer)
 
 		// Unbind event
 		AvalonActor* ParentActor = OldItemContainer->GetActorOwner();
-		ParentActor->mOnItemAdded.UnBindEvent(this);
-		ParentActor->mOnItemRemoved.UnBindEvent(this);
+		if (ParentActor)
+		{
+			ParentActor->mOnItemAdded.UnBindEvent(this);
+			ParentActor->mOnItemRemoved.UnBindEvent(this);
+		}
 	}
 
 	HardUnitRef NewItemRef;
@@ -119,12 +122,15 @@ void Widget_ItemContainer::PopulateItems()
 		int TextIndex = List->GetElementIndex(WidgetRef);
 		Widget_ToggleButton* Button = Get<Widget_ToggleButton>(WidgetRef);
 
-		HardUnitRef Item = Container->GetContentsByIndex(TextIndex);
-		std::string DisplayName = Get<AvalonActor>(Item)->mDisplayName;
-
-		Button->SetText(DisplayName.c_str(), FCoord(0, 0));
-		Widget_Button::ButtonEvent::Callback ButtonPressedCallback = Widget_ItemContainer::HandleButtonPressed;
-		Button->mOnButtonPressed.BindEvent(this, ButtonPressedCallback);
+		HardUnitRef ItemRef = Container->GetContentsByIndex(TextIndex);
+		AvalonActor* Item = Get<AvalonActor>(ItemRef);
+		if (Item != nullptr)
+		{
+			std::string DisplayName = Get<AvalonActor>(ItemRef)->mDisplayName;
+			Button->SetText(DisplayName.c_str(), FCoord(0, 0));
+			Widget_Button::ButtonEvent::Callback ButtonPressedCallback = Widget_ItemContainer::HandleButtonPressed;
+			Button->mOnButtonPressed.BindEvent(this, ButtonPressedCallback);
+		}
 	};
 
 	List->ForEachItem(InitButtonLambda);

@@ -77,7 +77,7 @@ void Widget_PlayerStatus::Show()
 		std::string DisplayText = ">> " + StatID + " >>";
 		StatWidget->SetText(DisplayText.c_str(), FCoord(), (AVALON_FG_WHITE), true);
 
-		FAvalonStat* Stat = StatsComp->mStats[StatID];
+		FAvalonStat* Stat = Get<FAvalonStat>(StatsComp->mStats[StatID]);
 		HandleStatValueChange(StatID, Stat->mCurrentValue
 									, Stat->mMaxValue.GetValue());
 	}
@@ -136,7 +136,7 @@ void Widget_PlayerStatus::HandleStatValueChange(std::string Stat, float Value, f
 
 	AvalonActor* Player = AvalonGameState::GetPlayerActor();
 	StatsComponent* StatsComp = Player->GetComponent<StatsComponent>();
-	FAvalonStat* Stat = StatsComp->mStats[StatID];
+	FAvalonStat* Stat = Get<FAvalonStat>(StatsComp->mStats[StatID]);
 	Widget->HandleStatValueChange(StatID, Stat->mCurrentValue
 										, Stat->mMaxValue.GetValue());
 }

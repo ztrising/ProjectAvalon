@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Saveable.h"
+#include "../../AvalonUnit/AvalonUnit.h"
 
 #include <vector>
 #include <string>
@@ -57,9 +58,9 @@ enum class ETagFilterType
     NoMatch,
 };
 
-struct IFilterTest : public ISaveable
+struct IFilterTest : public ISaveable, public IAvalonUnit
 {
-    static IFilterTest* FilterFactory(FSaveContext& Context);
+    static void FilterFactory(HardUnitRef& OutNewFilter, FSaveContext& Context);
 
     virtual void Load(FSaveContext& Context) override;
     virtual void Save(FSaveContext& Context) override;
@@ -78,7 +79,8 @@ struct FTagExpression : public IFilterTest
     bool PassesFilter(const FAvalonTagContainer& Container) const override;
 
 private:
-    std::vector<IFilterTest*> mFilters;
+    //std::vector<IFilterTest*> mFilters;
+    HardRefList mFilters;
 };
 
 struct FTagOperation : public IFilterTest
@@ -100,5 +102,6 @@ struct FAvalonTagQuery : public ISaveable
     bool PassesQuery(const FAvalonTagContainer& TagContainer) const;
 
 private:
-    IFilterTest* mRootTest = nullptr;
+    //IFilterTest* mRootTest = nullptr;
+    HardUnitRef mRootTest;
 };

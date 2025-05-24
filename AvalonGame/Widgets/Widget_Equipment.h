@@ -22,7 +22,7 @@ class Widget_Equipment : public AvalonWidget, public IEventListener
 public:
 	~Widget_Equipment();
 
-	void SetEquipmentRef(HardUnitRef EquipmentContainerRef);
+	void SetEquipmentRef(Equipment* EquipmentContainer);
 
 private:
 	void PopulateEquipment();

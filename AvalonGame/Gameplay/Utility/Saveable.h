@@ -57,15 +57,16 @@ struct FSaveContext
     }*/
 
     template <class T, typename Functor>
-    void AllocateChildrenWithFactory(std::vector<T*>& OutChildObjects, Functor& Factory)
+    void AllocateChildrenWithFactory(std::vector<T>& OutChildObjects, Functor& Factory)
     {
         std::vector<FSaveContext> Children;
         GetChildren(Children);
 
         for (FSaveContext& Context : Children)
         {
-            T* NewObject = Factory(Context);
-            if (ISaveable* Saveable = dynamic_cast<ISaveable*>(NewObject))
+            T NewObject = nullptr;
+            Factory(NewObject,Context);
+            if (ISaveable* Saveable = dynamic_cast<ISaveable*>(NewObject.get()))
             {
                 ISaveable::Load(Saveable, Context);
             }

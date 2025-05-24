@@ -140,7 +140,7 @@ void Widget_ChoiceMenu::PopulateFromChoiceArray(const ActionList& Source)
 	for (unsigned int Index = 0; Index < NumChoices; ++Index)
 	{
 		FActionMenuEntry NewEntry;
-		NewEntry.mChoice = Source[Index];
+		NewEntry.mChoice = Get<AvalonAction>(Source[Index]);
 		NewEntry.mButton = AddChild<Widget_Button>("W_ChoiceMenu_ChoiceButton.xml");
 
 		Widget_Button* Button = Get<Widget_Button>(NewEntry.mButton);

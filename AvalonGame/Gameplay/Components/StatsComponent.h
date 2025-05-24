@@ -28,7 +28,8 @@ public:
     void ApplyStatusEffect(FStatusEffect* StatusEffect);
     void RemoveStatusEffect(FStatusEffect* StatusEffect);
 
-    std::map<std::string, FAvalonStat*> mStats;
+    std::map<std::string, HardUnitRef> mStats;
+   // std::map<std::string, FAvalonStat*> mStats;
 
 private:
     void ApplyStatDamage(std::string StatID, float Damage);

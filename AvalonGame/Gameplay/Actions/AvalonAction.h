@@ -6,6 +6,7 @@
 
 #include "../Actor/ActorTypes.h"
 #include "../Utility/Saveable.h"
+#include "../../AvalonUnit/AvalonUnit.h"
 
 #include <string>
 #include <vector>
@@ -27,7 +28,7 @@ struct FEffectContext
     SoftUnitRef mTarget;
 };
 
-class IAvalonEffect : public ISaveable
+class IAvalonEffect : public ISaveable, public IAvalonUnit
 {
 public:
     virtual void ExecuteEffect(FEffectContext& Context) = 0;
@@ -41,7 +42,7 @@ public:
     /****************************************************************************************/
 };
 
-class AvalonAction : public ISaveable
+class AvalonAction : public ISaveable, public IAvalonUnit
 {
 public:
     ~AvalonAction();
@@ -51,15 +52,26 @@ public:
     template <class T>
     T* AddEffect()
     {
-        T* NewInstance = new T;
-        IAvalonEffect* Effect = static_cast<IAvalonEffect*>(NewInstance);
-        mEffects.push_back(Effect);
+        HardUnitRef NewEffectRef;
+        AvalonMemory::NewUnit<T>(NewEffectRef);
 
-        return NewInstance;
+        mEffects.push_back(NewEffectRef);
+
+        T* Effect = Get<T>(NewEffectRef);
+        return Effect;
+    }
+
+    static AvalonAction* NewAction(HardUnitRef& OutActionRef)
+    {
+        AvalonMemory::NewUnit<AvalonAction>(OutActionRef);
+        AvalonAction* NewAction = Get<AvalonAction>(OutActionRef);
+        return NewAction;
     }
 
     std::string mActionPrompt;
-    std::vector<IAvalonEffect*> mEffects;
+
+    HardRefList mEffects;
+    //std::vector<IAvalonEffect*> mEffects;
 
     FEffectContext mContext;
 
@@ -72,7 +84,8 @@ private:
     /****************************************************************************************/
 };
 
-typedef std::vector<AvalonAction*> ActionList;
+//typedef std::vector<AvalonAction*> ActionList;
+typedef std::vector<HardUnitRef> ActionList;
 
 struct FActionState
 {

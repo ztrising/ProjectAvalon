@@ -100,7 +100,7 @@ struct FStatThreshold
     AvalonAction* mThresholdAction = nullptr;
 };
 
-struct FAvalonStat : public ISaveable
+struct FAvalonStat : public ISaveable, public IAvalonUnit
 {
 public:
     std::string mStatID; // ex: "Health"

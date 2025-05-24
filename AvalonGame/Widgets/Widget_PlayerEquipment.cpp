@@ -37,9 +37,18 @@ void Widget_PlayerEquipment::OnGameLoaded()
 	AvalonWidget::OnGameLoaded();
 
 	AvalonActor* Player = AvalonGameState::GetPlayerActor();
-	Equipment* EquipCont = Player->GetComponent<Equipment>();
-	Widget_Equipment* EquipWidget = Get<Widget_Equipment>(mEquipmentPanelRef);
-	EquipWidget->SetEquipmentRef(EquipCont->GetSelfRef());
+	if (Player != nullptr)
+	{
+		Equipment* EquipComp = Player->GetComponent<Equipment>();
+		if (EquipComp != nullptr)
+		{
+			Widget_Equipment* EquipWidget = Get<Widget_Equipment>(mEquipmentPanelRef);
+			if (EquipWidget != nullptr)
+			{
+				EquipWidget->SetEquipmentRef(EquipComp);
+			}
+		}
+	}
 }
 /****************************************************************************************/
 

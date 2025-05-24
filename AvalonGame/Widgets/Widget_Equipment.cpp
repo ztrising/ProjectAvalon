@@ -15,7 +15,10 @@ Widget_Equipment::~Widget_Equipment()
 	SetEquipmentRef(nullptr);
 
 	Widget_List* List = Get<Widget_List>(mSlotListRef);
-	List->EmptyList<Widget_EquipSlot>();
+	if (List)
+	{
+		List->EmptyList<Widget_EquipSlot>();
+	}
 
 	RemoveChild<Widget_List>(mSlotListRef);
 }
@@ -33,7 +36,7 @@ void Widget_Equipment::Construct(const char* WidgetAsset)
 }
 /****************************************************************************************/
 
-void Widget_Equipment::SetEquipmentRef(HardUnitRef EquipmentContainerRef)
+void Widget_Equipment::SetEquipmentRef(Equipment* EquipmentContainer)
 {
 	if (mEquipmentContainerRef != nullptr)
 	{
@@ -45,7 +48,10 @@ void Widget_Equipment::SetEquipmentRef(HardUnitRef EquipmentContainerRef)
 		Actor->mOnItemRemoved.UnBindEvent(this);
 	}
 
-	mEquipmentContainerRef = EquipmentContainerRef;
+	if (EquipmentContainer != nullptr)
+	{
+		mEquipmentContainerRef = EquipmentContainer->GetSelfRef();
+	}
 
 	if (mEquipmentContainerRef != nullptr)
 	{

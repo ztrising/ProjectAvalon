@@ -196,8 +196,8 @@ void PortalComponent::GatherActionsFor(const AvalonActor* Target, ActionList& Ou
 	Traveller* TravelComp = Target->GetComponent<Traveller>();
 	if (TravelComp)
 	{
-		// TODO: are actions unsafe??
-		AvalonAction* TravelAction = new AvalonAction();
+		HardUnitRef NewActionRef;
+		AvalonAction* TravelAction = AvalonAction::NewAction(NewActionRef);
 		TravelAction->mActionPrompt = mTravelPrompt;
 		TravelAction->AddEffect<Effect_Travel>();
 
@@ -207,7 +207,7 @@ void PortalComponent::GatherActionsFor(const AvalonActor* Target, ActionList& Ou
 		TravelAction->mContext.mSource = PortalActorRef;
 		TravelAction->mContext.mTarget = Target->GetSelfRef();
 
-		OutActions.push_back(TravelAction);
+		OutActions.push_back(NewActionRef);
 	}
 }
 

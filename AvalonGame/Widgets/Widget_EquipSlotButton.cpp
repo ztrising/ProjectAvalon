@@ -62,7 +62,7 @@ void Widget_EquipSlotButton::SetActive(bool Active)
 				{
 					mSubMenu = AddChild<Widget_Equipment>();
 					Widget_Equipment* EquipWidget = Get<Widget_Equipment>(mSubMenu);
-					EquipWidget->SetEquipmentRef(EquipComp->GetSelfRef());
+					EquipWidget->SetEquipmentRef(EquipComp);
 					EquipWidget->SetPosition(FCoord(-27, 0));
 				}
 			}

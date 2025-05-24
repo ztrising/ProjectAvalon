@@ -88,8 +88,9 @@ public:
     template <class T>
     T* GetComponent() const
     {
-        for (IActorComponent* Component : mComponents)
+        for (HardUnitRef ComponentRef : mComponents)
         {
+            IActorComponent* Component = Get<IActorComponent>(ComponentRef);
             if (T* RetValue = dynamic_cast<T*>(Component))
             {
                 return RetValue;
@@ -102,8 +103,9 @@ public:
     template <class T>
     void GetComponents(std::vector<T*>& OutComponents) const
     {
-        for (IActorComponent* Component : mComponents)
+        for (HardUnitRef ComponentRef : mComponents)
         {
+            IActorComponent* Component = Get<IActorComponent>(ComponentRef);
             if (T* RetValue = dynamic_cast<T*>(Component))
             {
                 OutComponents.push_back(RetValue);
@@ -113,6 +115,7 @@ public:
 
 private:
     // TODO: make these shared ptrs, the actor should own the components
-    std::vector<IActorComponent*> mComponents;
+    HardRefList mComponents;
+    //std::vector<IActorComponent*> mComponents;
     /****************************************************************************************/
 };

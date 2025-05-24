@@ -113,23 +113,21 @@ bool FAvalonTagContainer::ContainsTag(const FAvalonTag& Tag) const
     return std::find(mTags.begin(), mTags.end(), Tag) != mTags.end();
 }
 
-/*static*/ IFilterTest* IFilterTest::FilterFactory(FSaveContext& Context)
+/*static*/ void IFilterTest::FilterFactory(HardUnitRef& OutNewFilter, FSaveContext& Context)
 {
     std::string ID = Context.GetSaveID();
     if (ID == "TagExpression")
     {
-        FTagExpression* Expression = new FTagExpression();
+        AvalonMemory::NewUnit<FTagExpression>(OutNewFilter);
+        FTagExpression* Expression = Get<FTagExpression>(OutNewFilter);
         ISaveable::Save(Expression, Context);
-        return Expression;
     }
     else if (ID == "TagOperation")
     {
-        FTagOperation* Operation = new FTagOperation();
+        AvalonMemory::NewUnit<FTagOperation>(OutNewFilter);
+        FTagOperation* Operation = Get<FTagOperation>(OutNewFilter);
         ISaveable::Save(Operation, Context);
-        return Operation;
     }
-
-    return nullptr;
 }
 
 void IFilterTest::Load(FSaveContext& Context)
@@ -193,8 +191,9 @@ void FTagExpression::Save(FSaveContext& Context)
 {
     IFilterTest::Save(Context);
 
-    for (IFilterTest* Filter : mFilters)
+    for (auto& FilterRef : mFilters)
     {
+        IFilterTest* Filter = Get<IFilterTest>(FilterRef);
         ISaveable::Save(Filter, Context);
     }
 }
@@ -207,8 +206,9 @@ bool FTagExpression::PassesFilter(const FAvalonTagContainer& Container) const
     }
 
     bool AnyPassed = false;
-    for (IFilterTest* Test : mFilters)
+    for (auto& TestRef : mFilters)
     {
+        IFilterTest* Test = Get<IFilterTest>(TestRef);
         if (Test->PassesFilter(Container))
         {
             if (mFilterType == ETagFilterType::NoMatch)
@@ -273,28 +273,32 @@ void FAvalonTagQuery::Load(FSaveContext& Context)
     *       </TagExpression>
     *   </TagQuery>
     */
-    std::vector<IFilterTest*> TempArray;
+    
+    // TODO: finish implementing 'AllocateCHILDwithFactory'
+    HardRefList TempArray;
     Context.AllocateChildrenWithFactory(TempArray, IFilterTest::FilterFactory);
 
     if (TempArray.size() > 0)
     {
-        mRootTest = TempArray[0];
+        mRootTest = TempArray[0]; // Expecting ONE child
     }
 }
 
 void FAvalonTagQuery::Save(FSaveContext& Context)
 {
-    if (mRootTest != nullptr)
+    IFilterTest* RootTest = IFilterTest::Get<IFilterTest>(mRootTest);
+    if (RootTest != nullptr)
     {
-        ISaveable::Save(mRootTest, Context);
+        ISaveable::Save(RootTest, Context);
     }
 }
 
 bool FAvalonTagQuery::PassesQuery(const FAvalonTagContainer& TagContainer) const
 {
-    if (mRootTest)
+    IFilterTest* RootTest = IFilterTest::Get<IFilterTest>(mRootTest);
+    if (RootTest)
     {
-        return mRootTest->PassesFilter(TagContainer);
+        return RootTest->PassesFilter(TagContainer);
     }
 
     return true;

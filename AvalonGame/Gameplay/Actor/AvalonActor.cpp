@@ -84,24 +84,27 @@ LevelActor* AvalonActor::GetLevel()
 
 void AvalonActor::Tick(float DeltaSeconds)
 {
-	for (IActorComponent* Component : mComponents)
+	for (HardUnitRef& ComponentRef : mComponents)
 	{
+		IActorComponent* Component = Get<IActorComponent>(ComponentRef);
 		Component->Tick(DeltaSeconds);
 	}
 }
 
 void AvalonActor::AdvanceTime(long DeltaHours)
 {
-	for (IActorComponent* Component : mComponents)
+	for (HardUnitRef& ComponentRef : mComponents)
 	{
+		IActorComponent* Component = Get<IActorComponent>(ComponentRef);
 		Component->AdvanceTime(DeltaHours);
 	}
 }
 
 void AvalonActor::GatherActionsFor(const AvalonActor* Target, ActionList& OutActions)
 {
-	for (IActorComponent* Component : mComponents)
+	for (HardUnitRef& ComponentRef : mComponents)
 	{
+		IActorComponent* Component = Get<IActorComponent>(ComponentRef);
 		if (IActionProvider* Provider = dynamic_cast<IActionProvider*>(Component))
 		{
 			Provider->GatherActionsFor(Target, OutActions);
@@ -158,58 +161,55 @@ void AvalonActor::Load(FSaveContext& Context)
 	HardUnitRef OwnerRef = GetSelfRef();
 
 	// Component Factory - Create and Init Properties!
-	auto ComponentFactory_Lambda = [&](FSaveContext& Context)
+	auto ComponentFactory_Lambda = [&](HardUnitRef& OutNewComponent, FSaveContext& Context)
 	{
-		IActorComponent* RetValue = nullptr;
-
 		std::string ComponentName = Context.GetSaveID();
 		if (ComponentName == "ItemContainer")
 		{
-			RetValue = new ItemContainer();
+			AvalonMemory::NewUnit<ItemContainer>(OutNewComponent);
 		}
 		else if (ComponentName == "LevelActors")
 		{
-			RetValue = new LevelContainer();
+			AvalonMemory::NewUnit<LevelContainer>(OutNewComponent);
 		}
 		else if (ComponentName == "Lootable")
 		{
-			RetValue = new Lootable();
+			AvalonMemory::NewUnit<Lootable>(OutNewComponent);
 		}
 		else if (ComponentName == "Looter")
 		{
-			RetValue = new LooterComponent();
+			AvalonMemory::NewUnit<LooterComponent>(OutNewComponent);
 		}
 		else if (ComponentName == "Equipable")
 		{
-			RetValue = new Equipable();
+			AvalonMemory::NewUnit<Equipable>(OutNewComponent);
 		}
 		else if (ComponentName == "Equipment")
 		{
-			RetValue = new Equipment();
+			AvalonMemory::NewUnit<Equipment>(OutNewComponent);
 		}
 		else if (ComponentName == "Traveller")
 		{
-			RetValue = new Traveller();
+			AvalonMemory::NewUnit<Traveller>(OutNewComponent);
 		}
 		else if (ComponentName == "Portal")
 		{
-			RetValue = new PortalComponent();
+			AvalonMemory::NewUnit<PortalComponent>(OutNewComponent);
 		}
 		else if (ComponentName == "Stats")
 		{
-			RetValue = new StatsComponent();
+			AvalonMemory::NewUnit<StatsComponent>(OutNewComponent);
 		}
 		else if (ComponentName == "Meditator")
 		{
-			RetValue = new Meditator();
+			AvalonMemory::NewUnit<Meditator>(OutNewComponent);
 		}
 
-		if (RetValue != nullptr)
+		IActorComponent* Component = Get<IActorComponent>(OutNewComponent);
+		if (Component != nullptr)
 		{
-			RetValue->SetActorOwner(OwnerRef);
+			Component->SetActorOwner(OwnerRef);
 		}
-
-		return RetValue;
 	};
 
 	Context.AllocateChildrenWithFactory(mComponents, ComponentFactory_Lambda);
@@ -222,8 +222,9 @@ void AvalonActor::Save(FSaveContext& Context)
 	Context.Save("DisplayName", mDisplayName);
 	Context.Save("Description", mDescription);
 
-	for (IActorComponent* Component : mComponents)
+	for (auto& ComponentRef : mComponents)
 	{
+		IActorComponent* Component = Get<IActorComponent>(ComponentRef);
 		ISaveable::Save(Component, Context);
 	}
 }

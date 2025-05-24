@@ -56,7 +56,8 @@ void Lootable::GatherActionsFor(const AvalonActor* Target, ActionList& OutAction
         }
         if (Container->CanAddToContainer(OuterActor))
         {
-            AvalonAction* NewMove = new AvalonAction();
+            HardUnitRef NewActionRef;
+            AvalonAction* NewMove = AvalonAction::NewAction(NewActionRef);
 
             NewMove->mActionPrompt = GenerateMoveActionString(Target, Container);
 
@@ -70,7 +71,7 @@ void Lootable::GatherActionsFor(const AvalonActor* Target, ActionList& OutAction
             NewMove->mContext.mSource = SourceRef;
             NewMove->mContext.mTarget = TargetRef;
 
-            OutActions.push_back(NewMove);
+            OutActions.push_back(NewActionRef);
         }
     }
 }
@@ -151,9 +152,9 @@ void Lootable::MoveTo(IContainer* NewContainer)
     bool WasOwnedByPlayer = LootableActor->IsOwnedBy(PlayerActor);
 
     // First! Remove it From where it is
+    HardUnitRef LootableActorRef = LootableActor->GetSelfRef();
     if (mIsWithin)
     {
-        HardUnitRef LootableActorRef = LootableActor->GetSelfRef();
         mIsWithin->RemoveFromContainer(LootableActorRef);
     }
 

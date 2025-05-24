@@ -46,38 +46,32 @@ void ActionManager::ClearActionFocus()
 ****************************************************************************************/
 void AvalonAction::Execute()
 {
-    for (IAvalonEffect* Effect : mEffects)
+    for (auto& EffectRef : mEffects)
     {
+		IAvalonEffect* Effect = Get<IAvalonEffect>(EffectRef);
         Effect->ExecuteEffect(mContext);
     }
 }
 
 AvalonAction::~AvalonAction()
 {
-	for (IAvalonEffect* Effect : mEffects)
-    {
-        delete Effect;
-    }
+
 }
 
 #include "../Utility/JournalTypes.h"
 
-IAvalonEffect* AvalonEffectFactory(FSaveContext& Context)
+void AvalonEffectFactory(HardUnitRef& OutNewEffect, FSaveContext& Context)
 {
-	IAvalonEffect* RetValue = nullptr;
-
 	// Serializable Effect Factory
 	std::string EffectName = Context.GetSaveID();
 	if (EffectName == "JournalEntry")
 	{
-		RetValue = new Effect_JournalEntry();
+		AvalonMemory::NewUnit<Effect_JournalEntry>(OutNewEffect);
 	}
 	/*else if (EffectName == "Damage")
 	{
 		RetValue = new Effect_StatDamage();
 	}*/
-
-	return RetValue;
 }
 
 void AvalonAction::Load(FSaveContext& Context)

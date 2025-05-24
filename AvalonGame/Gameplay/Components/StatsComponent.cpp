@@ -22,18 +22,19 @@ void StatsComponent::Load(FSaveContext& Context)
         </Stats>
     */
 
-	auto StatsFactory_Lambda = [&](FSaveContext& Context)
+	auto StatsFactory_Lambda = [&](HardUnitRef& OutNewStat, FSaveContext& Context)
 	{
-        FAvalonStat* RetValue = new FAvalonStat();
-        ISaveable::Load(RetValue, Context);
+
+        AvalonMemory::NewUnit<FAvalonStat>(OutNewStat);
+
+        FAvalonStat* NewStat = Get<FAvalonStat>(OutNewStat);
+        ISaveable::Load(NewStat, Context);
 
         std::string StatID = Context.GetSaveID();
-        mStats[StatID] = RetValue;
-
-		return RetValue;
+        mStats[StatID] = OutNewStat;
 	};
 
-    std::vector<FAvalonStat*> Cup;
+    HardRefList Cup;
     Context.AllocateChildrenWithFactory(Cup, StatsFactory_Lambda);
 }
 
@@ -41,7 +42,8 @@ void StatsComponent::Save(FSaveContext& Context)
 {
     for (auto& Entry : mStats)
     {
-        ISaveable::Save(Entry.second, Context);
+        FAvalonStat* Stat = Get<FAvalonStat>(Entry.second);
+        ISaveable::Save(Stat, Context);
     }
 }
 
@@ -57,7 +59,7 @@ void StatsComponent::AdvanceTime(long DeltaHours)
 
     for (auto StatPair : mStats)
     {
-        FAvalonStat* Stat = StatPair.second;
+        FAvalonStat* Stat = Get<FAvalonStat>(StatPair.second);
         float RegenValue = Stat->mRegen.GetValue();
         if (RegenValue != 0.f)
         {
@@ -78,7 +80,7 @@ void StatsComponent::ApplyStatDamage(std::string StatID, float Damage)
     auto search = mStats.find(StatID);
     if (search != mStats.end()) 
     {
-        FAvalonStat* Stat = (FAvalonStat*)(search->second);
+        FAvalonStat* Stat = Get<FAvalonStat>(search->second);
         float NewValue = Stat->mCurrentValue + Damage;
         Stat->SetCurrentValue(NewValue);
     }

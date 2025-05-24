@@ -214,7 +214,8 @@ void ItemContainer::GatherActionsFor(const AvalonActor* Target, ActionList& OutA
     HardUnitRef OwnerActorRef = OwnerActor->GetSelfRef();
 
     // TODO:  Don't allow the LOOTER to act on this if another LOOTER is
-    AvalonAction* ContainerAction = new AvalonAction();
+    HardUnitRef ContainerActionRef;
+    AvalonAction* ContainerAction = AvalonAction::NewAction(ContainerActionRef);
     if (mIsOpen)
     {
         ContainerAction->mActionPrompt = "Close " + OwnerActor->mDisplayName;
@@ -231,7 +232,7 @@ void ItemContainer::GatherActionsFor(const AvalonActor* Target, ActionList& OutA
     ContainerAction->mContext.mSource = OwnerActorRef;
     ContainerAction->mContext.mTarget = Target->GetSelfRef();
 
-    OutActions.push_back(ContainerAction);
+    OutActions.push_back(ContainerActionRef);
 }
 
 void ItemContainer::OpenContainer()
@@ -279,7 +280,7 @@ bool ItemContainer::CanAddToContainer(const AvalonActor* Actor) const
     return IContainer::CanAddToContainer(Actor);
 }
 
-void ItemContainer::GetContainerContents(std::vector<HardUnitRef>& OutContents) const
+void ItemContainer::GetContainerContents(HardRefList& OutContents) const
 {
     OutContents = mContents;
 }
