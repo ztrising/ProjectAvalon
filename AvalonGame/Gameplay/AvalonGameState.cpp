@@ -36,7 +36,7 @@ void AvalonGameState::LoadGame()
 	/***************************************************************************************
 	*  Load The Calendar
 	****************************************************************************************/
-	GameCalendar::LoadCalendar(Entry->GetTimeStamp());
+	GameCalendar::LoadCalendar(mGameCalendarRef, Entry->GetTimeStamp());
 	/****************************************************************************************/
 
 	/***************************************************************************************
@@ -74,11 +74,7 @@ void AvalonGameState::TickGame(float DeltaSeconds)
 {
 	if (mIsLoaded)
 	{
-		GameCalendar* TheGameCalendar = GameCalendar::Get();
-		if (TheGameCalendar != nullptr)
-		{
-			TheGameCalendar->Tick(DeltaSeconds);
-		}
+		GameCalendar::Tick(DeltaSeconds);
 
 		if (mCurrentLevel != nullptr)
 		{
@@ -90,6 +86,11 @@ void AvalonGameState::TickGame(float DeltaSeconds)
 			AvalonActor::Get<LevelActor>(mStreamingLevel)->Tick(DeltaSeconds);
 		}
 	}
+}
+
+GameCalendar* AvalonGameState::GetGameCalendar()
+{ 
+	return IAvalonUnit::Get<GameCalendar>(mGameCalendarRef); 
 }
 
 /*static*/ AvalonActor* AvalonGameState::GetPlayerActor()

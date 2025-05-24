@@ -121,7 +121,7 @@ void LevelActor::LoadActor(HardUnitRef& OutNewActor, HardUnitRef& OwnerRef, FSav
     }
 }
 
-/*static*/ void LevelActor::HandleTimeAdvanced(IEventListener* Listener, long HoursAdvanced)
+/*static*/ void LevelActor::HandleTimeAdvanced(IAvalonUnit* Listener, long HoursAdvanced)
 {
     LevelActor* Level = static_cast<LevelActor*>(Listener);
     Level->AdvanceTime(HoursAdvanced);

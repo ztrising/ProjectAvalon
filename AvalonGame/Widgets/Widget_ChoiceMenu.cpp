@@ -82,14 +82,14 @@ void Widget_ChoiceMenu::OnGameLoaded()
 /***************************************************************************************
 *  IEventListener
 ****************************************************************************************/
-/*static*/ void Widget_ChoiceMenu::OnActionsUpdated( IEventListener* Listener
+/*static*/ void Widget_ChoiceMenu::OnActionsUpdated( IAvalonUnit* Listener
 												   , const FActionState& ActionState)
 {
 	Widget_ChoiceMenu* Widget = static_cast<Widget_ChoiceMenu*>(Listener);
 	Widget->UpdateActions(ActionState);
 }
 
-/*static*/ void Widget_ChoiceMenu::HandleButtonPressed( IEventListener* Listener
+/*static*/ void Widget_ChoiceMenu::HandleButtonPressed( IAvalonUnit* Listener
 													  , const Widget_Button* Source)
 {
 	Widget_ChoiceMenu* Widget = static_cast<Widget_ChoiceMenu*>(Listener);

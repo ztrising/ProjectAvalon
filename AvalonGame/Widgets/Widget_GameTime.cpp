@@ -96,7 +96,7 @@ void Widget_GameTime::PopulateTravellingText()
 /***************************************************************************************
 *  GameCalendar::OnTimeAdvanced Callback
 ****************************************************************************************/
-/*static*/ void Widget_GameTime::HandleTimeAdvanced(IEventListener* Listener, long HoursAdvanced)
+/*static*/ void Widget_GameTime::HandleTimeAdvanced(IAvalonUnit* Listener, long HoursAdvanced)
 {
 	Widget_GameTime* Widget = static_cast<Widget_GameTime*>(Listener);
 	Widget->PopulateTimeText();

@@ -32,7 +32,7 @@ struct FActionMenuEntry
 *  Cannot be used during travel!
 ****************************************************************************************/
 
-class Widget_ChoiceMenu : public AvalonWidget, public IEventListener
+class Widget_ChoiceMenu : public AvalonWidget
 {
 public:
 	Widget_ChoiceMenu();
@@ -65,10 +65,10 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void OnActionsUpdated( IEventListener* Listener
+	static void OnActionsUpdated( IAvalonUnit* Listener
 								, const FActionState& ActionState);
 
-	static void HandleButtonPressed( IEventListener* Listener
+	static void HandleButtonPressed( IAvalonUnit* Listener
 								   , const Widget_Button* Source);
 	/****************************************************************************************/
 };

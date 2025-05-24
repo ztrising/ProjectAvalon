@@ -22,7 +22,7 @@ class AvalonActor;
 *  When a pouch is selected, opens an item panel
 * 
 ****************************************************************************************/
-class Widget_Inventory : public AvalonWidget, public IEventListener
+class Widget_Inventory : public AvalonWidget
 {
 public:
 	Widget_Inventory();
@@ -66,17 +66,17 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleItemAdded(IEventListener* Listener, AvalonActor* AddedItem);
-	static void HandleItemRemoved(IEventListener* Listener, AvalonActor* RemovedItem);
+	static void HandleItemAdded(IAvalonUnit* Listener, AvalonActor* AddedItem);
+	static void HandleItemRemoved(IAvalonUnit* Listener, AvalonActor* RemovedItem);
 
-	static void HandleContainerOpened(IEventListener* Listener, IContainer* Container);
-	static void HandleContainerClosed(IEventListener* Listener, IContainer* Container);
+	static void HandleContainerOpened(IAvalonUnit* Listener, IContainer* Container);
+	static void HandleContainerClosed(IAvalonUnit* Listener, IContainer* Container);
 
-	static void OnPlayerStartTravel(IEventListener* Listener, Traveller* Traveller);
+	static void OnPlayerStartTravel(IAvalonUnit* Listener, Traveller* Traveller);
 
-	static void OnCloseAnimFinished(IEventListener* Listener, IAvalonAnimation* Animation);
+	static void OnCloseAnimFinished(IAvalonUnit* Listener, IAvalonAnimation* Animation);
 	
-	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
+	static void HandleButtonPressed(IAvalonUnit* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };
 

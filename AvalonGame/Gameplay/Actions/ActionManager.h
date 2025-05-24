@@ -29,7 +29,7 @@ private:
 public:
     typedef FEventDispatcher<const FActionState&> ActionEvent;
 
-    void BindActionEvent(IEventListener* Listener, ActionEvent::Callback& Callback)
+    void BindActionEvent(IAvalonUnit* Listener, ActionEvent::Callback& Callback)
     {
         mOnActionsUpdated.BindEvent(Listener, Callback);
     }

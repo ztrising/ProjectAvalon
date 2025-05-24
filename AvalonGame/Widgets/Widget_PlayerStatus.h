@@ -11,7 +11,7 @@
 #include <map>
 #include <string>
 
-class Widget_PlayerStatus : public AvalonWidget, public IEventListener
+class Widget_PlayerStatus : public AvalonWidget
 {
 public:
 	Widget_PlayerStatus();
@@ -23,7 +23,7 @@ private:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleStatValueChange(IEventListener* Listener, std::string StatID);
+	static void HandleStatValueChange(IAvalonUnit* Listener, std::string StatID);
 	void HandleStatValueChange(std::string Stat, float Value, float MaxValue);
 	/****************************************************************************************/
 

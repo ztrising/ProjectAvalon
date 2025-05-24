@@ -49,7 +49,7 @@ private:
     *  IEventListener
     ****************************************************************************************/
 public:
-    static void HandleTimeAdvanced(IEventListener* Listener, long HoursAdvanced);
+    static void HandleTimeAdvanced(IAvalonUnit* Listener, long HoursAdvanced);
     /****************************************************************************************/
 
     /***************************************************************************************

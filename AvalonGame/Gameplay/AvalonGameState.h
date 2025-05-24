@@ -32,7 +32,16 @@ private:
     bool mIsLoaded = false;
 
     //////////////////////////////////////////////////////////////////////////
-    //  The loaded levels
+    //  The Game Calendar
+private:
+    HardUnitRef mGameCalendarRef = nullptr;
+
+public:
+    GameCalendar* GetGameCalendar();
+    //////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////
+    //  The Loaded Levels
 public:
     static void OpenCurrentLevelAt(struct FLocationInfo* Location);
     static void OpenStreamingLevelAt(struct FLocationInfo* Location);

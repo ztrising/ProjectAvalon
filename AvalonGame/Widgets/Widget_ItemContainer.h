@@ -12,7 +12,7 @@
 
 class ItemContainer;
 
-class Widget_ItemContainer : public AvalonWidget, public IEventListener
+class Widget_ItemContainer : public AvalonWidget
 {
 public:
 	~Widget_ItemContainer();
@@ -37,7 +37,7 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleContentsChanged(IEventListener* Listener, AvalonActor* Item);
-	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
+	static void HandleContentsChanged(IAvalonUnit* Listener, AvalonActor* Item);
+	static void HandleButtonPressed(IAvalonUnit* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };

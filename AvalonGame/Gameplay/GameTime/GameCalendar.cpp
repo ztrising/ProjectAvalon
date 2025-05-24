@@ -3,44 +3,41 @@
 ****************************************************************************************/
 
 #include "GameCalendar.h"
+#include "../AvalonGameState.h"
+
 
 #define REAL_SECONDS_PER_ADVANCE 1
 #define GAMEHOURS_PER_ADVANCE 1
 
-GameCalendar* GameCalendar::mGameCalendar = nullptr;
-
 /***************************************************************************************
 *   The Calendar Instance
 ****************************************************************************************/
-/*static*/ GameCalendar* GameCalendar::Get()
+/*static*/ void GameCalendar::LoadCalendar(HardUnitRef& OutGameCalendarRef, const FGameTime& Time)
 {
-	return GameCalendar::mGameCalendar;
+	AvalonMemory::NewUnit<GameCalendar>(OutGameCalendarRef);
+	GameCalendar* Calendar = IAvalonUnit::Get<GameCalendar>(OutGameCalendarRef);
+	Calendar->mCurrentTime = Time;
 }
 
-/*static*/ void GameCalendar::LoadCalendar(const FGameTime& Time)
+/*static*/ void GameCalendar::Tick(float DeltaSeconds)
 {
-	GameCalendar::mGameCalendar = new GameCalendar();
-	GameCalendar::mGameCalendar->mCurrentTime = Time;
-}
-
-void GameCalendar::Tick(float DeltaSeconds)
-{
-	if (IsTimeAdvancing())
+	GameCalendar* Calendar = GetCalendarInstance();
+	if (Calendar->IsTimeAdvancing())
 	{
-		mSecondsAdvancing += DeltaSeconds;
-		if (mSecondsAdvancing > REAL_SECONDS_PER_ADVANCE)
+		Calendar->mSecondsAdvancing += DeltaSeconds;
+		if (Calendar->mSecondsAdvancing > REAL_SECONDS_PER_ADVANCE)
 		{
 			int TimeToAdvance = GAMEHOURS_PER_ADVANCE;
 
 			FGameTime Delta = FGameTime();
 			Delta.mTimeStamp[ETimeScale::ETS_Hours].mValue = TimeToAdvance;
 
-			mCurrentTime.AddTime(Delta);
+			Calendar->mCurrentTime.AddTime(Delta);
 
 			long DeltaHours = Delta.GetAsHours();
-			mOnTimeAdvanced.BroadcastEvent(DeltaHours);
+			Calendar->mOnTimeAdvanced.BroadcastEvent(DeltaHours);
 
-			mSecondsAdvancing = 0.f;
+			Calendar->mSecondsAdvancing = 0.f;
 		}
 	}
 }
@@ -48,9 +45,10 @@ void GameCalendar::Tick(float DeltaSeconds)
 
 /*static*/ void GameCalendar::SetWantsAdvanceTime(void* Asker, bool AdvanceTime)
 {
-	if (GameCalendar::mGameCalendar != nullptr)
+	GameCalendar* Calendar = GetCalendarInstance();
+	if (Calendar != nullptr)
 	{
-		GameCalendar::mGameCalendar->SetWantsAdvanceTime_Internal(Asker, AdvanceTime);
+		Calendar->SetWantsAdvanceTime_Internal(Asker, AdvanceTime);
 	}
 }
 
@@ -79,9 +77,10 @@ void GameCalendar::SetWantsAdvanceTime_Internal(void* Asker, bool AdvanceTime)
 
 /*static*/ bool GameCalendar::IsTimeAdvancing()
 {
-	if (GameCalendar::mGameCalendar != nullptr)
+	GameCalendar* Calendar = GetCalendarInstance();
+	if (Calendar != nullptr)
 	{
-		return GameCalendar::mGameCalendar->IsTimeAdvancing_Internal();
+		return Calendar->IsTimeAdvancing_Internal();
 	}
 
 	return false;
@@ -94,22 +93,29 @@ bool GameCalendar::IsTimeAdvancing_Internal()
 
 /*static*/ FGameTime& GameCalendar::GetCurrentTime()
 {
-	return GameCalendar::mGameCalendar->mCurrentTime;
+	return GetCalendarInstance()->mCurrentTime;
 }
 
-/*static*/ void GameCalendar::BindEvent_TimeAdvanced(IEventListener* Listener, GameTimeEvent::Callback& Callback)
+/*static*/ void GameCalendar::BindEvent_TimeAdvanced(IAvalonUnit* Listener, GameTimeEvent::Callback& Callback)
 {
-	if (GameCalendar::mGameCalendar != nullptr)
+	GameCalendar* Calendar = GetCalendarInstance();
+	if (Calendar != nullptr)
 	{
-		GameCalendar::mGameCalendar->mOnTimeAdvanced.BindEvent(Listener, Callback);
+		Calendar->mOnTimeAdvanced.BindEvent(Listener, Callback);
 	}
 }
 
-/*static*/ void GameCalendar::UnBindEvent_TimeAdvanced(IEventListener* Listener)
+/*static*/ void GameCalendar::UnBindEvent_TimeAdvanced(IAvalonUnit* Listener)
 {
-	if (GameCalendar::mGameCalendar != nullptr)
+	GameCalendar* Calendar = GetCalendarInstance();
+	if (Calendar != nullptr)
 	{
-		GameCalendar::mGameCalendar->mOnTimeAdvanced.UnBindEvent(Listener);
+		Calendar->mOnTimeAdvanced.UnBindEvent(Listener);
 	}
+}
+
+/*static*/ GameCalendar* GameCalendar::GetCalendarInstance()
+{
+	return AvalonGameState::GetGameState().GetGameCalendar();
 }
 /****************************************************************************************/

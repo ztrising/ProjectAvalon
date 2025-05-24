@@ -152,14 +152,14 @@ void Widget_ItemContainer::DeselectAll()
 /***************************************************************************************
 *  IEventListener
 ****************************************************************************************/
-/*static*/ void Widget_ItemContainer::HandleContentsChanged( IEventListener* Listener
+/*static*/ void Widget_ItemContainer::HandleContentsChanged( IAvalonUnit* Listener
 														   , AvalonActor* Item)
 {
 	Widget_ItemContainer* Widget = static_cast<Widget_ItemContainer*>(Listener);
 	Widget->PopulateItems();
 }
 
-/*static*/ void Widget_ItemContainer::HandleButtonPressed( IEventListener* Listener
+/*static*/ void Widget_ItemContainer::HandleButtonPressed( IAvalonUnit* Listener
 														 , const Widget_Button* Source)
 {
 	Widget_ItemContainer* ItemContainerWidget = static_cast<Widget_ItemContainer*>(Listener);

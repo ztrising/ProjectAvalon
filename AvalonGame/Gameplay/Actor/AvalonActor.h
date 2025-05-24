@@ -16,7 +16,7 @@
 
 class LevelActor;
 
-class AvalonActor : public IAvalonUnit, public ISaveable, public IActionProvider, public IEventListener
+class AvalonActor : public IAvalonUnit, public ISaveable, public IActionProvider
 {
     /***************************************************************************************
     *  ISaveable

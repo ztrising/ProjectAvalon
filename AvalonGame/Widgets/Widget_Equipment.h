@@ -17,7 +17,7 @@
 class Equipment;
 class AvalonActor;
 
-class Widget_Equipment : public AvalonWidget, public IEventListener
+class Widget_Equipment : public AvalonWidget
 {
 public:
 	~Widget_Equipment();
@@ -41,7 +41,7 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleEquipmentChanged(IEventListener* Listener, AvalonActor* Item);
-	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
+	static void HandleEquipmentChanged(IAvalonUnit* Listener, AvalonActor* Item);
+	static void HandleButtonPressed(IAvalonUnit* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };

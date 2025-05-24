@@ -200,7 +200,7 @@ void Widget_LocationPanel::StopInspectingFloor(IContainer* Container)
 	// MoveRight
 }
 
-/*static*/ void Widget_LocationPanel::OnPlayerFinishTravel( IEventListener* Listener
+/*static*/ void Widget_LocationPanel::OnPlayerFinishTravel( IAvalonUnit* Listener
 														  , Traveller* PlayerTraveller)
 {
 	if (Widget_LocationPanel* Widget = static_cast<Widget_LocationPanel*>(Listener))
@@ -209,21 +209,21 @@ void Widget_LocationPanel::StopInspectingFloor(IContainer* Container)
 	}
 }
 
-/*static*/ void Widget_LocationPanel::HandleLevelActorsChanged( IEventListener* Listener
+/*static*/ void Widget_LocationPanel::HandleLevelActorsChanged( IAvalonUnit* Listener
 															  , AvalonActor* Item)
 {
 	Widget_LocationPanel* Widget = static_cast<Widget_LocationPanel*>(Listener);
 	Widget->PopulateFromLocation();
 }
 
-/*static*/ void Widget_LocationPanel::HandleContainerOpened( IEventListener* Listener
+/*static*/ void Widget_LocationPanel::HandleContainerOpened( IAvalonUnit* Listener
 														   , IContainer* Container)
 {
 	Widget_LocationPanel* Widget = static_cast<Widget_LocationPanel*>(Listener);
 	Widget->StartInspectingFloor(Container);
 }
 
-/*static*/ void Widget_LocationPanel::HandleContainerClosed( IEventListener* Listener
+/*static*/ void Widget_LocationPanel::HandleContainerClosed( IAvalonUnit* Listener
 														   , IContainer* Container)
 {
 	Widget_LocationPanel* Widget = static_cast<Widget_LocationPanel*>(Listener);

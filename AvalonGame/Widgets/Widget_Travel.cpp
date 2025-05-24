@@ -203,14 +203,14 @@ void Widget_Travel::OnGameLoaded()
 /***************************************************************************************
 *  IEventListener
 ****************************************************************************************/
-/*static*/ void Widget_Travel::OnStartTravel( IEventListener* Listener
+/*static*/ void Widget_Travel::OnStartTravel( IAvalonUnit* Listener
 											, Traveller* InTraveller)
 {
 	Widget_Travel* Widget = static_cast<Widget_Travel*>(Listener);
 	Widget->PopulateTravelText();
 }
 
-/*static*/ void Widget_Travel::OnFinishTravel( IEventListener* Listener
+/*static*/ void Widget_Travel::OnFinishTravel( IAvalonUnit* Listener
 											 , Traveller* InTraveller)
 {
 	Widget_Travel* Widget = static_cast<Widget_Travel*>(Listener);

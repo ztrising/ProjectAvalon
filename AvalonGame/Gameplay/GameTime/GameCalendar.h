@@ -9,19 +9,11 @@
 
 #include <map>
 
-class GameCalendar
+class GameCalendar : public IAvalonUnit
 {
-    /***************************************************************************************
-    *   The Calendar Instance
-    ****************************************************************************************/
 public:
-    static GameCalendar* Get();
-    static void LoadCalendar(const FGameTime& Time);
-    void Tick(float DeltaSeconds);
-
-private:
-    static GameCalendar* mGameCalendar;
-    /****************************************************************************************/
+    static void LoadCalendar(HardUnitRef& OutGameCalendarRef, const FGameTime& Time);
+    static void Tick(float DeltaSeconds);
 
     /***************************************************************************************
     *   Time Events!
@@ -37,14 +29,16 @@ private:
     ****************************************************************************************/
 public:
     static void SetWantsAdvanceTime(void* Asker, bool AdvanceTime);
-    static void BindEvent_TimeAdvanced(IEventListener* Listener, GameTimeEvent::Callback& Callback);
-    static void UnBindEvent_TimeAdvanced(IEventListener* Listener);
+    static void BindEvent_TimeAdvanced(IAvalonUnit* Listener, GameTimeEvent::Callback& Callback);
+    static void UnBindEvent_TimeAdvanced(IAvalonUnit* Listener);
     static FGameTime& GetCurrentTime();
     static bool IsTimeAdvancing();
 
 private:
     void SetWantsAdvanceTime_Internal(void* Asker, bool AdvanceTime);
     bool IsTimeAdvancing_Internal();
+
+    static GameCalendar* GetCalendarInstance();
 
     int mAdvanceTimeRefCount = 0;
     std::map<void*, bool> mRefHandles;

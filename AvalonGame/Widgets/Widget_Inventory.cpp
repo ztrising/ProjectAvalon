@@ -238,49 +238,49 @@ void Widget_Inventory::Hide()
 *  IEventListener
 ****************************************************************************************/
 
-/*static*/ void Widget_Inventory::HandleItemAdded( IEventListener* Listener
+/*static*/ void Widget_Inventory::HandleItemAdded( IAvalonUnit* Listener
 												 , AvalonActor* AddedItem)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->PopulatePouches();
 }
 
-/*static*/ void Widget_Inventory::HandleItemRemoved( IEventListener* Listener
+/*static*/ void Widget_Inventory::HandleItemRemoved( IAvalonUnit* Listener
 												   , AvalonActor* RemovedItem)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->PopulatePouches();
 }
 
-/*static*/ void Widget_Inventory::HandleContainerOpened( IEventListener* Listener
+/*static*/ void Widget_Inventory::HandleContainerOpened( IAvalonUnit* Listener
 													   , IContainer* Container)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->RequestContainerOpen(Container);
 }
 
-/*static*/ void Widget_Inventory::HandleContainerClosed( IEventListener* Listener
+/*static*/ void Widget_Inventory::HandleContainerClosed( IAvalonUnit* Listener
 													   , IContainer* Container)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->RequestContainerClosed(Container);
 }
 
-/*static*/ void Widget_Inventory::OnPlayerStartTravel( IEventListener* Listener
+/*static*/ void Widget_Inventory::OnPlayerStartTravel( IAvalonUnit* Listener
 													 , Traveller* Traveller)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->CloseLevelContainer();
 }
 
-/*static*/ void Widget_Inventory::OnCloseAnimFinished( IEventListener* Listener
+/*static*/ void Widget_Inventory::OnCloseAnimFinished( IAvalonUnit* Listener
 													 , IAvalonAnimation* Animation)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);
 	Widget->HideLevelContainer();
 }
 
-/*static*/ void Widget_Inventory::HandleButtonPressed( IEventListener* Listener
+/*static*/ void Widget_Inventory::HandleButtonPressed( IAvalonUnit* Listener
 													 , const Widget_Button* Source)
 {
 	Widget_Inventory* Widget = static_cast<Widget_Inventory*>(Listener);

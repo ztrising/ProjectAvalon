@@ -44,13 +44,20 @@ void Widget_Equipment::SetEquipmentRef(Equipment* EquipmentContainer)
 
 		// Unbind event
 		AvalonActor* Actor = OldEquipmentContainer->GetActorOwner();
-		Actor->mOnItemAdded.UnBindEvent(this);
-		Actor->mOnItemRemoved.UnBindEvent(this);
+		if (Actor != nullptr)
+		{
+			Actor->mOnItemAdded.UnBindEvent(this);
+			Actor->mOnItemRemoved.UnBindEvent(this);
+		}
 	}
 
 	if (EquipmentContainer != nullptr)
 	{
 		mEquipmentContainerRef = EquipmentContainer->GetSelfRef();
+	}
+	else
+	{
+		mEquipmentContainerRef.reset();
 	}
 
 	if (mEquipmentContainerRef != nullptr)
@@ -112,14 +119,14 @@ void Widget_Equipment::PopulateEquipment()
 /***************************************************************************************
 *  IEventListener
 ****************************************************************************************/
-/*static*/ void Widget_Equipment::HandleEquipmentChanged( IEventListener* Listener
+/*static*/ void Widget_Equipment::HandleEquipmentChanged( IAvalonUnit* Listener
 													    , AvalonActor* Item)
 {
 	Widget_Equipment* Widget = static_cast<Widget_Equipment*>(Listener);
 	Widget->PopulateEquipment();
 }
 
-/*static*/ void Widget_Equipment::HandleButtonPressed( IEventListener* Listener
+/*static*/ void Widget_Equipment::HandleButtonPressed( IAvalonUnit* Listener
 													 , const Widget_Button* Source)
 {
 	Widget_Equipment* Widget = static_cast<Widget_Equipment*>(Listener);

@@ -11,7 +11,7 @@
 
 struct FEquipSlot;
 
-class Widget_EquipSlot : public AvalonWidget, public IEventListener
+class Widget_EquipSlot : public AvalonWidget
 {
 public:
 	~Widget_EquipSlot();
@@ -34,6 +34,6 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleButtonPressed(IEventListener* Listener, const Widget_Button* Source);
+	static void HandleButtonPressed(IAvalonUnit* Listener, const Widget_Button* Source);
 	/****************************************************************************************/
 };

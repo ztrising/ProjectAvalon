@@ -14,7 +14,7 @@ struct FLocationInfo;
 class IContainer;
 class AvalonActor;
 
-class Widget_LocationPanel : public AvalonWidget, public IEventListener
+class Widget_LocationPanel : public AvalonWidget
 {
 public:
 	Widget_LocationPanel();
@@ -51,10 +51,10 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleLevelActorsChanged(IEventListener* Listener, AvalonActor* Actor);
-	static void OnPlayerFinishTravel(IEventListener* Listener, class Traveller* PlayerTraveller);
-	static void HandleContainerOpened(IEventListener* Listener, IContainer* Container);
-	static void HandleContainerClosed(IEventListener* Listener, IContainer* Container);
+	static void HandleLevelActorsChanged(IAvalonUnit* Listener, AvalonActor* Actor);
+	static void OnPlayerFinishTravel(IAvalonUnit* Listener, class Traveller* PlayerTraveller);
+	static void HandleContainerOpened(IAvalonUnit* Listener, IContainer* Container);
+	static void HandleContainerClosed(IAvalonUnit* Listener, IContainer* Container);
 	/****************************************************************************************/
 };
 

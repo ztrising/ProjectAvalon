@@ -13,7 +13,7 @@
 *  Draws the Frame and Background for the current location
 ****************************************************************************************/
 
-class Widget_Background : public AvalonWidget, public IEventListener
+class Widget_Background : public AvalonWidget
 {
 public:
 	Widget_Background();
@@ -33,7 +33,7 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleTimeAdvanced(IEventListener* Listener, long DeltaHours);
+	static void HandleTimeAdvanced(IAvalonUnit* Listener, long DeltaHours);
 	// TODO: Listen for Travel
 	/****************************************************************************************/
 };

@@ -12,10 +12,17 @@
 #include "../Gameplay/Components/TravellerComponent.h"
 
 #include "../../AvalonViewport/FrameBuffer/FrameBuffer.h" // Initing draw buffer
+#include "../../AvalonViewport/AvalonViewportManager.h" // Getting access to the HUD instance
 
 #include "Widget_Background.h" // The base widget
 
 #define AVALON_HUD_DEBUG 1
+
+/*static*/ AvalonHUD& AvalonHUD::GetHUD()
+{
+	AvalonViewportManager& ViewportManager = AvalonViewportManager::GetViewportManager();
+	return *(ViewportManager.GetHUDInstance());
+}
 
 /*static*/ void AvalonHUD::InitializeHUD(FCoord ViewportSize)
 {
@@ -38,15 +45,16 @@
 	TheHUD.mDebugBuffer->AllocateBuffer(ViewportSize, AVALON_CHAR_TRANSPARENT, 0);
 	FFrameBuffer::InitDebugDrawBuffer(TheHUD.mDebugBuffer);
 #endif //AVALON_HUD_DEBUG
+
+	InputKeyEvent::Callback KeyCallback = AvalonHUD::HandleInputKeyEvent;
+	AvalonInputManager::GetInputManager().mOnKeyStateChange.BindEvent(&TheHUD, KeyCallback);
+
+	InputMouseEvent::Callback MouseCallback = AvalonHUD::HandleInputMouseEvent;
+	AvalonInputManager::GetInputManager().mOnMouseStateChange.BindEvent(&TheHUD, MouseCallback);
 }
 
 AvalonHUD::AvalonHUD()
 {
-	InputKeyEvent::Callback KeyCallback = AvalonHUD::HandleInputKeyEvent;
-	AvalonInputManager::GetInputManager().mOnKeyStateChange.BindEvent(this, KeyCallback);
-
-	InputMouseEvent::Callback MouseCallback = AvalonHUD::HandleInputMouseEvent;
-	AvalonInputManager::GetInputManager().mOnMouseStateChange.BindEvent(this, MouseCallback);
 }
 
 AvalonHUD::~AvalonHUD()
@@ -114,7 +122,7 @@ void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 /***************************************************************************************
 *  IEventListener
 ****************************************************************************************/
-/*static*/ void AvalonHUD::HandleInputKeyEvent( IEventListener* Listener
+/*static*/ void AvalonHUD::HandleInputKeyEvent( IAvalonUnit* Listener
 											  , const FInputKeyEventParams& EventParams)
 {
 	AvalonHUD* HUD = static_cast<AvalonHUD*>(Listener);
@@ -144,7 +152,7 @@ void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 	AvalonWidget::Get<AvalonWidget>(HUD->mBaseWidget)->HandleInput_Internal(EventParams);
 }
 
-/*static*/ void AvalonHUD::HandleInputMouseEvent( IEventListener* Listener
+/*static*/ void AvalonHUD::HandleInputMouseEvent( IAvalonUnit* Listener
 												, const FInputMouseEventParams& EventParams)
 {
 	AvalonHUD* HUD = static_cast<AvalonHUD*>(Listener);
@@ -179,14 +187,14 @@ void AvalonHUD::UpdateRenderState(bool& ForceRedraw)
 	}
 }
 
-/*static*/ void AvalonHUD::OnStartTravel( IEventListener* Listener
+/*static*/ void AvalonHUD::OnStartTravel( IAvalonUnit* Listener
 										, Traveller* InTraveller)
 {
 	AvalonHUD* HUD = static_cast<AvalonHUD*>(Listener);
 	HUD->SetHUDContext(EHUDContext::TRAVELLING);
 }
 
-/*static*/ void AvalonHUD::OnFinishTravel( IEventListener* Listener
+/*static*/ void AvalonHUD::OnFinishTravel( IAvalonUnit* Listener
 										 , Traveller* InTraveller)
 {
 	AvalonHUD* HUD = static_cast<AvalonHUD*>(Listener);

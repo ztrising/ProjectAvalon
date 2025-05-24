@@ -7,6 +7,8 @@
 #include "FrameBuffer/FrameBuffer.h"
 #include "../AvalonUtilities/DynamicArray.h"
 
+#include "../AvalonGame/AvalonUnit/AvalonUnit.h"
+
 class IViewportElement;
 class IAvalonAnimation;
 struct FFrameBuffer;
@@ -28,6 +30,16 @@ private:
 
     class IAvalonViewport* mCurrentViewport = nullptr;
     bool mForceRedraw = false; 
+
+    //////////////////////////////////////////////////////////////////////////
+    //  HUD ref
+public:
+    class AvalonHUD* GetHUDInstance();
+
+private:
+    HardUnitRef mHUDRef;
+    //////////////////////////////////////////////////////////////////////////
+
 
     //////////////////////////////////////////////////////////////////////////
     //  Singleton Implementation

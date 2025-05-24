@@ -10,7 +10,7 @@
 class Traveller;
 struct FLocationInfo;
 
-class Widget_Travel : public AvalonWidget, public IEventListener
+class Widget_Travel : public AvalonWidget
 {
 public:
 	Widget_Travel();
@@ -28,8 +28,8 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void OnStartTravel(IEventListener* Listener, Traveller* InTraveller);
-	static void OnFinishTravel(IEventListener* Listener, Traveller* InTraveller);
+	static void OnStartTravel(IAvalonUnit* Listener, Traveller* InTraveller);
+	static void OnFinishTravel(IAvalonUnit* Listener, Traveller* InTraveller);
 	/****************************************************************************************/
 
 private:

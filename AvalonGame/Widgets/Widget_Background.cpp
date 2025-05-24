@@ -35,7 +35,7 @@ void Widget_Background::OnGameLoaded()
 	AvalonWidget::OnGameLoaded();
 }
 
-/*static*/ void Widget_Background::HandleTimeAdvanced( IEventListener* Listener
+/*static*/ void Widget_Background::HandleTimeAdvanced( IAvalonUnit* Listener
 													 , long DeltaHours)
 {
 	Widget_Background* Widget = static_cast<Widget_Background*>(Listener);

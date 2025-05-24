@@ -37,7 +37,7 @@ void Meditator::StartMeditating(int DeltaHours)
 		mMeditatingHoursLeft = DeltaHours;
 		mIsMeditating = true;
 
-		GameCalendar::Get()->SetWantsAdvanceTime(this, true);
+		GameCalendar::SetWantsAdvanceTime(this, true);
 
 		// TODO:  Apply status regens
 	}
@@ -50,7 +50,7 @@ void Meditator::StopMeditating()
 		mMeditatingHoursLeft = 0;
 		mIsMeditating = false;
 
-		GameCalendar::Get()->SetWantsAdvanceTime(this, false);
+		GameCalendar::SetWantsAdvanceTime(this, false);
 
 		// TODO: Remove status regens
 	}

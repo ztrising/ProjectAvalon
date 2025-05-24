@@ -90,7 +90,7 @@ void Traveller::RequestTravel(const FPathRequest& Request)
 					ActionManager::Get().ClearActionFocus();
 				}
 
-				GameCalendar::Get()->SetWantsAdvanceTime(this, true);
+				GameCalendar::SetWantsAdvanceTime(this, true);
 			}
 		}
 	}
@@ -102,7 +102,7 @@ void Traveller::FinishTravel()
 	{
 		if (mPath->mDistance != 0.f)
 		{
-			GameCalendar::Get()->SetWantsAdvanceTime(this, false);
+			GameCalendar::SetWantsAdvanceTime(this, false);
 		}
 
 		FWorldPos& Destination = mPathDirection ? mPath->mPointB : mPath->mPointA;

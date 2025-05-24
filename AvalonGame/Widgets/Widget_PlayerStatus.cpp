@@ -130,7 +130,7 @@ void Widget_PlayerStatus::HandleStatValueChange(std::string Stat, float Value, f
 
 }
 
-/*static*/ void Widget_PlayerStatus::HandleStatValueChange(IEventListener* Listener, std::string StatID)
+/*static*/ void Widget_PlayerStatus::HandleStatValueChange(IAvalonUnit* Listener, std::string StatID)
 {
 	Widget_PlayerStatus* Widget = static_cast<Widget_PlayerStatus*>(Listener);
 

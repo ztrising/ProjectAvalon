@@ -16,13 +16,13 @@ AvalonViewportManager::~AvalonViewportManager()
 
 void AvalonViewportManager::Initialize()
 {
-
-
 	mCurrentViewport = new AvalonViewport_WindowsPlatform();
 	//mCurrentViewport->SetFullscreen();
 	mCurrentViewport->InitializeViewport();
 	FCoord ViewportSize = mCurrentViewport->GetViewportSize();
 
+	// Create the HUD
+	AvalonMemory::NewUnit<AvalonHUD>(mHUDRef);
 	AvalonHUD::InitializeHUD(ViewportSize);
 
 	mForceRedraw = true;
@@ -71,3 +71,7 @@ void* AvalonViewportManager::GetInputHandle()
 	return mCurrentViewport->GetInputHandle();
 }
 
+AvalonHUD* AvalonViewportManager::GetHUDInstance()
+{
+	return IAvalonUnit::Get<AvalonHUD>(mHUDRef);
+}

@@ -108,7 +108,7 @@ void Widget_EquipSlot::PopulateItems()
 /***************************************************************************************
 *  Button Event Handler
 ****************************************************************************************/
-/*static*/ void Widget_EquipSlot::HandleButtonPressed( IEventListener* Listener
+/*static*/ void Widget_EquipSlot::HandleButtonPressed( IAvalonUnit* Listener
 													 , const Widget_Button* Source)
 {
 	Widget_EquipSlot* SlotWidget = static_cast<Widget_EquipSlot*>(Listener);

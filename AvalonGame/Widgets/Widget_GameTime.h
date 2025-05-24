@@ -7,7 +7,7 @@
 #include "AvalonWidget.h"
 #include "../Gameplay/Utility/EventDispatcher.h"
 
-class Widget_GameTime : public AvalonWidget, public IEventListener
+class Widget_GameTime : public AvalonWidget
 {
 public:
 	Widget_GameTime();
@@ -30,6 +30,6 @@ public:
 	*  IEventListener
 	****************************************************************************************/
 public:
-	static void HandleTimeAdvanced(IEventListener* Listener, long HoursAdvanced);
+	static void HandleTimeAdvanced(IAvalonUnit* Listener, long HoursAdvanced);
 	/****************************************************************************************/
 };
